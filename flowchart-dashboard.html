@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>플로우차트 대시보드</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #ffffff; min-height: 100vh; color: #111111; }
+
+/* ── HEADER ── */
+.hdr {
+  background: #ffffff; color: #111111;
+  padding: 20px 32px; display: flex; align-items: center; gap: 16px;
+  border-bottom: 2px solid #111111;
+}
+.hdr-back {
+  background: none; border: 1.5px solid #111111; color: #111111;
+  padding: 7px 16px; border-radius: 6px; cursor: pointer;
+  font-size: 13px; font-weight: 600; transition: .2s; display: none;
+}
+.hdr-back:hover { background: #111111; color: #ffffff; }
+.hdr-title { font-size: 18px; font-weight: 800; letter-spacing: -.3px; }
+.hdr-sub { font-size: 12px; color: #666666; margin-top: 3px; }
+
+/* ── LOADING / ERROR / EMPTY ── */
+.state-box { text-align: center; padding: 80px 20px; color: #999999; }
+.state-box .ico { font-size: 36px; margin-bottom: 16px; color: #cccccc; }
+.state-box h2 { font-size: 16px; color: #333333; margin-bottom: 8px; font-weight: 700; }
+.state-box p { font-size: 13px; line-height: 1.8; color: #666666; }
+.state-box code {
+  background: #f4f4f4; padding: 2px 8px; border-radius: 4px;
+  font-family: monospace; color: #2563eb;
+}
+.spinner {
+  width: 32px; height: 32px; border: 2.5px solid #e0e0e0;
+  border-top-color: #2563eb; border-radius: 50%;
+  animation: spin .7s linear infinite; margin: 0 auto 16px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── PROJECTS VIEW ── */
+#view-projects { padding: 32px; max-width: 1100px; margin: 0 auto; }
+.section-label {
+  font-size: 11px; font-weight: 700; letter-spacing: 1.5px;
+  text-transform: uppercase; color: #999999; margin-bottom: 20px;
+}
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1px; background: #e0e0e0; border: 1px solid #e0e0e0;
+}
+.project-card {
+  background: #ffffff; padding: 28px 24px 36px;
+  cursor: pointer; transition: background .15s;
+  position: relative;
+}
+.project-card:hover { background: #f7f9ff; }
+.project-card:hover .pc-name { color: #2563eb; }
+.pc-icon { display: none; }
+.pc-num {
+  font-size: 10px; font-weight: 700; letter-spacing: 1.5px;
+  text-transform: uppercase; color: #999999; margin-bottom: 10px;
+}
+.pc-name { font-size: 16px; font-weight: 800; color: #111111; margin-bottom: 6px; transition: color .15s; }
+.pc-desc { font-size: 12px; color: #888888; line-height: 1.6; }
+.pc-arrow {
+  position: absolute; bottom: 20px; right: 20px;
+  font-size: 20px; font-weight: 300; color: #cccccc; transition: .2s;
+}
+.project-card:hover .pc-arrow { color: #2563eb; transform: translateX(3px); }
+
+/* ── STEPS VIEW ── */
+#view-steps { display: none; padding: 32px; max-width: 1000px; margin: 0 auto; }
+.steps-row {
+  display: flex; align-items: stretch;
+  justify-content: center; flex-wrap: wrap;
+  gap: 0; margin-bottom: 0;
+  border: 1px solid #e0e0e0;
+}
+.step-card {
+  flex: 1; min-width: 140px; max-width: 200px;
+  background: #ffffff; padding: 20px 16px 28px; text-align: center;
+  cursor: pointer; transition: background .15s;
+  border-right: 1px solid #e0e0e0; position: relative;
+  user-select: none;
+}
+.step-card:last-child { border-right: none; }
+.step-card:hover { background: #f7f9ff; }
+.step-card.open { background: #f0f5ff; }
+.step-card.open .sc-title { color: #2563eb; }
+.sc-icon { display: none; }
+.sc-num {
+  font-size: 10px; font-weight: 700; letter-spacing: 1.5px;
+  color: #999999; margin-bottom: 8px; text-transform: uppercase;
+}
+.sc-title { font-size: 13px; font-weight: 800; color: #111111; transition: color .15s; }
+.sc-sub { font-size: 11px; color: #888888; margin-top: 4px; line-height: 1.5; }
+.sc-tap {
+  position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%);
+  font-size: 10px; font-weight: 700; color: #2563eb;
+  opacity: 0; transition: .2s; white-space: nowrap;
+}
+.step-card.open .sc-tap { opacity: 1; }
+.steps-arrow { display: none; }
+
+/* ── DIAGRAM PANEL ── */
+.diagram-panel {
+  display: none; margin: 0 0 2px 0;
+  border: 1px solid #e0e0e0; border-top: none;
+  animation: sd .25s ease;
+}
+@keyframes sd { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
+.panel-inner { background: #ffffff; padding: 28px 28px 36px; }
+.panel-title {
+  font-size: 15px; font-weight: 800; color: #111111;
+  padding-bottom: 12px; border-bottom: 1.5px solid #111111;
+  margin-bottom: 24px; display: flex; align-items: center; gap: 8px;
+}
+.panel-title-label { color: #2563eb; }
+.close-btn {
+  margin-left: auto; background: none; border: 1.5px solid #cccccc;
+  border-radius: 4px; padding: 4px 12px; font-size: 11px; font-weight: 600;
+  color: #666666; cursor: pointer; transition: .2s;
+}
+.close-btn:hover { border-color: #dc2626; color: #dc2626; }
+.mermaid-wrap { display: flex; justify-content: center; overflow-x: auto; padding: 8px 0; }
+.mermaid-wrap svg { max-width: 100%; height: auto; }
+.no-diagram { text-align: center; padding: 40px; color: #999999; font-size: 13px; }
+.loading-diag { text-align: center; padding: 40px; color: #999999; font-size: 13px; }
+.loading-diag .spinner { width: 24px; height: 24px; border-width: 2px; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="hdr">
+  <button class="hdr-back" id="btn-back" onclick="showProjects()">← 프로젝트 목록</button>
+  <div>
+    <div class="hdr-title" id="hdr-title">플로우차트 대시보드</div>
+    <div class="hdr-sub" id="hdr-sub">프로젝트를 선택하면 상세 플로우를 확인할 수 있습니다</div>
+  </div>
+</header>
+
+<!-- VIEW: PROJECTS -->
+<div id="view-projects">
+  <div id="projects-container">
+    <div class="state-box">
+      <div class="spinner"></div>
+      <h2>불러오는 중...</h2>
+    </div>
+  </div>
+</div>
+
+<!-- VIEW: STEPS -->
+<div id="view-steps">
+  <div class="steps-row" id="steps-row"></div>
+  <div id="panels-area"></div>
+</div>
+
+<script>
+/* ── Supabase 초기화 ── */
+const { createClient } = supabase;
+const sb = createClient(
+  'https://vagxudxlhwwqylkkmbth.supabase.co',
+  'sb_publishable_Z7_zr63nWe3IBWhMXapp2g_qTpF01fo'
+);
+
+mermaid.initialize({
+  startOnLoad: false,
+  theme: 'base',
+  themeVariables: {
+    primaryColor: '#f0f5ff',
+    primaryBorderColor: '#111111',
+    primaryTextColor: '#111111',
+    lineColor: '#333333',
+    edgeLabelBackground: '#ffffff',
+    fontSize: '14px'
+  },
+  flowchart: { curve: 'linear', padding: 20 }
+});
+
+/* ── 상태 ── */
+let activeStep = null;
+let renderedDiagrams = {};
+
+/* ── 프로젝트 목록 로드 ── */
+async function init() {
+  const { data, error } = await sb.from('projects').select('*').order('id');
+
+  const container = document.getElementById('projects-container');
+
+  if (error) {
+    container.innerHTML = `
+      <div class="state-box">
+        <div class="ico">⚠️</div>
+        <h2>연결 오류</h2>
+        <p>${error.message}</p>
+      </div>`;
+    return;
+  }
+
+  if (!data || data.length === 0) {
+    container.innerHTML = `
+      <div class="state-box">
+        <div class="ico">📭</div>
+        <h2>프로젝트가 없습니다</h2>
+        <p>
+          Supabase 대시보드 → <code>Table Editor</code> → <code>projects</code> 테이블에서<br>
+          데이터를 추가하면 여기에 자동으로 표시됩니다.
+        </p>
+      </div>`;
+    return;
+  }
+
+  const grid = data.map((p, i) => {
+    return `
+      <div class="project-card" onclick="showSteps(${p.id},'${esc(p.name)}')">
+        <div class="pc-num">PROJECT ${String(i+1).padStart(2,'0')}</div>
+        <div class="pc-name">${p.name}</div>
+        <div class="pc-desc">${p.description || ''}</div>
+        <div class="pc-arrow">›</div>
+      </div>`;
+  }).join('');
+
+  container.innerHTML = `
+    <p class="section-label">전체 프로젝트 (${data.length})</p>
+    <div class="projects-grid">${grid}</div>`;
+}
+
+/* ── 단계 목록 로드 ── */
+async function showSteps(projectId, name) {
+  // 뷰 전환
+  document.getElementById('view-projects').style.display = 'none';
+  document.getElementById('view-steps').style.display = 'block';
+  document.getElementById('btn-back').style.display = 'block';
+  document.getElementById('hdr-title').textContent = name;
+  document.getElementById('hdr-sub').textContent = '단계를 클릭하면 상세 플로우를 확인할 수 있습니다';
+
+  // 초기화
+  activeStep = null;
+  renderedDiagrams = {};
+  document.getElementById('steps-row').innerHTML = '<div class="state-box" style="padding:40px"><div class="spinner"></div></div>';
+  document.getElementById('panels-area').innerHTML = '';
+
+  const { data, error } = await sb
+    .from('steps').select('*')
+    .eq('project_id', projectId)
+    .order('step_number');
+
+  if (error || !data || data.length === 0) {
+    document.getElementById('steps-row').innerHTML = `
+      <div class="state-box">
+        <div class="ico">📋</div>
+        <h2>단계가 없습니다</h2>
+        <p>Supabase <code>steps</code> 테이블에서 이 프로젝트의 단계를 추가해주세요.</p>
+      </div>`;
+    return;
+  }
+
+  // Step 카드 렌더
+  let cardsHTML = '';
+  data.forEach((step, i) => {
+    cardsHTML += `
+      <div class="step-card" id="sc-${step.id}" onclick="toggleDiagram(${step.id}, \`${escBt(step.mermaid_diagram || '')}\`, '${esc(step.title)}', ${step.step_number})">
+        <div class="sc-num">STEP ${String(step.step_number).padStart(2,'0')}</div>
+        <div class="sc-title">${step.title}</div>
+        <div class="sc-sub">${step.subtitle || ''}</div>
+        <div class="sc-tap">▼ 상세보기</div>
+      </div>`;
+  });
+  document.getElementById('steps-row').innerHTML = cardsHTML;
+
+  // Diagram 패널 렌더
+  let panelsHTML = data.map(step => `
+    <div id="panel-${step.id}" class="diagram-panel">
+      <div class="panel-inner">
+        <div class="panel-title">
+          <span class="panel-title-label">STEP ${String(step.step_number).padStart(2,'0')}</span> — ${step.title}
+          <button class="close-btn" onclick="closeDiagram(${step.id})">닫기</button>
+        </div>
+        <div id="diagram-${step.id}" class="mermaid-wrap">
+          ${step.mermaid_diagram
+            ? '<div class="loading-diag"><div class="spinner"></div><p>렌더링 중...</p></div>'
+            : '<div class="no-diagram">등록된 다이어그램이 없습니다</div>'}
+        </div>
+      </div>
+    </div>`).join('');
+  document.getElementById('panels-area').innerHTML = panelsHTML;
+}
+
+/* ── 다이어그램 토글 ── */
+async function toggleDiagram(stepId, diagram, title, num) {
+  const panel = document.getElementById('panel-' + stepId);
+  const card  = document.getElementById('sc-' + stepId);
+
+  if (activeStep === stepId) {
+    closeDiagram(stepId);
+    return;
+  }
+
+  // 이전 패널 닫기
+  if (activeStep) {
+    document.getElementById('panel-' + activeStep).style.display = 'none';
+    document.getElementById('sc-' + activeStep)?.classList.remove('open');
+  }
+
+  panel.style.display = 'block';
+  card.classList.add('open');
+  activeStep = stepId;
+
+  panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+  // 아직 렌더 안 됐으면 렌더
+  if (!renderedDiagrams[stepId] && diagram.trim()) {
+    try {
+      const id = 'mg' + stepId + '_' + Date.now();
+      const { svg } = await mermaid.render(id, diagram);
+      document.getElementById('diagram-' + stepId).innerHTML = svg;
+      renderedDiagrams[stepId] = true;
+    } catch (e) {
+      document.getElementById('diagram-' + stepId).innerHTML =
+        `<div class="no-diagram">⚠️ 다이어그램 오류: ${e.message}</div>`;
+    }
+  }
+}
+
+function closeDiagram(stepId) {
+  document.getElementById('panel-' + stepId).style.display = 'none';
+  document.getElementById('sc-' + stepId)?.classList.remove('open');
+  activeStep = null;
+}
+
+/* ── 프로젝트 목록으로 복귀 ── */
+function showProjects() {
+  document.getElementById('view-steps').style.display = 'none';
+  document.getElementById('view-projects').style.display = 'block';
+  document.getElementById('btn-back').style.display = 'none';
+  document.getElementById('hdr-title').textContent = '플로우차트 대시보드';
+  document.getElementById('hdr-sub').textContent = '프로젝트를 선택하면 상세 플로우를 확인할 수 있습니다';
+}
+
+/* ── 유틸 ── */
+function esc(s) { return String(s || '').replace(/'/g,"&#39;").replace(/"/g,'&quot;'); }
+function escBt(s) { return String(s || '').replace(/`/g,'\\`').replace(/\$/g,'\\$'); }
+
+/* ── 시작 ── */
+init();
+</script>
+</body>
+</html>
