@@ -18,12 +18,12 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 }
 .hdr-back {
   background: none; border: 1.5px solid #111111; color: #111111;
-  padding: 7px 16px; border-radius: 6px; cursor: pointer;
-  font-size: 13px; font-weight: 600; transition: .2s; display: none;
+  padding: 9px 20px; border-radius: 6px; cursor: pointer;
+  font-size: 15px; font-weight: 600; transition: .2s; display: none;
 }
 .hdr-back:hover { background: #111111; color: #ffffff; }
-.hdr-title { font-size: 18px; font-weight: 800; letter-spacing: -.3px; }
-.hdr-sub { font-size: 12px; color: #666666; margin-top: 3px; }
+.hdr-title { font-size: 30px; font-weight: 800; letter-spacing: -.3px; }
+.hdr-sub { font-size: 15px; color: #666666; margin-top: 6px; }
 
 /* ── LOADING / ERROR / EMPTY ── */
 .state-box { text-align: center; padding: 80px 20px; color: #999999; }
@@ -44,16 +44,16 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 /* ── PROJECTS VIEW ── */
 #view-projects { padding: 32px; max-width: 1100px; margin: 0 auto; }
 .section-label {
-  font-size: 11px; font-weight: 700; letter-spacing: 1.5px;
+  font-size: 13px; font-weight: 700; letter-spacing: 1.5px;
   text-transform: uppercase; color: #999999; margin-bottom: 20px;
 }
 .projects-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
   gap: 1px; background: #e0e0e0; border: 1px solid #e0e0e0;
 }
 .project-card {
-  background: #ffffff; padding: 28px 24px 36px;
+  background: #ffffff; padding: 32px 28px 44px;
   cursor: pointer; transition: background .15s;
   position: relative;
 }
@@ -61,14 +61,14 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 .project-card:hover .pc-name { color: #2563eb; }
 .pc-icon { display: none; }
 .pc-num {
-  font-size: 10px; font-weight: 700; letter-spacing: 1.5px;
-  text-transform: uppercase; color: #999999; margin-bottom: 10px;
+  font-size: 12px; font-weight: 700; letter-spacing: 1.5px;
+  text-transform: uppercase; color: #999999; margin-bottom: 12px;
 }
-.pc-name { font-size: 16px; font-weight: 800; color: #111111; margin-bottom: 6px; transition: color .15s; }
-.pc-desc { font-size: 12px; color: #888888; line-height: 1.6; }
+.pc-name { font-size: 20px; font-weight: 800; color: #111111; margin-bottom: 8px; transition: color .15s; }
+.pc-desc { font-size: 14px; color: #888888; line-height: 1.7; }
 .pc-arrow {
-  position: absolute; bottom: 20px; right: 20px;
-  font-size: 20px; font-weight: 300; color: #cccccc; transition: .2s;
+  position: absolute; bottom: 20px; right: 24px;
+  font-size: 26px; font-weight: 300; color: #cccccc; transition: .2s;
 }
 .project-card:hover .pc-arrow { color: #2563eb; transform: translateX(3px); }
 
@@ -81,8 +81,8 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
   border: 1px solid #e0e0e0;
 }
 .step-card {
-  flex: 1; min-width: 140px; max-width: 200px;
-  background: #ffffff; padding: 20px 16px 28px; text-align: center;
+  flex: 1; min-width: 160px; max-width: 240px;
+  background: #ffffff; padding: 24px 18px 36px; text-align: center;
   cursor: pointer; transition: background .15s;
   border-right: 1px solid #e0e0e0; position: relative;
   user-select: none;
@@ -93,14 +93,14 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 .step-card.open .sc-title { color: #2563eb; }
 .sc-icon { display: none; }
 .sc-num {
-  font-size: 10px; font-weight: 700; letter-spacing: 1.5px;
-  color: #999999; margin-bottom: 8px; text-transform: uppercase;
+  font-size: 12px; font-weight: 700; letter-spacing: 1.5px;
+  color: #999999; margin-bottom: 10px; text-transform: uppercase;
 }
-.sc-title { font-size: 13px; font-weight: 800; color: #111111; transition: color .15s; }
-.sc-sub { font-size: 11px; color: #888888; margin-top: 4px; line-height: 1.5; }
+.sc-title { font-size: 16px; font-weight: 800; color: #111111; transition: color .15s; }
+.sc-sub { font-size: 13px; color: #888888; margin-top: 6px; line-height: 1.6; }
 .sc-tap {
-  position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%);
-  font-size: 10px; font-weight: 700; color: #2563eb;
+  position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%);
+  font-size: 12px; font-weight: 700; color: #2563eb;
   opacity: 0; transition: .2s; white-space: nowrap;
 }
 .step-card.open .sc-tap { opacity: 1; }
@@ -115,14 +115,14 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 @keyframes sd { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
 .panel-inner { background: #ffffff; padding: 28px 28px 36px; }
 .panel-title {
-  font-size: 15px; font-weight: 800; color: #111111;
-  padding-bottom: 12px; border-bottom: 1.5px solid #111111;
-  margin-bottom: 24px; display: flex; align-items: center; gap: 8px;
+  font-size: 18px; font-weight: 800; color: #111111;
+  padding-bottom: 14px; border-bottom: 1.5px solid #111111;
+  margin-bottom: 28px; display: flex; align-items: center; gap: 10px;
 }
 .panel-title-label { color: #2563eb; }
 .close-btn {
   margin-left: auto; background: none; border: 1.5px solid #cccccc;
-  border-radius: 4px; padding: 4px 12px; font-size: 11px; font-weight: 600;
+  border-radius: 4px; padding: 6px 16px; font-size: 13px; font-weight: 600;
   color: #666666; cursor: pointer; transition: .2s;
 }
 .close-btn:hover { border-color: #dc2626; color: #dc2626; }
@@ -138,35 +138,40 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 }
 .split-diagram { flex: 1 1 0; min-width: 0; }
 .split-metrics {
-  width: 220px; flex-shrink: 0;
+  width: 300px; flex-shrink: 0;
   border-left: 2px solid #e0e0e0;
-  padding: 0 0 0 28px;
-  margin-left: 28px;
+  padding: 0 0 0 36px;
+  margin-left: 36px;
   align-self: stretch;
   display: flex; flex-direction: column; justify-content: center;
-  gap: 28px;
+  gap: 24px;
 }
 .metric-item {
   background: #f7f9ff;
   border: 1.5px solid #e0e8ff;
-  border-radius: 10px;
-  padding: 16px 18px 14px;
+  border-radius: 12px;
+  padding: 20px 22px 18px;
 }
 .metric-label {
-  font-size: 12px; font-weight: 800; letter-spacing: .5px;
-  color: #2563eb; margin-bottom: 10px;
+  font-size: 16px; font-weight: 800; letter-spacing: .5px;
+  color: #2563eb; margin-bottom: 14px;
   white-space: nowrap;
 }
 .metric-bar-wrap {
-  background: #dde8ff; border-radius: 4px; height: 8px; overflow: hidden; margin-bottom: 10px;
+  background: #dde8ff; border-radius: 5px; height: 10px; overflow: hidden; margin-bottom: 12px;
 }
 .metric-bar {
-  height: 100%; border-radius: 4px; background: #2563eb; transition: width .8s ease;
+  height: 100%; border-radius: 5px; background: #2563eb; transition: width .8s ease;
 }
 .metric-score {
-  font-size: 40px; font-weight: 900; color: #111111; letter-spacing: -2px; line-height: 1;
+  font-size: 56px; font-weight: 900; color: #111111; letter-spacing: -2.5px; line-height: 1;
 }
-.metric-score span { font-size: 14px; font-weight: 600; color: #999999; margin-left: 3px; }
+.metric-score span { font-size: 18px; font-weight: 600; color: #999999; margin-left: 4px; }
+.metric-caption {
+  font-size: 13px; font-weight: 600; color: #555555;
+  line-height: 1.5; margin-top: 12px;
+  padding-top: 12px; border-top: 1px dashed #cfd9f5;
+}
 
 /* ── FLAT panel (no border/popup look for single-step) ── */
 .diagram-panel.flat { border: none; margin: 0; }
@@ -220,7 +225,7 @@ mermaid.initialize({
     primaryTextColor: '#111111',
     lineColor: '#333333',
     edgeLabelBackground: '#ffffff',
-    fontSize: '14px'
+    fontSize: '18px'
   },
   flowchart: { curve: 'linear', padding: 20 }
 });
@@ -419,6 +424,10 @@ function showProjects() {
 function renderMetrics(metrics) {
   return metrics.map(m => {
     const score = Number(m.score) || 0;
+    const caption = m.caption || m.keyword || m.desc || '';
+    const captionHTML = caption
+      ? `<div class="metric-caption">${caption}</div>`
+      : '';
     return `
       <div class="metric-item">
         <div class="metric-label">${m.label}</div>
@@ -426,6 +435,7 @@ function renderMetrics(metrics) {
           <div class="metric-bar" style="width:${score}%"></div>
         </div>
         <div class="metric-score">${score}<span>/ 100</span></div>
+        ${captionHTML}
       </div>`;
   }).join('');
 }
@@ -439,4 +449,5 @@ init();
 </script>
 </body>
 </html>
+
 
