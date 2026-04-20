@@ -173,6 +173,29 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
   padding-top: 16px; border-top: 1px dashed #cfd9f5;
 }
 
+/* ── 비핵심 성과 (—로 표시) ── */
+.metric-item.inactive {
+  background: #fafafa;
+  border: 1.5px solid #ececec;
+  opacity: 0.7;
+}
+.metric-item.inactive .metric-label {
+  color: #999999;
+}
+.metric-item.inactive .metric-score {
+  color: #bbbbbb;
+  font-size: 48px;
+  letter-spacing: 0;
+}
+.metric-item.inactive .metric-score span {
+  color: #cccccc;
+}
+.metric-item.inactive .metric-caption {
+  color: #999999;
+  border-top-color: #e8e8e8;
+  font-weight: 500;
+}
+
 /* ── FLAT panel (no border/popup look for single-step) ── */
 .diagram-panel.flat { border: none; margin: 0; }
 .diagram-panel.flat .panel-inner {
@@ -423,11 +446,25 @@ function showProjects() {
 /* ── 메트릭 렌더 ── */
 function renderMetrics(metrics) {
   return metrics.map(m => {
-    const score = Number(m.score) || 0;
+    // 비핵심 성과 판정: score가 '-', null, undefined, '' 인 경우
+    const isInactive = m.score === '-' || m.score === null || m.score === undefined || m.score === '';
+    const score = isInactive ? 0 : (Number(m.score) || 0);
     const caption = m.caption || m.keyword || m.desc || '';
     const captionHTML = caption
       ? `<div class="metric-caption">${caption}</div>`
       : '';
+
+    // 비핵심: '—' 표시 + 바 숨김 + 회색 톤다운
+    if (isInactive) {
+      return `
+        <div class="metric-item inactive">
+          <div class="metric-label">${m.label}</div>
+          <div class="metric-score">—<span>/ 100</span></div>
+          ${captionHTML}
+        </div>`;
+    }
+
+    // 핵심 성과: 기존 렌더링
     return `
       <div class="metric-item">
         <div class="metric-label">${m.label}</div>
