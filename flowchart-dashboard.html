@@ -138,29 +138,35 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 }
 .split-diagram { flex: 1 1 0; min-width: 0; }
 .split-metrics {
-  width: 180px; flex-shrink: 0;
-  border-left: 1.5px solid #e0e0e0;
-  padding: 0 0 0 24px;
-  margin-left: 24px;
+  width: 220px; flex-shrink: 0;
+  border-left: 2px solid #e0e0e0;
+  padding: 0 0 0 28px;
+  margin-left: 28px;
   align-self: stretch;
   display: flex; flex-direction: column; justify-content: center;
-  gap: 18px;
+  gap: 28px;
 }
-.metric-item {}
+.metric-item {
+  background: #f7f9ff;
+  border: 1.5px solid #e0e8ff;
+  border-radius: 10px;
+  padding: 16px 18px 14px;
+}
 .metric-label {
-  font-size: 11px; font-weight: 700; letter-spacing: 1px;
-  text-transform: uppercase; color: #999999; margin-bottom: 6px;
+  font-size: 12px; font-weight: 800; letter-spacing: .5px;
+  color: #2563eb; margin-bottom: 10px;
+  white-space: nowrap;
 }
 .metric-bar-wrap {
-  background: #f0f0f0; border-radius: 3px; height: 6px; overflow: hidden; margin-bottom: 4px;
+  background: #dde8ff; border-radius: 4px; height: 8px; overflow: hidden; margin-bottom: 10px;
 }
 .metric-bar {
-  height: 100%; border-radius: 3px; background: #2563eb; transition: width .6s ease;
+  height: 100%; border-radius: 4px; background: #2563eb; transition: width .8s ease;
 }
 .metric-score {
-  font-size: 22px; font-weight: 900; color: #111111; letter-spacing: -1px;
+  font-size: 40px; font-weight: 900; color: #111111; letter-spacing: -2px; line-height: 1;
 }
-.metric-score span { font-size: 12px; font-weight: 600; color: #999999; margin-left: 2px; }
+.metric-score span { font-size: 14px; font-weight: 600; color: #999999; margin-left: 3px; }
 
 /* ── FLAT panel (no border/popup look for single-step) ── */
 .diagram-panel.flat { border: none; margin: 0; }
@@ -433,3 +439,4 @@ init();
 </script>
 </body>
 </html>
+
