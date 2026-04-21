@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>플로우차트 대시보드</title>
+<title>2026년 시즌1 프로젝트</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
 <style>
@@ -13,17 +13,81 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 /* ── HEADER ── */
 .hdr {
   background: #ffffff; color: #111111;
-  padding: 20px 32px; display: flex; align-items: center; gap: 16px;
+  padding: 36px 48px 32px; display: flex; align-items: center; gap: 20px;
   border-bottom: 2px solid #111111;
 }
 .hdr-back {
-  background: none; border: 1.5px solid #111111; color: #111111;
-  padding: 9px 20px; border-radius: 6px; cursor: pointer;
-  font-size: 15px; font-weight: 600; transition: .2s; display: none;
+  background: #ffffff; border: 1.5px solid #111111; color: #111111;
+  height: 44px; padding: 0 18px 0 14px;
+  border-radius: 22px; cursor: pointer;
+  font-size: 15px; font-weight: 700; transition: all .2s ease; display: none;
+  align-items: center; justify-content: center; gap: 8px;
+  letter-spacing: -.2px;
+  font-family: inherit;
 }
+.hdr-back-arrow { font-size: 18px; line-height: 1; display: inline-block; transition: transform .2s ease; }
+.hdr-back-label { line-height: 1; }
 .hdr-back:hover { background: #111111; color: #ffffff; }
-.hdr-title { font-size: 24px; font-weight: 800; letter-spacing: -.3px; }
-.hdr-sub { font-size: 14px; color: #666666; margin-top: 4px; }
+.hdr-back:hover .hdr-back-arrow { transform: translateX(-3px); }
+.hdr-back:active { transform: scale(0.97); }
+.hdr-text {
+  flex: 1;
+  min-width: 0;
+}
+.hdr-pm {
+  flex-shrink: 0;
+  text-align: right;
+  padding-left: 20px;
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+.hdr-pm:empty { display: none; }
+.hdr-pm-label {
+  font-size: 30px;
+  color: #111111;
+  font-weight: 800;
+  letter-spacing: -.3px;
+  line-height: 1.25;
+}
+.hdr-pm-name {
+  font-size: 30px;
+  font-weight: 800;
+  color: #111111;
+  letter-spacing: -.3px;
+  line-height: 1.25;
+}
+/* 모바일: PM 블록 세로 스택 */
+@media (max-width: 720px) {
+  .hdr { flex-wrap: wrap; }
+  .hdr-pm { padding-left: 0; margin-top: 12px; text-align: left; width: 100%; }
+}
+
+.hdr-title { font-size: 30px; font-weight: 800; letter-spacing: -.3px; line-height: 1.25; }
+.hdr-sub { font-size: 18px; color: #333333; margin-top: 14px; font-weight: 600; line-height: 1.5; }
+.hdr-sub:empty { display: none; }
+.hdr-sub-label {
+  color: #6b7280;
+  font-weight: 600;
+  margin-right: 6px;
+}
+.hdr-sub-content {
+  color: #111111;
+  font-weight: 700;
+}
+.hdr-collab {
+  font-size: 16px; color: #333333; margin-top: 10px; font-weight: 600; line-height: 1.5;
+}
+.hdr-collab:empty { display: none; }
+.hdr-collab-label {
+  color: #6b7280;
+  font-weight: 600;
+  margin-right: 6px;
+}
+.hdr-collab-names {
+  color: #2563eb;
+  font-weight: 700;
+}
 
 /* ── LOADING / ERROR / EMPTY ── */
 .state-box { text-align: center; padding: 80px 20px; color: #999999; }
@@ -41,39 +105,311 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 }
 @keyframes spin { to { transform: rotate(360deg); } }
 
+/* ── Top Progress Bar ── */
+.progress-bar {
+  position: fixed; top: 0; left: 0; right: 0;
+  height: 3px; background: transparent; z-index: 9999;
+  pointer-events: none;
+}
+.progress-bar::before {
+  content: ''; display: block; height: 100%;
+  background: linear-gradient(90deg, #2563eb 0%, #3b82f6 50%, #60a5fa 100%);
+  width: 0%; transition: width .3s ease-out, opacity .3s ease;
+  box-shadow: 0 0 8px rgba(37, 99, 235, .4);
+}
+.progress-bar.active::before { animation: progress-fake 2s ease-out forwards; opacity: 1; }
+.progress-bar.done::before { width: 100% !important; opacity: 0; transition: width .2s ease, opacity .4s ease .1s; }
+@keyframes progress-fake {
+  0%   { width: 0%; }
+  30%  { width: 45%; }
+  60%  { width: 70%; }
+  90%  { width: 88%; }
+  100% { width: 92%; }
+}
+
+/* ── Skeleton UI ── */
+.skeleton {
+  background: linear-gradient(90deg, #eeeeee 0%, #f5f5f5 50%, #eeeeee 100%);
+  background-size: 200% 100%; border-radius: 6px;
+  animation: shimmer 1.4s ease-in-out infinite;
+  display: block;
+}
+@keyframes shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+.sk-line   { height: 14px; margin: 8px 0; }
+.sk-line.w-40 { width: 40%; }
+.sk-line.w-60 { width: 60%; }
+.sk-line.w-80 { width: 80%; }
+.sk-line.w-100 { width: 100%; }
+.sk-title { height: 24px; width: 60%; margin: 0 0 12px; }
+
+/* 프로젝트 카드 스켈레톤 */
+.sk-card {
+  background: #ffffff; border: 1px solid #eeeeee; border-radius: 12px;
+  padding: 24px; min-height: 180px;
+}
+.sk-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px; padding: 0 0 24px;
+}
+.sk-section-label {
+  height: 20px; width: 180px; margin-bottom: 24px;
+}
+
+/* 상세 페이지 스켈레톤 */
+.sk-detail { padding: 32px; display: flex; gap: 48px; align-items: flex-start; }
+.sk-detail-diagram {
+  flex: 1; min-height: 360px;
+  background: linear-gradient(90deg, #eeeeee 0%, #f5f5f5 50%, #eeeeee 100%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s ease-in-out infinite;
+  border-radius: 8px;
+}
+.sk-detail-metrics { width: 360px; display: flex; flex-direction: column; gap: 28px; }
+.sk-metric-card {
+  background: #ffffff; border: 1px solid #eeeeee; border-radius: 10px;
+  padding: 20px; min-height: 92px;
+}
+
 /* ── PROJECTS VIEW ── */
-#view-projects { padding: 32px; max-width: 1100px; margin: 0 auto; }
+#view-projects { padding: 40px 48px; max-width: 1440px; margin: 0 auto; }
 .section-label {
-  font-size: 13px; font-weight: 700; letter-spacing: 1.5px;
-  text-transform: uppercase; color: #999999; margin-bottom: 20px;
+  font-size: 20px; font-weight: 700; letter-spacing: 1px;
+  text-transform: uppercase; color: #000000; margin-bottom: 24px;
+}
+.section-label-pm {
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: .5px;
+  color: #2563eb;
+  background: #eef4ff;
+  padding: 4px 12px;
+  border-radius: 5px;
+  margin-left: 10px;
+  text-transform: none;
+  vertical-align: middle;
+  position: relative;
+  top: -2px;
 }
 .projects-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 1px; background: #e0e0e0; border: 1px solid #e0e0e0;
+  gap: 16px;
 }
 .project-card {
-  background: #ffffff; padding: 32px 28px 44px;
-  cursor: pointer; transition: background .15s;
+  background: #ffffff; padding: 28px 28px 32px;
+  cursor: pointer; transition: background .15s, box-shadow .15s, transform .15s;
   position: relative;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
 }
-.project-card:hover { background: #f7f9ff; }
+.project-card:hover {
+  background: #fafbff;
+  box-shadow: 0 4px 16px rgba(37, 99, 235, 0.08);
+  transform: translateY(-2px);
+  border-color: #c7d4ff;
+}
 .project-card:hover .pc-name { color: #2563eb; }
 .pc-icon { display: none; }
 .pc-num {
-  font-size: 12px; font-weight: 700; letter-spacing: 1.5px;
-  text-transform: uppercase; color: #999999; margin-bottom: 12px;
+  font-size: 11px; font-weight: 700; letter-spacing: 1.5px;
+  text-transform: uppercase; color: #9ca3af; margin-bottom: 12px;
 }
-.pc-name { font-size: 20px; font-weight: 800; color: #111111; margin-bottom: 8px; transition: color .15s; }
-.pc-desc { font-size: 14px; color: #888888; line-height: 1.7; }
+.pc-name { font-size: 20px; font-weight: 800; color: #111111; margin-bottom: 12px; transition: color .15s; line-height: 1.3; }
+.pc-pm {
+  font-size: 12px; font-weight: 700; letter-spacing: .5px;
+  color: #2563eb; margin-bottom: 20px;
+  display: inline-block;
+  padding: 3px 10px;
+  background: #eef4ff;
+  border-radius: 4px;
+}
+.pc-desc { font-size: 14px; color: #6b7280; line-height: 1.6; }
 .pc-arrow {
   position: absolute; bottom: 20px; right: 24px;
-  font-size: 26px; font-weight: 300; color: #cccccc; transition: .2s;
+  font-size: 22px; font-weight: 300; color: #d1d5db; transition: .2s;
 }
 .project-card:hover .pc-arrow { color: #2563eb; transform: translateX(3px); }
 
+/* ── 메인 프로젝트 섹션 강조 ── */
+.section-label.main-label {
+  font-size: 26px;
+  font-weight: 800;
+  color: #111111;
+  letter-spacing: -.2px;
+  text-transform: none;
+  padding-bottom: 0;
+  border-bottom: none;
+  margin-bottom: 28px;
+}
+.projects-grid.main-grid {
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+.project-card.main-card {
+  background: #ffffff;
+  padding: 28px 30px 32px;
+  border: 1.5px solid #111111;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+.project-card.main-card:hover {
+  background: #ffffff;
+  border-color: #000000;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  transform: translateY(-3px);
+}
+.project-card.main-card .pc-num {
+  font-size: 12px;
+  color: #111111;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  margin-bottom: 14px;
+}
+.project-card.main-card .pc-name {
+  font-size: 24px;
+  font-weight: 800;
+  color: #111111;
+  margin-bottom: 12px;
+  line-height: 1.3;
+}
+.project-card.main-card:hover .pc-name { color: #111111; }
+.project-card.main-card .pc-desc {
+  font-size: 16px;
+  color: #111111;
+  font-weight: 500;
+  margin-bottom: 20px;
+  line-height: 1.55;
+}
+.project-card.main-card .pc-arrow {
+  color: #111111;
+  opacity: 0.3;
+}
+.project-card.main-card:hover .pc-arrow {
+  color: #111111;
+  opacity: 1;
+  transform: translateX(3px);
+}
+
+/* 메인 카드 내부 점수 미니바 */
+.pc-score-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 4px;
+}
+.pc-score-chip {
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: -.2px;
+  padding: 8px 16px;
+  border-radius: 10px;
+  background: #eff6ff;
+  color: #1e3a8a;
+  white-space: nowrap;
+}
+.pc-score-chip .chip-label {
+  color: #1e3a8a;
+  font-weight: 700;
+  margin-right: 8px;
+  font-size: 15px;
+}
+
+/* ── 협업 프로젝트 섹션 차분화 ── */
+.section-label.collab-label {
+  font-size: 18px;
+  color: #111111;
+  font-weight: 700;
+  letter-spacing: -.1px;
+  text-transform: none;
+  margin-top: 56px;
+  margin-bottom: 16px;
+}
+.projects-grid.collab-grid {
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+.project-card.collab-card {
+  background: #fafbfc;
+  padding: 18px 20px 22px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+}
+.project-card.collab-card:hover {
+  background: #ffffff;
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.06);
+  transform: translateY(-1px);
+  border-color: #c7d4ff;
+}
+.project-card.collab-card .pc-num {
+  font-size: 11px;
+  color: #111111;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  margin-bottom: 8px;
+}
+.project-card.collab-card .pc-name {
+  font-size: 17px;
+  font-weight: 800;
+  color: #111111;
+  margin-bottom: 8px;
+  line-height: 1.35;
+}
+.project-card.collab-card .pc-pm {
+  font-size: 12px;
+  padding: 3px 9px;
+  margin-bottom: 12px;
+}
+.project-card.collab-card .pc-desc {
+  font-size: 13px;
+  line-height: 1.55;
+  color: #111111;
+  font-weight: 500;
+}
+.project-card.collab-card .pc-arrow {
+  font-size: 18px;
+  bottom: 14px;
+  right: 16px;
+}
+
+/* 모바일: 메인·협업 모두 1열 */
+@media (max-width: 900px) {
+  .projects-grid.main-grid { grid-template-columns: 1fr; }
+  .projects-grid.collab-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 600px) {
+  .projects-grid.collab-grid { grid-template-columns: 1fr; }
+}
+
+/* ── 빈 섹션 placeholder ── */
+.empty-section {
+  border: 1.5px dashed #d4d4d4;
+  background: #fafafa;
+  padding: 56px 24px;
+  text-align: center;
+  border-radius: 10px;
+}
+.empty-section-ico {
+  font-size: 40px;
+  margin-bottom: 16px;
+  opacity: 0.5;
+}
+.empty-section-msg {
+  font-size: 16px;
+  font-weight: 700;
+  color: #6b7280;
+  margin-bottom: 8px;
+}
+.empty-section-sub {
+  font-size: 13px;
+  color: #9ca3af;
+}
+
 /* ── STEPS VIEW ── */
-#view-steps { display: none; padding: 32px; max-width: 1400px; margin: 0 auto; }
+#view-steps { display: none; padding: 40px 48px; max-width: 1440px; margin: 0 auto; }
 .steps-row {
   display: flex; align-items: stretch;
   justify-content: center; flex-wrap: wrap;
@@ -113,90 +449,423 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
   animation: sd .25s ease;
 }
 @keyframes sd { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
-.panel-inner { background: #ffffff; padding: 36px 36px 44px; }
+.panel-inner { background: #ffffff; padding: 28px 28px 36px; }
 .panel-title {
-  font-size: 22px; font-weight: 800; color: #111111;
-  padding-bottom: 18px; border-bottom: 2px solid #111111;
-  margin-bottom: 32px; display: flex; align-items: center; gap: 12px;
+  font-size: 18px; font-weight: 800; color: #111111;
+  padding-bottom: 16px;
+  margin-bottom: 32px; display: flex; align-items: center; gap: 10px;
 }
-.panel-title-label {
-  color: #2563eb; font-size: 13px; font-weight: 700;
-  letter-spacing: 1px; text-transform: uppercase;
-  background: #f0f5ff; border: 1.5px solid #c7d9ff;
-  border-radius: 5px; padding: 4px 10px;
-}
+.diagram-panel.flat .panel-title { display: none; }
+.panel-title-label { color: #2563eb; }
 .close-btn {
   margin-left: auto; background: none; border: 1.5px solid #cccccc;
-  border-radius: 4px; padding: 8px 20px; font-size: 14px; font-weight: 600;
+  border-radius: 4px; padding: 6px 16px; font-size: 13px; font-weight: 600;
   color: #666666; cursor: pointer; transition: .2s;
 }
 .close-btn:hover { border-color: #dc2626; color: #dc2626; }
 .mermaid-wrap { display: flex; justify-content: center; overflow-x: auto; padding: 8px 0; }
-.mermaid-wrap svg { max-width: 100%; height: auto; }
+.mermaid-wrap svg {
+  max-width: none;
+  height: auto;
+  min-height: 560px;
+  width: auto;
+}
+/* 작은 다이어그램도 최소 노드 크기 유지 */
+.mermaid-wrap .node rect,
+.mermaid-wrap .node polygon,
+.mermaid-wrap .node circle,
+.mermaid-wrap .node ellipse,
+.mermaid-wrap .node path { stroke-width: 1.5px; }
+.mermaid-wrap .nodeLabel,
+.mermaid-wrap .edgeLabel { font-size: 15px !important; }
+.mermaid-wrap .cluster .nodeLabel,
+.mermaid-wrap .cluster-label .nodeLabel { font-size: 14px !important; }
 .no-diagram { text-align: center; padding: 40px; color: #999999; font-size: 13px; }
 .loading-diag { text-align: center; padding: 40px; color: #999999; font-size: 13px; }
 .loading-diag .spinner { width: 24px; height: 24px; border-width: 2px; }
 
 /* ── SPLIT LAYOUT (diagram left + metrics right) ── */
 .split-layout {
-  display: flex; flex-direction: row; gap: 0; align-items: flex-start;
+  display: flex; gap: 0; align-items: flex-start;
 }
 .split-diagram { flex: 1 1 0; min-width: 0; }
 .split-metrics {
-  width: 240px; flex-shrink: 0;
-  border-left: 2px solid #e0e0e0;
-  padding: 0 0 0 28px;
-  margin-left: 28px;
-  align-self: stretch;
-  display: flex; flex-direction: column; justify-content: center;
-  gap: 20px;
+  width: 420px; flex-shrink: 0;
+  padding: 0 0 0 0;
+  margin-left: 64px;
+  align-self: flex-start;
+  position: sticky;
+  top: 24px;
+  max-height: calc(100vh - 48px);
+  overflow-y: auto;
+  display: flex; flex-direction: column;
+  gap: 22px;
+}
+/* sticky 스크롤바 숨김 처리 (발표용 깔끔 유지) */
+.split-metrics::-webkit-scrollbar { width: 0; background: transparent; }
+.split-metrics { scrollbar-width: none; -ms-overflow-style: none; }
+
+/* 모바일에서는 sticky 해제 (세로 스택으로 전환) */
+@media (max-width: 900px) {
+  .split-layout { flex-direction: column; }
+  .split-metrics {
+    width: 100%; margin-left: 0; margin-top: 32px;
+    position: static;
+    max-height: none; overflow-y: visible;
+  }
+}
+
+/* 프로젝트 요약 박스 (메인 프로젝트 전용) */
+.metric-summary {
+  background: #fffbe6;
+  border: 1.5px solid #f0d878;
+  border-radius: 12px;
+  padding: 22px 24px 24px;
+}
+.metric-summary-label {
+  font-size: 14px; font-weight: 800; letter-spacing: .5px;
+  color: #b8860b; margin-bottom: 14px;
+  text-transform: none;
+}
+.metric-summary-text {
+  font-size: 16px; font-weight: 500; color: #222;
+  line-height: 1.75; letter-spacing: -.1px;
+  white-space: pre-line;
+}
+/* 요약 박스 내부 라벨 스타일 (라벨-내용형 포맷 지원) */
+.metric-summary-text b,
+.metric-summary-text strong {
+  color: #111; font-weight: 800;
+  display: inline-block; min-width: 76px;
 }
 .metric-item {
   background: #f7f9ff;
   border: 1.5px solid #e0e8ff;
   border-radius: 12px;
-  padding: 20px 22px 18px;
+  padding: 22px 26px 20px;
 }
 .metric-label {
-  font-size: 13px; font-weight: 800; letter-spacing: .5px;
-  color: #2563eb; margin-bottom: 12px;
+  font-size: 22px; font-weight: 800; letter-spacing: .3px;
+  color: #2563eb; margin-bottom: 14px;
+  white-space: nowrap;
 }
 .metric-bar-wrap {
-  background: #dde8ff; border-radius: 4px; height: 8px; overflow: hidden; margin-bottom: 12px;
+  background: #dde8ff; border-radius: 8px; height: 14px; overflow: hidden; margin-bottom: 12px;
 }
 .metric-bar {
-  height: 100%; border-radius: 4px; background: #2563eb; transition: width .8s ease;
+  height: 100%; border-radius: 8px; background: #2563eb; transition: width .8s ease;
 }
 .metric-score {
-  font-size: 48px; font-weight: 900; color: #111111; letter-spacing: -3px; line-height: 1;
+  font-size: 50px; font-weight: 900; color: #111111; letter-spacing: -2px; line-height: 1;
 }
-.metric-score span { font-size: 15px; font-weight: 600; color: #999999; margin-left: 3px; }
+.metric-score span { font-size: 24px; font-weight: 600; color: #999999; margin-left: 6px; }
+.metric-caption {
+  font-size: 15px; font-weight: 600; color: #333333;
+  line-height: 1.6; margin-top: 14px;
+  padding-top: 14px; border-top: 1px dashed #cfd9f5;
+}
+
+/* ── 이미지 섹션 (다이어그램 하단, 50:50 가로 배치) ── */
+.images-section {
+  margin-top: 40px;
+  padding-top: 32px;
+  border-top: 1.5px dashed #d1d9e6;
+}
+.images-section-label {
+  font-size: 18px; font-weight: 800; letter-spacing: .3px;
+  color: #2563eb; margin-bottom: 20px;
+}
+.images-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+/* 1장 전용 — 풀폭 한 칸 레이아웃 */
+.images-grid.single {
+  grid-template-columns: 1fr;
+  gap: 0;
+}
+.image-item {
+  display: flex; flex-direction: column;
+  background: #fafbfc;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  overflow: hidden;
+}
+.image-item-img-wrap {
+  width: 100%;
+  background: #ffffff;
+  display: flex; align-items: center; justify-content: center;
+  padding: 12px;
+  min-height: 160px;
+}
+.image-item-img-wrap img {
+  max-width: 100%; max-height: 400px; height: auto; display: block;
+  border-radius: 6px;
+  object-fit: contain;
+}
+/* 1장 전용 — 이미지 더 크게 표시 */
+.images-grid.single .image-item-img-wrap {
+  padding: 20px;
+  min-height: 300px;
+}
+.images-grid.single .image-item-img-wrap img {
+  max-height: 640px;
+}
+.image-item-caption {
+  font-size: 13px; font-weight: 600; color: #444444;
+  line-height: 1.55; letter-spacing: -.1px;
+  padding: 14px 16px 16px;
+  border-top: 1px solid #e5e7eb;
+  background: #ffffff;
+}
+/* 1장 전용 — caption도 여유롭게 중앙 */
+.images-grid.single .image-item-caption {
+  font-size: 15px;
+  padding: 18px 22px 20px;
+  text-align: center;
+}
+.image-item-img-placeholder {
+  width: 100%; padding: 48px 20px;
+  color: #999999; font-size: 13px; text-align: center;
+}
+/* 이미지 클릭 시 커서 포인터 + hover 효과 */
+.image-item-img-wrap img {
+  cursor: zoom-in;
+  transition: opacity .2s ease;
+}
+.image-item-img-wrap img:hover {
+  opacity: .85;
+}
+/* 모바일: 세로 스택 */
+@media (max-width: 720px) {
+  .images-grid { grid-template-columns: 1fr; }
+}
+
+/* ── 이미지 라이트박스 (팝업 확대) ── */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.88);
+  z-index: 10000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  cursor: zoom-out;
+  animation: lightbox-fade .18s ease-out;
+}
+.lightbox.active {
+  display: flex;
+}
+@keyframes lightbox-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.lightbox-content {
+  position: relative;
+  max-width: 95vw;
+  max-height: 95vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  cursor: default;
+}
+.lightbox-img {
+  max-width: 100%;
+  max-height: calc(95vh - 60px);
+  object-fit: contain;
+  border-radius: 4px;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.4);
+}
+.lightbox-caption {
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -.1px;
+  text-align: center;
+  max-width: 90vw;
+}
+.lightbox-close {
+  position: absolute;
+  top: 24px;
+  right: 32px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1.5px solid rgba(255, 255, 255, 0.5);
+  color: #ffffff;
+  font-size: 20px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all .15s ease;
+  font-family: inherit;
+  line-height: 1;
+}
+.lightbox-close:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: #ffffff;
+  transform: scale(1.05);
+}
+.lightbox-hint {
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 13px;
+  letter-spacing: .3px;
+}
+
+/* ── 협업자 섹션 ── */
+.collaborators-section {
+  margin-top: 40px;
+  padding-top: 32px;
+  border-top: 1.5px dashed #d1d9e6;
+}
+.collaborators-section-label {
+  font-size: 20px; font-weight: 800; letter-spacing: .3px;
+  color: #2563eb; margin-bottom: 22px;
+}
+.collaborators-list {
+  display: flex; flex-direction: column; gap: 20px;
+}
+.collaborator-card {
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  background: #fafbfc;
+  overflow: hidden;
+}
+.collaborator-header {
+  padding: 18px 24px;
+  background: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+  display: flex; align-items: baseline; gap: 16px;
+}
+.collaborator-name {
+  font-size: 22px; font-weight: 800; color: #111111; letter-spacing: -.3px;
+}
+.collaborator-role {
+  font-size: 16px; font-weight: 700; color: #2563eb;
+}
+.collaborator-body {
+  padding: 20px 24px 22px;
+  font-size: 17px; color: #222222; line-height: 1.8;
+}
+.collab-section + .collab-section {
+  margin-top: 18px;
+}
+.collab-section-label {
+  font-weight: 800; color: #2563eb;
+  font-size: 15px; letter-spacing: .3px;
+  margin-bottom: 10px;
+}
+.collab-section-items {
+  padding-left: 0;
+  list-style: none;
+  margin: 0;
+}
+.collab-section-items li {
+  position: relative;
+  padding-left: 18px;
+  margin-bottom: 8px;
+  white-space: pre-wrap;
+  font-size: 17px;
+  line-height: 1.75;
+}
+.collab-section-items li::before {
+  content: "·";
+  position: absolute;
+  left: 2px;
+  font-weight: 700;
+  color: #2563eb;
+  font-size: 22px;
+  line-height: 1.4;
+}
+/* 임동근 스타일: 색상 있는 박스 섹션 */
+.collab-section.boxed {
+  border-radius: 8px;
+  padding: 14px 18px;
+}
+.collab-section.boxed .collab-section-label {
+  margin-bottom: 8px;
+}
+/* 이재원 스타일: 3열 그리드 섹션 */
+.collab-body-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 18px;
+}
+.collab-body-grid .collab-section {
+  margin-top: 0 !important;
+}
+.collab-body-grid .collab-section-items li {
+  font-size: 15px;
+  line-height: 1.7;
+}
+.collab-body-grid .collab-section-label {
+  font-size: 15px;
+  margin-bottom: 10px;
+}
+.collab-footer {
+  margin-top: 18px;
+  background: #eff6ff;
+  border: 1px solid #2563eb;
+  border-radius: 8px;
+  padding: 14px 18px;
+  font-size: 15px;
+  color: #1e3a8a;
+  line-height: 1.75;
+}
+.collab-footer-label {
+  font-weight: 800; margin-bottom: 8px; font-size: 15px; letter-spacing: .3px;
+}
+/* 모바일: 3열 → 세로 스택 */
+@media (max-width: 720px) {
+  .collab-body-grid { grid-template-columns: 1fr; }
+}
 
 /* ── FLAT panel (no border/popup look for single-step) ── */
 .diagram-panel.flat { border: none; margin: 0; }
 .diagram-panel.flat .panel-inner {
-  border-top: 2px solid #e0e0e0;
-  padding: 36px 36px 52px;
+  padding: 0 0 40px;
 }
 </style>
 </head>
 <body>
 
+<!-- TOP PROGRESS BAR -->
+<div class="progress-bar" id="progress-bar"></div>
+
 <!-- HEADER -->
 <header class="hdr">
-  <button class="hdr-back" id="btn-back" onclick="showProjects()">← 프로젝트 목록</button>
-  <div>
-    <div class="hdr-title" id="hdr-title">플로우차트 대시보드</div>
-    <div class="hdr-sub" id="hdr-sub">프로젝트를 선택하면 상세 플로우를 확인할 수 있습니다</div>
+  <button class="hdr-back" id="btn-back" onclick="showProjects()" title="프로젝트 목록으로"><span class="hdr-back-arrow">←</span><span class="hdr-back-label">목록</span></button>
+  <div class="hdr-text">
+    <div class="hdr-title" id="hdr-title">2026년 시즌1 프로젝트</div>
+    <div class="hdr-sub" id="hdr-sub"></div>
+    <div class="hdr-collab" id="hdr-collab"></div>
+  </div>
+  <div class="hdr-pm" id="hdr-pm">
+    <div class="hdr-pm-label">PM</div>
+    <div class="hdr-pm-name">김재영</div>
   </div>
 </header>
 
 <!-- VIEW: PROJECTS -->
 <div id="view-projects">
   <div id="projects-container">
-    <div class="state-box">
-      <div class="spinner"></div>
-      <h2>불러오는 중...</h2>
+    <!-- 초기 스켈레톤 (JS가 교체) -->
+    <div class="section-label skeleton sk-section-label"></div>
+    <div class="sk-grid">
+      <div class="sk-card"><span class="skeleton sk-title"></span><span class="skeleton sk-line w-100"></span><span class="skeleton sk-line w-80"></span></div>
+      <div class="sk-card"><span class="skeleton sk-title"></span><span class="skeleton sk-line w-100"></span><span class="skeleton sk-line w-60"></span></div>
+      <div class="sk-card"><span class="skeleton sk-title"></span><span class="skeleton sk-line w-100"></span><span class="skeleton sk-line w-80"></span></div>
+      <div class="sk-card"><span class="skeleton sk-title"></span><span class="skeleton sk-line w-100"></span><span class="skeleton sk-line w-60"></span></div>
     </div>
   </div>
 </div>
@@ -205,6 +874,16 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 <div id="view-steps">
   <div class="steps-row" id="steps-row"></div>
   <div id="panels-area"></div>
+</div>
+
+<!-- 이미지 라이트박스 (팝업 확대) -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
+  <button class="lightbox-close" onclick="closeLightbox(event)" title="닫기 (ESC)">✕</button>
+  <div class="lightbox-content">
+    <img class="lightbox-img" id="lightbox-img" src="" alt="">
+    <div class="lightbox-caption" id="lightbox-caption"></div>
+  </div>
+  <div class="lightbox-hint">클릭하거나 ESC를 눌러 닫기</div>
 </div>
 
 <script>
@@ -224,9 +903,15 @@ mermaid.initialize({
     primaryTextColor: '#111111',
     lineColor: '#333333',
     edgeLabelBackground: '#ffffff',
-    fontSize: '16px'
+    fontSize: '18px'
   },
-  flowchart: { curve: 'linear', padding: 20 }
+  flowchart: {
+    curve: 'linear',
+    padding: 24,
+    nodeSpacing: 60,
+    rankSpacing: 70,
+    useMaxWidth: false
+  }
 });
 
 /* ── 상태 ── */
@@ -234,13 +919,56 @@ let activeStep = null;
 let renderedDiagrams = {};
 let stepsData = {};
 
+/* ── Progress Bar 헬퍼 ── */
+function startProgress() {
+  const bar = document.getElementById('progress-bar');
+  bar.classList.remove('done');
+  // reflow를 강제해 애니메이션 재시작
+  void bar.offsetWidth;
+  bar.classList.add('active');
+}
+function endProgress() {
+  const bar = document.getElementById('progress-bar');
+  bar.classList.add('done');
+  setTimeout(() => {
+    bar.classList.remove('active', 'done');
+  }, 500);
+}
+
+/* ── 상세 페이지 스켈레톤 HTML ── */
+function detailSkeletonHTML() {
+  return `
+    <div class="sk-detail">
+      <div class="sk-detail-diagram"></div>
+      <div class="sk-detail-metrics">
+        <div class="sk-metric-card">
+          <span class="skeleton sk-line w-40"></span>
+          <span class="skeleton sk-line w-100" style="height:32px;margin-top:12px"></span>
+          <span class="skeleton sk-line w-80"></span>
+        </div>
+        <div class="sk-metric-card">
+          <span class="skeleton sk-line w-40"></span>
+          <span class="skeleton sk-line w-100" style="height:32px;margin-top:12px"></span>
+          <span class="skeleton sk-line w-80"></span>
+        </div>
+        <div class="sk-metric-card">
+          <span class="skeleton sk-line w-40"></span>
+          <span class="skeleton sk-line w-100" style="height:32px;margin-top:12px"></span>
+          <span class="skeleton sk-line w-80"></span>
+        </div>
+      </div>
+    </div>`;
+}
+
 /* ── 프로젝트 목록 로드 ── */
 async function init() {
+  startProgress();
   const { data, error } = await sb.from('projects').select('*').order('id');
 
   const container = document.getElementById('projects-container');
 
   if (error) {
+    endProgress();
     container.innerHTML = `
       <div class="state-box">
         <div class="ico">⚠️</div>
@@ -251,6 +979,7 @@ async function init() {
   }
 
   if (!data || data.length === 0) {
+    endProgress();
     container.innerHTML = `
       <div class="state-box">
         <div class="ico">📭</div>
@@ -263,36 +992,153 @@ async function init() {
     return;
   }
 
-  const grid = data.map((p, i) => {
+  // 카테고리별 분류 (category 컬럼 없을 경우 모두 collaboration으로 간주)
+  const collabProjects = data.filter(p => (p.category || 'collaboration') === 'collaboration');
+  const mainProjects   = data.filter(p => p.category === 'main');
+
+  // 메인 프로젝트의 점수 정보 미리 로드 (한 번의 쿼리로 일괄 조회)
+  let mainScores = {};
+  if (mainProjects.length > 0) {
+    const mainIds = mainProjects.map(p => p.id);
+    const { data: stepsData } = await sb
+      .from('steps')
+      .select('project_id, metrics')
+      .in('project_id', mainIds)
+      .eq('step_number', 1);
+    if (Array.isArray(stepsData)) {
+      stepsData.forEach(s => {
+        if (!Array.isArray(s.metrics)) return;
+        const scores = s.metrics
+          .filter(m => m.type !== 'summary' && m.type !== 'images' && m.type !== 'collaborators' && m.type !== 'collaborator_names')
+          .filter(m => m.label && m.score !== undefined && m.score !== null && m.score !== '-' && m.score !== '' && Number(m.score) > 0)
+          .map(m => ({ label: m.label, score: Number(m.score) }));
+        mainScores[s.project_id] = scores;
+      });
+    }
+  }
+
+  // 프로젝트 카드 렌더 함수
+  // isMain: 메인 프로젝트 여부 (스타일·점수 미니바 분기)
+  const renderCard = (p, i, hidePm = false, isMain = false) => {
+    const pmHTML = (p.pm_name && !hidePm)
+      ? `<div class="pc-pm">PM ${p.pm_name}</div>`
+      : '';
+    const keyContrib = esc(p.key_contribution || '');
+    const cardClass = isMain ? 'project-card main-card' : 'project-card collab-card';
+
+    // 메인 카드면 점수 칩 생성
+    let scoreChipsHTML = '';
+    if (isMain && Array.isArray(mainScores[p.id]) && mainScores[p.id].length > 0) {
+      const chips = mainScores[p.id].map(s => {
+        // "매출성과" → "매출" 축약
+        const shortLabel = String(s.label).replace(/성과$/, '').replace(/\s+/g, '');
+        return `<span class="pc-score-chip"><span class="chip-label">${esc(shortLabel)}</span>${s.score}</span>`;
+      }).join('');
+      scoreChipsHTML = `<div class="pc-score-chips">${chips}</div>`;
+    }
+
     return `
-      <div class="project-card" onclick="showSteps(${p.id},'${esc(p.name)}')">
+      <div class="${cardClass}" onclick="showSteps(${p.id},'${esc(p.name)}','${keyContrib}',${isMain ? 'true' : 'false'},'${esc(p.pm_name || '')}')">
         <div class="pc-num">PROJECT ${String(i+1).padStart(2,'0')}</div>
         <div class="pc-name">${p.name}</div>
+        ${pmHTML}
         <div class="pc-desc">${p.description || ''}</div>
+        ${scoreChipsHTML}
         <div class="pc-arrow">›</div>
       </div>`;
-  }).join('');
+  };
 
-  container.innerHTML = `
-    <p class="section-label">전체 프로젝트 (${data.length})</p>
-    <div class="projects-grid">${grid}</div>`;
+  // 메인 프로젝트의 PM을 대표로 추출 (모두 같은 경우 우측 헤더 블록에 표시)
+  const mainPMs = [...new Set(mainProjects.map(p => p.pm_name).filter(Boolean))];
+  const dashboardPM = (mainPMs.length === 1) ? mainPMs[0] : '';
+  const hidePmInMainCards = (mainPMs.length === 1);
+
+  // 우측 헤더 PM 블록 — 목록 화면에서 항상 표시
+  const hdrPm = document.getElementById('hdr-pm');
+  if (dashboardPM) {
+    hdrPm.innerHTML = `<div class="hdr-pm-label">PM</div><div class="hdr-pm-name">${esc(dashboardPM)}</div>`;
+    hdrPm.style.display = '';
+  } else {
+    hdrPm.innerHTML = '';
+    hdrPm.style.display = 'none';
+  }
+
+  // 기본 "PM 김재영" 서브라벨 제거 (우측 블록으로 대체)
+  const hdrSub = document.getElementById('hdr-sub');
+  hdrSub.innerHTML = '';
+  hdrSub.style.display = 'none';
+
+  // 메인 프로젝트 섹션 (먼저 배치 — 순서 변경)
+  const mainSection = mainProjects.length > 0
+    ? `
+      <p class="section-label main-label">메인 프로젝트 (${mainProjects.length})</p>
+      <div class="projects-grid main-grid">${mainProjects.map((p, i) => renderCard(p, i, hidePmInMainCards, true)).join('')}</div>`
+    : `
+      <p class="section-label main-label">메인 프로젝트 (0)</p>
+      <div class="empty-section">
+        <div class="empty-section-ico">🚧</div>
+        <div class="empty-section-msg">준비 중입니다</div>
+        <div class="empty-section-sub">곧 새로운 프로젝트가 추가될 예정입니다</div>
+      </div>`;
+
+  // 협업 프로젝트 섹션 (나중에 배치)
+  const collabSection = collabProjects.length > 0
+    ? `
+      <p class="section-label collab-label">협업 프로젝트 (${collabProjects.length})</p>
+      <div class="projects-grid collab-grid">${collabProjects.map((p, i) => renderCard(p, i, false, false)).join('')}</div>`
+    : `
+      <p class="section-label collab-label">협업 프로젝트 (0)</p>
+      <div class="empty-section">
+        <div class="empty-section-ico">🤝</div>
+        <div class="empty-section-msg">협업 프로젝트가 등록되어 있지 않습니다</div>
+      </div>`;
+
+  container.innerHTML = mainSection + collabSection;
+  endProgress();
 }
 
 /* ── 단계 목록 로드 ── */
-async function showSteps(projectId, name) {
+async function showSteps(projectId, name, keyContribution = '', isMain = false, pmName = '') {
+  // 프로그레스 바 시작
+  startProgress();
+
   // 뷰 전환
   document.getElementById('view-projects').style.display = 'none';
   document.getElementById('view-steps').style.display = 'block';
-  document.getElementById('btn-back').style.display = 'block';
+  document.getElementById('btn-back').style.display = 'flex';
   document.getElementById('hdr-title').textContent = name;
-  document.getElementById('hdr-sub').textContent = '단계를 클릭하면 상세 플로우를 확인할 수 있습니다';
 
-  // 초기화
+  // 우측 헤더 PM 블록 — 메인 프로젝트 상세에서만 표시
+  const hdrPm = document.getElementById('hdr-pm');
+  if (isMain && pmName) {
+    hdrPm.innerHTML = `<div class="hdr-pm-label">PM</div><div class="hdr-pm-name">${esc(pmName)}</div>`;
+    hdrPm.style.display = '';
+  } else {
+    hdrPm.innerHTML = '';
+    hdrPm.style.display = 'none';
+  }
+
+  // 핵심 기여 표시 (있으면 라벨 + 내용, 없으면 숨김)
+  const hdrSub = document.getElementById('hdr-sub');
+  if (keyContribution) {
+    hdrSub.innerHTML = `<span class="hdr-sub-label">핵심 기여 :</span> <span class="hdr-sub-content">${keyContribution}</span>`;
+    hdrSub.style.display = '';
+  } else {
+    hdrSub.innerHTML = '';
+    hdrSub.style.display = 'none';
+  }
+
+  // 헤더 협업자 명단 초기화 (steps 데이터 로드 후 채움)
+  const hdrCollab = document.getElementById('hdr-collab');
+  hdrCollab.innerHTML = '';
+  hdrCollab.style.display = 'none';
+
+  // 초기화 — 스켈레톤 UI 표시
   activeStep = null;
   renderedDiagrams = {};
   stepsData = {};
-  document.getElementById('steps-row').innerHTML = '<div class="state-box" style="padding:40px"><div class="spinner"></div></div>';
-  document.getElementById('panels-area').innerHTML = '';
+  document.getElementById('steps-row').innerHTML = '';
+  document.getElementById('panels-area').innerHTML = detailSkeletonHTML();
 
   const { data, error } = await sb
     .from('steps').select('*')
@@ -300,6 +1146,8 @@ async function showSteps(projectId, name) {
     .order('step_number');
 
   if (error || !data || data.length === 0) {
+    endProgress();
+    document.getElementById('panels-area').innerHTML = '';
     document.getElementById('steps-row').innerHTML = `
       <div class="state-box">
         <div class="ico">📋</div>
@@ -307,6 +1155,16 @@ async function showSteps(projectId, name) {
         <p>Supabase <code>steps</code> 테이블에서 이 프로젝트의 단계를 추가해주세요.</p>
       </div>`;
     return;
+  }
+
+  // 헤더 협업자 명단 채우기 — 첫 step의 metrics에서 type: "collaborator_names" 찾기
+  const firstStep = data[0];
+  if (firstStep && Array.isArray(firstStep.metrics)) {
+    const namesBlock = firstStep.metrics.find(m => m.type === 'collaborator_names' && Array.isArray(m.names) && m.names.length > 0);
+    if (namesBlock) {
+      hdrCollab.innerHTML = `<span class="hdr-collab-label">협업자 :</span> <span class="hdr-collab-names">${namesBlock.names.join(', ')}</span>`;
+      hdrCollab.style.display = '';
+    }
   }
 
   // Step 데이터 저장 및 카드 렌더
@@ -333,8 +1191,13 @@ async function showSteps(projectId, name) {
   // Diagram 패널 렌더
   const isSingle = data.length === 1;
   let panelsHTML = data.map(step => {
-    const hasMetrics = step.metrics && Array.isArray(step.metrics) && step.metrics.length > 0;
-    const metricsHTML = hasMetrics ? renderMetrics(step.metrics) : '';
+    const metricsHTML = (step.metrics && Array.isArray(step.metrics))
+      ? renderMetrics(step.metrics) : '';
+    const imagesHTML = (step.metrics && Array.isArray(step.metrics))
+      ? renderImages(step.metrics) : '';
+    const collaboratorsHTML = (step.metrics && Array.isArray(step.metrics))
+      ? renderCollaborators(step.metrics) : '';
+    const hasMetrics = metricsHTML.trim().length > 0;
     const diagramContent = step.mermaid_diagram
       ? '<div class="loading-diag"><div class="spinner"></div><p>렌더링 중...</p></div>'
       : '<div class="no-diagram">등록된 다이어그램이 없습니다</div>';
@@ -344,9 +1207,12 @@ async function showSteps(projectId, name) {
              <div id="diagram-${step.id}" class="mermaid-wrap">${diagramContent}</div>
            </div>
            <div class="split-metrics">${metricsHTML}</div>
-         </div>`
-      : `<div id="diagram-${step.id}" class="mermaid-wrap">${diagramContent}</div>`;
-    // Note: split-diagram keeps full width, metrics row sits below
+         </div>
+         ${imagesHTML}
+         ${collaboratorsHTML}`
+      : `<div id="diagram-${step.id}" class="mermaid-wrap">${diagramContent}</div>
+         ${imagesHTML}
+         ${collaboratorsHTML}`;
 
     return `
     <div id="panel-${step.id}" class="diagram-panel${isSingle ? ' flat' : ''}">
@@ -365,6 +1231,9 @@ async function showSteps(projectId, name) {
   if (data.length === 1) {
     toggleDiagram(data[0].id);
   }
+
+  // 프로그레스 바 종료
+  endProgress();
 }
 
 /* ── 다이어그램 토글 ── */
@@ -389,7 +1258,11 @@ async function toggleDiagram(stepId) {
   if (card) card.classList.add('open');
   activeStep = stepId;
 
-  panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  // 단일 단계(flat 모드)에서는 자동 스크롤하지 않음
+  // 이미 헤더 아래에 바로 표시되므로 스크롤 이동 시 헤더가 화면 밖으로 밀림
+  if (!panel.classList.contains('flat')) {
+    panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
 
   // 아직 렌더 안 됐으면 렌더
   if (!renderedDiagrams[stepId] && diagram.trim()) {
@@ -416,28 +1289,187 @@ function showProjects() {
   document.getElementById('view-steps').style.display = 'none';
   document.getElementById('view-projects').style.display = 'block';
   document.getElementById('btn-back').style.display = 'none';
-  document.getElementById('hdr-title').textContent = '플로우차트 대시보드';
-  document.getElementById('hdr-sub').textContent = '프로젝트를 선택하면 상세 플로우를 확인할 수 있습니다';
+  document.getElementById('hdr-title').textContent = '2026년 시즌1 프로젝트';
+  // hdr-sub 숨김 (PM은 우측 블록으로 대체)
+  const hdrSub = document.getElementById('hdr-sub');
+  hdrSub.innerHTML = '';
+  hdrSub.style.display = 'none';
+  // 헤더 협업자 명단 초기화
+  const hdrCollab = document.getElementById('hdr-collab');
+  hdrCollab.innerHTML = '';
+  hdrCollab.style.display = 'none';
+  // 우측 헤더 PM 블록 — 목록 화면에서 "김재영" 표시
+  const hdrPm = document.getElementById('hdr-pm');
+  hdrPm.innerHTML = `<div class="hdr-pm-label">PM</div><div class="hdr-pm-name">김재영</div>`;
+  hdrPm.style.display = '';
 }
 
 /* ── 메트릭 렌더 ── */
 function renderMetrics(metrics) {
-  return metrics.map(m => {
-    const score = Number(m.score) || 0;
+  // summary 타입 요소는 별도로 분리해서 맨 위에 렌더
+  const summaryItems = metrics.filter(m => m.type === 'summary' && m.text);
+  const summaryHTML = summaryItems.map(s => `
+    <div class="metric-summary">
+      <div class="metric-summary-label">프로젝트 요약</div>
+      <div class="metric-summary-text">${s.text}</div>
+    </div>`).join('');
+
+  const scoreHTML = metrics
+    // summary/images/collaborators/collaborator_names 등 비-지표 타입 제외
+    .filter(m => m.type !== 'summary' && m.type !== 'images' && m.type !== 'collaborators' && m.type !== 'collaborator_names')
+    // 핵심 성과만 필터링: 점수가 '-', null, undefined, '', 0이면 제외
+    .filter(m => {
+      if (m.score === '-' || m.score === null || m.score === undefined || m.score === '') return false;
+      const n = Number(m.score);
+      if (isNaN(n) || n <= 0) return false;
+      return true;
+    })
+    .map(m => {
+      const score = Number(m.score);
+      const caption = m.caption || m.keyword || m.desc || '';
+      const captionHTML = caption
+        ? `<div class="metric-caption">${caption}</div>`
+        : '';
+      return `
+        <div class="metric-item">
+          <div class="metric-label">${m.label}</div>
+          <div class="metric-bar-wrap">
+            <div class="metric-bar" style="width:${score}%"></div>
+          </div>
+          <div class="metric-score">${score}<span>/ 100</span></div>
+          ${captionHTML}
+        </div>`;
+    }).join('');
+
+  return summaryHTML + scoreHTML;
+}
+
+/* ── 이미지 섹션 렌더 (다이어그램 하단 풀폭 영역) ── */
+function renderImages(metrics) {
+  if (!Array.isArray(metrics)) return '';
+  const imagesBlock = metrics.find(m => m.type === 'images' && Array.isArray(m.items) && m.items.length > 0);
+  if (!imagesBlock) return '';
+
+  const itemsHTML = imagesBlock.items.map(item => {
+    const url = item.url || '';
+    const caption = item.caption || '';
+    const imgHTML = url
+      ? `<img src="${esc(url)}" alt="${esc(caption)}" loading="lazy" onclick="openLightbox('${esc(url)}','${esc(caption)}')" onerror="this.style.display='none';this.parentElement.innerHTML='<div class=&quot;image-item-img-placeholder&quot;>이미지를 불러올 수 없습니다</div>'">`
+      : `<div class="image-item-img-placeholder">이미지 URL이 없습니다</div>`;
+    const captionHTML = caption
+      ? `<div class="image-item-caption">${caption}</div>`
+      : '';
     return `
-      <div class="metric-item">
-        <div class="metric-label">${m.label}</div>
-        <div class="metric-bar-wrap">
-          <div class="metric-bar" style="width:${score}%"></div>
-        </div>
-        <div class="metric-score">${score}<span>/ 100</span></div>
+      <div class="image-item">
+        <div class="image-item-img-wrap">${imgHTML}</div>
+        ${captionHTML}
       </div>`;
   }).join('');
+
+  const label = imagesBlock.label || '참고 이미지';
+  const isSingle = imagesBlock.items.length === 1;
+  const gridClass = isSingle ? 'images-grid single' : 'images-grid';
+  return `
+    <div class="images-section">
+      <div class="images-section-label">${esc(label)}</div>
+      <div class="${gridClass}">${itemsHTML}</div>
+    </div>`;
+}
+
+/* ── 협업자 섹션 렌더 (다이어그램 하단 풀폭 영역) ── */
+function renderCollaborators(metrics) {
+  if (!Array.isArray(metrics)) return '';
+  const block = metrics.find(m => m.type === 'collaborators' && Array.isArray(m.items) && m.items.length > 0);
+  if (!block) return '';
+
+  // 단일 섹션 렌더 헬퍼
+  function renderSection(section) {
+    const items = Array.isArray(section.items) ? section.items : [];
+    const itemsHTML = items.map(it => `<li>${it}</li>`).join('');
+    const bgStyle = section.color
+      ? ` style="background:${section.color}"`
+      : '';
+    const boxedClass = section.color ? ' boxed' : '';
+    const labelHTML = section.label
+      ? `<div class="collab-section-label">${esc(section.label)}</div>`
+      : '';
+    return `
+      <div class="collab-section${boxedClass}"${bgStyle}>
+        ${labelHTML}
+        <ul class="collab-section-items">${itemsHTML}</ul>
+      </div>`;
+  }
+
+  const cardsHTML = block.items.map(person => {
+    const sections = Array.isArray(person.sections) ? person.sections : [];
+    // layout: "grid"이면 3열 그리드, 아니면 세로 스택
+    const bodyClass = person.layout === 'grid' ? 'collab-body-grid' : '';
+    const sectionsHTML = sections.map(renderSection).join('');
+    const footerHTML = person.footer
+      ? `<div class="collab-footer">
+           <div class="collab-footer-label">${esc(person.footerLabel || '유저 흐름')}</div>
+           <div>${person.footer}</div>
+         </div>`
+      : '';
+
+    return `
+      <div class="collaborator-card">
+        <div class="collaborator-header">
+          <div class="collaborator-name">${esc(person.name || '')}</div>
+          ${person.role ? `<div class="collaborator-role">${esc(person.role)}</div>` : ''}
+        </div>
+        <div class="collaborator-body">
+          ${bodyClass ? `<div class="${bodyClass}">${sectionsHTML}</div>` : sectionsHTML}
+          ${footerHTML}
+        </div>
+      </div>`;
+  }).join('');
+
+  const label = block.label || '협업자';
+  return `
+    <div class="collaborators-section">
+      <div class="collaborators-section-label">${esc(label)}</div>
+      <div class="collaborators-list">${cardsHTML}</div>
+    </div>`;
 }
 
 /* ── 유틸 ── */
 function esc(s) { return String(s || '').replace(/'/g,"&#39;").replace(/"/g,'&quot;'); }
 function escBt(s) { return String(s || '').replace(/`/g,'\\`').replace(/\$/g,'\\$'); }
+
+/* ── 이미지 라이트박스 ── */
+function openLightbox(url, caption) {
+  const lightbox = document.getElementById('lightbox');
+  const img = document.getElementById('lightbox-img');
+  const cap = document.getElementById('lightbox-caption');
+  img.src = url;
+  img.alt = caption || '';
+  cap.textContent = caption || '';
+  cap.style.display = caption ? 'block' : 'none';
+  lightbox.classList.add('active');
+  // 스크롤 잠금
+  document.body.style.overflow = 'hidden';
+}
+function closeLightbox(event) {
+  // 이미지나 caption 영역 클릭 시에는 닫지 않음
+  if (event && event.target && event.target.closest &&
+      event.target.closest('.lightbox-content') &&
+      !event.target.classList.contains('lightbox-close')) {
+    return;
+  }
+  const lightbox = document.getElementById('lightbox');
+  lightbox.classList.remove('active');
+  document.body.style.overflow = '';
+}
+// ESC 키로 닫기
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    const lightbox = document.getElementById('lightbox');
+    if (lightbox && lightbox.classList.contains('active')) {
+      closeLightbox();
+    }
+  }
+});
 
 /* ── 시작 ── */
 init();
