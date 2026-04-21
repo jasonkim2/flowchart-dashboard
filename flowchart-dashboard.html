@@ -13,7 +13,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 /* ── HEADER ── */
 .hdr {
   background: #ffffff; color: #111111;
-  padding: 36px 40px 32px; display: flex; align-items: center; gap: 20px;
+  padding: 36px 48px 32px; display: flex; align-items: center; gap: 20px;
   border-bottom: 2px solid #111111;
 }
 .hdr-back {
@@ -174,7 +174,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 }
 
 /* ── PROJECTS VIEW ── */
-#view-projects { padding: 40px 32px; max-width: 1200px; margin: 0 auto; }
+#view-projects { padding: 40px 48px; max-width: 1440px; margin: 0 auto; }
 .section-label {
   font-size: 20px; font-weight: 700; letter-spacing: 1px;
   text-transform: uppercase; color: #000000; margin-bottom: 24px;
@@ -409,7 +409,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 }
 
 /* ── STEPS VIEW ── */
-#view-steps { display: none; padding: 40px 32px; max-width: 1200px; margin: 0 auto; }
+#view-steps { display: none; padding: 40px 48px; max-width: 1440px; margin: 0 auto; }
 .steps-row {
   display: flex; align-items: stretch;
   justify-content: center; flex-wrap: wrap;
@@ -463,8 +463,23 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
   color: #666666; cursor: pointer; transition: .2s;
 }
 .close-btn:hover { border-color: #dc2626; color: #dc2626; }
-.mermaid-wrap { display: flex; justify-content: flex-start; overflow-x: auto; padding: 8px 0; }
-.mermaid-wrap svg { max-width: none; height: auto; }
+.mermaid-wrap { display: flex; justify-content: center; overflow-x: auto; padding: 8px 0; }
+.mermaid-wrap svg {
+  max-width: none;
+  height: auto;
+  min-height: 560px;
+  width: auto;
+}
+/* 작은 다이어그램도 최소 노드 크기 유지 */
+.mermaid-wrap .node rect,
+.mermaid-wrap .node polygon,
+.mermaid-wrap .node circle,
+.mermaid-wrap .node ellipse,
+.mermaid-wrap .node path { stroke-width: 1.5px; }
+.mermaid-wrap .nodeLabel,
+.mermaid-wrap .edgeLabel { font-size: 15px !important; }
+.mermaid-wrap .cluster .nodeLabel,
+.mermaid-wrap .cluster-label .nodeLabel { font-size: 14px !important; }
 .no-diagram { text-align: center; padding: 40px; color: #999999; font-size: 13px; }
 .loading-diag { text-align: center; padding: 40px; color: #999999; font-size: 13px; }
 .loading-diag .spinner { width: 24px; height: 24px; border-width: 2px; }
@@ -477,7 +492,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 .split-metrics {
   width: 420px; flex-shrink: 0;
   padding: 0 0 0 0;
-  margin-left: 40px;
+  margin-left: 64px;
   align-self: flex-start;
   position: sticky;
   top: 24px;
@@ -773,7 +788,13 @@ mermaid.initialize({
     edgeLabelBackground: '#ffffff',
     fontSize: '18px'
   },
-  flowchart: { curve: 'linear', padding: 20 }
+  flowchart: {
+    curve: 'linear',
+    padding: 24,
+    nodeSpacing: 60,
+    rankSpacing: 70,
+    useMaxWidth: false
+  }
 });
 
 /* ── 상태 ── */
