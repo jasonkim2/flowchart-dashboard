@@ -18,12 +18,18 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 }
 .hdr-back {
   background: #ffffff; border: 1.5px solid #111111; color: #111111;
-  width: 48px; height: 48px; border-radius: 10px; cursor: pointer;
-  font-size: 22px; font-weight: 600; transition: .2s; display: none;
-  align-items: center; justify-content: center; padding: 0;
-  line-height: 1;
+  height: 44px; padding: 0 18px 0 14px;
+  border-radius: 22px; cursor: pointer;
+  font-size: 15px; font-weight: 700; transition: all .2s ease; display: none;
+  align-items: center; justify-content: center; gap: 8px;
+  letter-spacing: -.2px;
+  font-family: inherit;
 }
-.hdr-back:hover { background: #111111; color: #ffffff; transform: translateX(-2px); }
+.hdr-back-arrow { font-size: 18px; line-height: 1; display: inline-block; transition: transform .2s ease; }
+.hdr-back-label { line-height: 1; }
+.hdr-back:hover { background: #111111; color: #ffffff; }
+.hdr-back:hover .hdr-back-arrow { transform: translateX(-3px); }
+.hdr-back:active { transform: scale(0.97); }
 .hdr-title { font-size: 30px; font-weight: 800; letter-spacing: -.3px; }
 .hdr-sub { font-size: 18px; color: #333333; margin-top: 6px; font-weight: 600; }
 .hdr-sub:empty { display: none; }
@@ -52,6 +58,74 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
   animation: spin .7s linear infinite; margin: 0 auto 16px;
 }
 @keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── Top Progress Bar ── */
+.progress-bar {
+  position: fixed; top: 0; left: 0; right: 0;
+  height: 3px; background: transparent; z-index: 9999;
+  pointer-events: none;
+}
+.progress-bar::before {
+  content: ''; display: block; height: 100%;
+  background: linear-gradient(90deg, #2563eb 0%, #3b82f6 50%, #60a5fa 100%);
+  width: 0%; transition: width .3s ease-out, opacity .3s ease;
+  box-shadow: 0 0 8px rgba(37, 99, 235, .4);
+}
+.progress-bar.active::before { animation: progress-fake 2s ease-out forwards; opacity: 1; }
+.progress-bar.done::before { width: 100% !important; opacity: 0; transition: width .2s ease, opacity .4s ease .1s; }
+@keyframes progress-fake {
+  0%   { width: 0%; }
+  30%  { width: 45%; }
+  60%  { width: 70%; }
+  90%  { width: 88%; }
+  100% { width: 92%; }
+}
+
+/* ── Skeleton UI ── */
+.skeleton {
+  background: linear-gradient(90deg, #eeeeee 0%, #f5f5f5 50%, #eeeeee 100%);
+  background-size: 200% 100%; border-radius: 6px;
+  animation: shimmer 1.4s ease-in-out infinite;
+  display: block;
+}
+@keyframes shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+.sk-line   { height: 14px; margin: 8px 0; }
+.sk-line.w-40 { width: 40%; }
+.sk-line.w-60 { width: 60%; }
+.sk-line.w-80 { width: 80%; }
+.sk-line.w-100 { width: 100%; }
+.sk-title { height: 24px; width: 60%; margin: 0 0 12px; }
+
+/* 프로젝트 카드 스켈레톤 */
+.sk-card {
+  background: #ffffff; border: 1px solid #eeeeee; border-radius: 12px;
+  padding: 24px; min-height: 180px;
+}
+.sk-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px; padding: 0 0 24px;
+}
+.sk-section-label {
+  height: 20px; width: 180px; margin-bottom: 24px;
+}
+
+/* 상세 페이지 스켈레톤 */
+.sk-detail { padding: 32px; display: flex; gap: 48px; align-items: flex-start; }
+.sk-detail-diagram {
+  flex: 1; min-height: 360px;
+  background: linear-gradient(90deg, #eeeeee 0%, #f5f5f5 50%, #eeeeee 100%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s ease-in-out infinite;
+  border-radius: 8px;
+}
+.sk-detail-metrics { width: 360px; display: flex; flex-direction: column; gap: 28px; }
+.sk-metric-card {
+  background: #ffffff; border: 1px solid #eeeeee; border-radius: 10px;
+  padding: 20px; min-height: 92px;
+}
 
 /* ── PROJECTS VIEW ── */
 #view-projects { padding: 40px 32px; max-width: 1200px; margin: 0 auto; }
@@ -248,9 +322,12 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 </head>
 <body>
 
+<!-- TOP PROGRESS BAR -->
+<div class="progress-bar" id="progress-bar"></div>
+
 <!-- HEADER -->
 <header class="hdr">
-  <button class="hdr-back" id="btn-back" onclick="showProjects()" title="프로젝트 목록으로">←</button>
+  <button class="hdr-back" id="btn-back" onclick="showProjects()" title="프로젝트 목록으로"><span class="hdr-back-arrow">←</span><span class="hdr-back-label">목록</span></button>
   <div>
     <div class="hdr-title" id="hdr-title">2026년 시즌1 프로젝트</div>
     <div class="hdr-sub" id="hdr-sub">PM 김재영</div>
@@ -260,9 +337,13 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 <!-- VIEW: PROJECTS -->
 <div id="view-projects">
   <div id="projects-container">
-    <div class="state-box">
-      <div class="spinner"></div>
-      <h2>불러오는 중...</h2>
+    <!-- 초기 스켈레톤 (JS가 교체) -->
+    <div class="section-label skeleton sk-section-label"></div>
+    <div class="sk-grid">
+      <div class="sk-card"><span class="skeleton sk-title"></span><span class="skeleton sk-line w-100"></span><span class="skeleton sk-line w-80"></span></div>
+      <div class="sk-card"><span class="skeleton sk-title"></span><span class="skeleton sk-line w-100"></span><span class="skeleton sk-line w-60"></span></div>
+      <div class="sk-card"><span class="skeleton sk-title"></span><span class="skeleton sk-line w-100"></span><span class="skeleton sk-line w-80"></span></div>
+      <div class="sk-card"><span class="skeleton sk-title"></span><span class="skeleton sk-line w-100"></span><span class="skeleton sk-line w-60"></span></div>
     </div>
   </div>
 </div>
@@ -300,13 +381,56 @@ let activeStep = null;
 let renderedDiagrams = {};
 let stepsData = {};
 
+/* ── Progress Bar 헬퍼 ── */
+function startProgress() {
+  const bar = document.getElementById('progress-bar');
+  bar.classList.remove('done');
+  // reflow를 강제해 애니메이션 재시작
+  void bar.offsetWidth;
+  bar.classList.add('active');
+}
+function endProgress() {
+  const bar = document.getElementById('progress-bar');
+  bar.classList.add('done');
+  setTimeout(() => {
+    bar.classList.remove('active', 'done');
+  }, 500);
+}
+
+/* ── 상세 페이지 스켈레톤 HTML ── */
+function detailSkeletonHTML() {
+  return `
+    <div class="sk-detail">
+      <div class="sk-detail-diagram"></div>
+      <div class="sk-detail-metrics">
+        <div class="sk-metric-card">
+          <span class="skeleton sk-line w-40"></span>
+          <span class="skeleton sk-line w-100" style="height:32px;margin-top:12px"></span>
+          <span class="skeleton sk-line w-80"></span>
+        </div>
+        <div class="sk-metric-card">
+          <span class="skeleton sk-line w-40"></span>
+          <span class="skeleton sk-line w-100" style="height:32px;margin-top:12px"></span>
+          <span class="skeleton sk-line w-80"></span>
+        </div>
+        <div class="sk-metric-card">
+          <span class="skeleton sk-line w-40"></span>
+          <span class="skeleton sk-line w-100" style="height:32px;margin-top:12px"></span>
+          <span class="skeleton sk-line w-80"></span>
+        </div>
+      </div>
+    </div>`;
+}
+
 /* ── 프로젝트 목록 로드 ── */
 async function init() {
+  startProgress();
   const { data, error } = await sb.from('projects').select('*').order('id');
 
   const container = document.getElementById('projects-container');
 
   if (error) {
+    endProgress();
     container.innerHTML = `
       <div class="state-box">
         <div class="ico">⚠️</div>
@@ -317,6 +441,7 @@ async function init() {
   }
 
   if (!data || data.length === 0) {
+    endProgress();
     container.innerHTML = `
       <div class="state-box">
         <div class="ico">📭</div>
@@ -382,10 +507,14 @@ async function init() {
       </div>`;
 
   container.innerHTML = collabSection + mainSection;
+  endProgress();
 }
 
 /* ── 단계 목록 로드 ── */
 async function showSteps(projectId, name, keyContribution = '') {
+  // 프로그레스 바 시작
+  startProgress();
+
   // 뷰 전환
   document.getElementById('view-projects').style.display = 'none';
   document.getElementById('view-steps').style.display = 'block';
@@ -401,12 +530,12 @@ async function showSteps(projectId, name, keyContribution = '') {
     hdrSub.style.display = 'none';
   }
 
-  // 초기화
+  // 초기화 — 스켈레톤 UI 표시
   activeStep = null;
   renderedDiagrams = {};
   stepsData = {};
-  document.getElementById('steps-row').innerHTML = '<div class="state-box" style="padding:40px"><div class="spinner"></div></div>';
-  document.getElementById('panels-area').innerHTML = '';
+  document.getElementById('steps-row').innerHTML = '';
+  document.getElementById('panels-area').innerHTML = detailSkeletonHTML();
 
   const { data, error } = await sb
     .from('steps').select('*')
@@ -414,6 +543,8 @@ async function showSteps(projectId, name, keyContribution = '') {
     .order('step_number');
 
   if (error || !data || data.length === 0) {
+    endProgress();
+    document.getElementById('panels-area').innerHTML = '';
     document.getElementById('steps-row').innerHTML = `
       <div class="state-box">
         <div class="ico">📋</div>
@@ -479,6 +610,9 @@ async function showSteps(projectId, name, keyContribution = '') {
   if (data.length === 1) {
     toggleDiagram(data[0].id);
   }
+
+  // 프로그레스 바 종료
+  endProgress();
 }
 
 /* ── 다이어그램 토글 ── */
