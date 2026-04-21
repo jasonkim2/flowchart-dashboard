@@ -13,7 +13,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 /* ── HEADER ── */
 .hdr {
   background: #ffffff; color: #111111;
-  padding: 20px 32px; display: flex; align-items: center; gap: 16px;
+  padding: 28px 40px; display: flex; align-items: center; gap: 16px;
   border-bottom: 2px solid #111111;
 }
 .hdr-back {
@@ -42,10 +42,10 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 @keyframes spin { to { transform: rotate(360deg); } }
 
 /* ── PROJECTS VIEW ── */
-#view-projects { padding: 32px; max-width: 1100px; margin: 0 auto; }
+#view-projects { padding: 40px 32px; max-width: 1200px; margin: 0 auto; }
 .section-label {
   font-size: 20px; font-weight: 700; letter-spacing: 1px;
-  text-transform: uppercase; color: #000000; margin-bottom: 20px;
+  text-transform: uppercase; color: #000000; margin-bottom: 24px;
 }
 .section-label-pm {
   display: inline-block;
@@ -65,33 +65,40 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 .projects-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 1px; background: #e0e0e0; border: 1px solid #e0e0e0;
+  gap: 16px;
 }
 .project-card {
-  background: #ffffff; padding: 32px 28px 44px;
-  cursor: pointer; transition: background .15s;
+  background: #ffffff; padding: 28px 28px 32px;
+  cursor: pointer; transition: background .15s, box-shadow .15s, transform .15s;
   position: relative;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
 }
-.project-card:hover { background: #f7f9ff; }
+.project-card:hover {
+  background: #fafbff;
+  box-shadow: 0 4px 16px rgba(37, 99, 235, 0.08);
+  transform: translateY(-2px);
+  border-color: #c7d4ff;
+}
 .project-card:hover .pc-name { color: #2563eb; }
 .pc-icon { display: none; }
 .pc-num {
-  font-size: 12px; font-weight: 700; letter-spacing: 1.5px;
-  text-transform: uppercase; color: #999999; margin-bottom: 12px;
+  font-size: 11px; font-weight: 700; letter-spacing: 1.5px;
+  text-transform: uppercase; color: #9ca3af; margin-bottom: 12px;
 }
-.pc-name { font-size: 20px; font-weight: 800; color: #111111; margin-bottom: 8px; transition: color .15s; }
+.pc-name { font-size: 20px; font-weight: 800; color: #111111; margin-bottom: 12px; transition: color .15s; line-height: 1.3; }
 .pc-pm {
   font-size: 12px; font-weight: 700; letter-spacing: .5px;
-  color: #2563eb; margin-bottom: 10px;
+  color: #2563eb; margin-bottom: 20px;
   display: inline-block;
   padding: 3px 10px;
   background: #eef4ff;
   border-radius: 4px;
 }
-.pc-desc { font-size: 14px; color: #888888; line-height: 1.7; }
+.pc-desc { font-size: 14px; color: #6b7280; line-height: 1.6; }
 .pc-arrow {
   position: absolute; bottom: 20px; right: 24px;
-  font-size: 26px; font-weight: 300; color: #cccccc; transition: .2s;
+  font-size: 22px; font-weight: 300; color: #d1d5db; transition: .2s;
 }
 .project-card:hover .pc-arrow { color: #2563eb; transform: translateX(3px); }
 
@@ -99,24 +106,24 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 .empty-section {
   border: 1.5px dashed #d4d4d4;
   background: #fafafa;
-  padding: 48px 24px;
+  padding: 56px 24px;
   text-align: center;
-  border-radius: 8px;
+  border-radius: 10px;
 }
 .empty-section-ico {
-  font-size: 36px;
-  margin-bottom: 12px;
+  font-size: 40px;
+  margin-bottom: 16px;
   opacity: 0.5;
 }
 .empty-section-msg {
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 700;
-  color: #666666;
-  margin-bottom: 6px;
+  color: #6b7280;
+  margin-bottom: 8px;
 }
 .empty-section-sub {
   font-size: 13px;
-  color: #999999;
+  color: #9ca3af;
 }
 
 /* ── STEPS VIEW ── */
@@ -352,10 +359,10 @@ async function init() {
   // 메인 프로젝트 섹션
   const mainSection = mainProjects.length > 0
     ? `
-      <p class="section-label" style="margin-top:48px;">메인 프로젝트 (${mainProjects.length})${mainPmLabel}</p>
+      <p class="section-label" style="margin-top:64px;">메인 프로젝트 (${mainProjects.length})${mainPmLabel}</p>
       <div class="projects-grid">${mainProjects.map((p, i) => renderCard(p, i, hidePmInMainCards)).join('')}</div>`
     : `
-      <p class="section-label" style="margin-top:48px;">메인 프로젝트 (0)</p>
+      <p class="section-label" style="margin-top:64px;">메인 프로젝트 (0)</p>
       <div class="empty-section">
         <div class="empty-section-ico">🚧</div>
         <div class="empty-section-msg">준비 중입니다</div>
