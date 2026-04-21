@@ -404,6 +404,106 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
   .images-grid { grid-template-columns: 1fr; }
 }
 
+/* ── 협업자 섹션 ── */
+.collaborators-section {
+  margin-top: 40px;
+  padding-top: 32px;
+  border-top: 1.5px dashed #d1d9e6;
+}
+.collaborators-section-label {
+  font-size: 18px; font-weight: 800; letter-spacing: .3px;
+  color: #2563eb; margin-bottom: 20px;
+}
+.collaborators-list {
+  display: flex; flex-direction: column; gap: 16px;
+}
+.collaborator-card {
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  background: #fafbfc;
+  overflow: hidden;
+}
+.collaborator-header {
+  padding: 14px 20px;
+  background: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+  display: flex; align-items: baseline; gap: 12px;
+}
+.collaborator-name {
+  font-size: 16px; font-weight: 800; color: #111111;
+}
+.collaborator-role {
+  font-size: 13px; font-weight: 600; color: #2563eb;
+}
+.collaborator-body {
+  padding: 16px 20px;
+  font-size: 13px; color: #333333; line-height: 1.7;
+}
+.collab-section + .collab-section {
+  margin-top: 14px;
+}
+.collab-section-label {
+  font-weight: 700; color: #2563eb;
+  font-size: 12px; letter-spacing: .3px;
+  margin-bottom: 6px;
+}
+.collab-section-items {
+  padding-left: 0;
+  list-style: none;
+  margin: 0;
+}
+.collab-section-items li {
+  position: relative;
+  padding-left: 14px;
+  margin-bottom: 4px;
+  white-space: pre-wrap;
+}
+.collab-section-items li::before {
+  content: "·";
+  position: absolute;
+  left: 2px;
+  font-weight: 700;
+  color: #2563eb;
+}
+/* 임동근 스타일: 색상 있는 박스 섹션 */
+.collab-section.boxed {
+  border-radius: 6px;
+  padding: 10px 14px;
+}
+.collab-section.boxed .collab-section-label {
+  margin-bottom: 4px;
+}
+/* 이재원 스타일: 3열 그리드 섹션 */
+.collab-body-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 14px;
+}
+.collab-body-grid .collab-section {
+  margin-top: 0 !important;
+}
+.collab-body-grid .collab-section-items li {
+  font-size: 12px;
+  line-height: 1.6;
+}
+.collab-footer {
+  margin-top: 14px;
+  background: #eff6ff;
+  border: 1px solid #2563eb;
+  border-radius: 6px;
+  padding: 10px 14px;
+  font-size: 12px;
+  color: #1e3a8a;
+  line-height: 1.6;
+}
+.collab-footer-label {
+  font-weight: 700; margin-bottom: 4px;
+}
+/* 모바일: 3열 → 세로 스택 */
+@media (max-width: 720px) {
+  .collab-body-grid { grid-template-columns: 1fr; }
+}
+
 /* ── FLAT panel (no border/popup look for single-step) ── */
 .diagram-panel.flat { border: none; margin: 0; }
 .diagram-panel.flat .panel-inner {
@@ -673,6 +773,8 @@ async function showSteps(projectId, name, keyContribution = '') {
       ? renderMetrics(step.metrics) : '';
     const imagesHTML = (step.metrics && Array.isArray(step.metrics))
       ? renderImages(step.metrics) : '';
+    const collaboratorsHTML = (step.metrics && Array.isArray(step.metrics))
+      ? renderCollaborators(step.metrics) : '';
     const hasMetrics = metricsHTML.trim().length > 0;
     const diagramContent = step.mermaid_diagram
       ? '<div class="loading-diag"><div class="spinner"></div><p>렌더링 중...</p></div>'
@@ -684,9 +786,11 @@ async function showSteps(projectId, name, keyContribution = '') {
            </div>
            <div class="split-metrics">${metricsHTML}</div>
          </div>
-         ${imagesHTML}`
+         ${imagesHTML}
+         ${collaboratorsHTML}`
       : `<div id="diagram-${step.id}" class="mermaid-wrap">${diagramContent}</div>
-         ${imagesHTML}`;
+         ${imagesHTML}
+         ${collaboratorsHTML}`;
 
     return `
     <div id="panel-${step.id}" class="diagram-panel${isSingle ? ' flat' : ''}">
@@ -780,8 +884,8 @@ function renderMetrics(metrics) {
     </div>`).join('');
 
   const scoreHTML = metrics
-    // summary/images 등 비-지표 타입 제외
-    .filter(m => m.type !== 'summary' && m.type !== 'images')
+    // summary/images/collaborators 등 비-지표 타입 제외
+    .filter(m => m.type !== 'summary' && m.type !== 'images' && m.type !== 'collaborators')
     // 핵심 성과만 필터링: 점수가 '-', null, undefined, '', 0이면 제외
     .filter(m => {
       if (m.score === '-' || m.score === null || m.score === undefined || m.score === '') return false;
@@ -836,6 +940,63 @@ function renderImages(metrics) {
     <div class="images-section">
       <div class="images-section-label">${esc(label)}</div>
       <div class="images-grid">${itemsHTML}</div>
+    </div>`;
+}
+
+/* ── 협업자 섹션 렌더 (다이어그램 하단 풀폭 영역) ── */
+function renderCollaborators(metrics) {
+  if (!Array.isArray(metrics)) return '';
+  const block = metrics.find(m => m.type === 'collaborators' && Array.isArray(m.items) && m.items.length > 0);
+  if (!block) return '';
+
+  // 단일 섹션 렌더 헬퍼
+  function renderSection(section) {
+    const items = Array.isArray(section.items) ? section.items : [];
+    const itemsHTML = items.map(it => `<li>${it}</li>`).join('');
+    const bgStyle = section.color
+      ? ` style="background:${section.color}"`
+      : '';
+    const boxedClass = section.color ? ' boxed' : '';
+    const labelHTML = section.label
+      ? `<div class="collab-section-label">${esc(section.label)}</div>`
+      : '';
+    return `
+      <div class="collab-section${boxedClass}"${bgStyle}>
+        ${labelHTML}
+        <ul class="collab-section-items">${itemsHTML}</ul>
+      </div>`;
+  }
+
+  const cardsHTML = block.items.map(person => {
+    const sections = Array.isArray(person.sections) ? person.sections : [];
+    // layout: "grid"이면 3열 그리드, 아니면 세로 스택
+    const bodyClass = person.layout === 'grid' ? 'collab-body-grid' : '';
+    const sectionsHTML = sections.map(renderSection).join('');
+    const footerHTML = person.footer
+      ? `<div class="collab-footer">
+           <div class="collab-footer-label">${esc(person.footerLabel || '유저 흐름')}</div>
+           <div>${person.footer}</div>
+         </div>`
+      : '';
+
+    return `
+      <div class="collaborator-card">
+        <div class="collaborator-header">
+          <div class="collaborator-name">${esc(person.name || '')}</div>
+          ${person.role ? `<div class="collaborator-role">${esc(person.role)}</div>` : ''}
+        </div>
+        <div class="collaborator-body">
+          ${bodyClass ? `<div class="${bodyClass}">${sectionsHTML}</div>` : sectionsHTML}
+          ${footerHTML}
+        </div>
+      </div>`;
+  }).join('');
+
+  const label = block.label || '협업자';
+  return `
+    <div class="collaborators-section">
+      <div class="collaborators-section-label">${esc(label)}</div>
+      <div class="collaborators-list">${cardsHTML}</div>
     </div>`;
 }
 
