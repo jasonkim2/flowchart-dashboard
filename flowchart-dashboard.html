@@ -48,10 +48,19 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
   text-transform: uppercase; color: #999999; margin-bottom: 20px;
 }
 .section-label-pm {
-  color: #2563eb;
+  display: inline-block;
+  font-size: 12px;
   font-weight: 700;
   letter-spacing: .5px;
-  margin-left: 4px;
+  color: #2563eb;
+  background: #eef4ff;
+  padding: 3px 10px;
+  border-radius: 4px;
+  margin-left: 8px;
+  text-transform: none;
+  vertical-align: middle;
+  position: relative;
+  top: -1px;
 }
 .projects-grid {
   display: grid;
@@ -324,7 +333,7 @@ async function init() {
   // 메인 프로젝트의 PM을 대표로 추출 (모두 같은 경우 레이블에 한 번만 표시)
   const mainPMs = [...new Set(mainProjects.map(p => p.pm_name).filter(Boolean))];
   const mainPmLabel = (mainPMs.length === 1)
-    ? ` <span class="section-label-pm">— PM ${mainPMs[0]}</span>`
+    ? `<span class="section-label-pm">PM ${mainPMs[0]}</span>`
     : '';
   const hidePmInMainCards = (mainPMs.length === 1);
 
