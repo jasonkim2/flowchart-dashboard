@@ -415,7 +415,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
   color: #2563eb; margin-bottom: 20px;
 }
 .collaborators-list {
-  display: flex; flex-direction: column; gap: 16px;
+  display: flex; flex-direction: column; gap: 18px;
 }
 .collaborator-card {
   border: 1px solid #e5e7eb;
@@ -424,28 +424,28 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
   overflow: hidden;
 }
 .collaborator-header {
-  padding: 14px 20px;
+  padding: 16px 22px;
   background: #ffffff;
   border-bottom: 1px solid #e5e7eb;
-  display: flex; align-items: baseline; gap: 12px;
+  display: flex; align-items: baseline; gap: 14px;
 }
 .collaborator-name {
-  font-size: 16px; font-weight: 800; color: #111111;
+  font-size: 20px; font-weight: 800; color: #111111; letter-spacing: -.2px;
 }
 .collaborator-role {
-  font-size: 13px; font-weight: 600; color: #2563eb;
+  font-size: 15px; font-weight: 700; color: #2563eb;
 }
 .collaborator-body {
-  padding: 16px 20px;
-  font-size: 13px; color: #333333; line-height: 1.7;
+  padding: 18px 22px 20px;
+  font-size: 15px; color: #222222; line-height: 1.75;
 }
 .collab-section + .collab-section {
-  margin-top: 14px;
+  margin-top: 16px;
 }
 .collab-section-label {
-  font-weight: 700; color: #2563eb;
-  font-size: 12px; letter-spacing: .3px;
-  margin-bottom: 6px;
+  font-weight: 800; color: #2563eb;
+  font-size: 14px; letter-spacing: .3px;
+  margin-bottom: 8px;
 }
 .collab-section-items {
   padding-left: 0;
@@ -454,9 +454,11 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 }
 .collab-section-items li {
   position: relative;
-  padding-left: 14px;
-  margin-bottom: 4px;
+  padding-left: 16px;
+  margin-bottom: 6px;
   white-space: pre-wrap;
+  font-size: 15px;
+  line-height: 1.7;
 }
 .collab-section-items li::before {
   content: "·";
@@ -464,40 +466,46 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
   left: 2px;
   font-weight: 700;
   color: #2563eb;
+  font-size: 18px;
+  line-height: 1.4;
 }
 /* 임동근 스타일: 색상 있는 박스 섹션 */
 .collab-section.boxed {
-  border-radius: 6px;
-  padding: 10px 14px;
+  border-radius: 8px;
+  padding: 12px 16px;
 }
 .collab-section.boxed .collab-section-label {
-  margin-bottom: 4px;
+  margin-bottom: 6px;
 }
 /* 이재원 스타일: 3열 그리드 섹션 */
 .collab-body-grid {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  gap: 14px;
+  gap: 16px;
 }
 .collab-body-grid .collab-section {
   margin-top: 0 !important;
 }
 .collab-body-grid .collab-section-items li {
-  font-size: 12px;
-  line-height: 1.6;
+  font-size: 14px;
+  line-height: 1.65;
+}
+.collab-body-grid .collab-section-label {
+  font-size: 14px;
+  margin-bottom: 8px;
 }
 .collab-footer {
-  margin-top: 14px;
+  margin-top: 16px;
   background: #eff6ff;
   border: 1px solid #2563eb;
-  border-radius: 6px;
-  padding: 10px 14px;
-  font-size: 12px;
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-size: 14px;
   color: #1e3a8a;
-  line-height: 1.6;
+  line-height: 1.7;
 }
 .collab-footer-label {
-  font-weight: 700; margin-bottom: 4px;
+  font-weight: 800; margin-bottom: 6px; font-size: 14px; letter-spacing: .3px;
 }
 /* 모바일: 3열 → 세로 스택 */
 @media (max-width: 720px) {
