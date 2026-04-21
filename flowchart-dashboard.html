@@ -288,7 +288,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
   max-height: calc(100vh - 48px);
   overflow-y: auto;
   display: flex; flex-direction: column;
-  gap: 28px;
+  gap: 20px;
 }
 /* sticky 스크롤바 숨김 처리 (발표용 깔끔 유지) */
 .split-metrics::-webkit-scrollbar { width: 0; background: transparent; }
@@ -303,31 +303,48 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
     max-height: none; overflow-y: visible;
   }
 }
+
+/* 프로젝트 요약 박스 (메인 프로젝트 전용) */
+.metric-summary {
+  background: #fffbe6;
+  border: 1.5px solid #f0d878;
+  border-radius: 12px;
+  padding: 16px 20px 18px;
+}
+.metric-summary-label {
+  font-size: 12px; font-weight: 800; letter-spacing: 1.2px;
+  color: #b8860b; margin-bottom: 8px;
+  text-transform: uppercase;
+}
+.metric-summary-text {
+  font-size: 14px; font-weight: 500; color: #444;
+  line-height: 1.6; letter-spacing: -.1px;
+}
 .metric-item {
   background: #f7f9ff;
   border: 1.5px solid #e0e8ff;
   border-radius: 12px;
-  padding: 24px 26px 22px;
+  padding: 18px 22px 16px;
 }
 .metric-label {
-  font-size: 24px; font-weight: 800; letter-spacing: .3px;
-  color: #2563eb; margin-bottom: 18px;
+  font-size: 20px; font-weight: 800; letter-spacing: .3px;
+  color: #2563eb; margin-bottom: 12px;
   white-space: nowrap;
 }
 .metric-bar-wrap {
-  background: #dde8ff; border-radius: 8px; height: 15px; overflow: hidden; margin-bottom: 14px;
+  background: #dde8ff; border-radius: 8px; height: 12px; overflow: hidden; margin-bottom: 10px;
 }
 .metric-bar {
   height: 100%; border-radius: 8px; background: #2563eb; transition: width .8s ease;
 }
 .metric-score {
-  font-size: 56px; font-weight: 900; color: #111111; letter-spacing: -2.5px; line-height: 1;
+  font-size: 44px; font-weight: 900; color: #111111; letter-spacing: -2px; line-height: 1;
 }
-.metric-score span { font-size: 27px; font-weight: 600; color: #999999; margin-left: 6px; }
+.metric-score span { font-size: 22px; font-weight: 600; color: #999999; margin-left: 6px; }
 .metric-caption {
-  font-size: 20px; font-weight: 600; color: #555555;
-  line-height: 1.5; margin-top: 16px;
-  padding-top: 16px; border-top: 1px dashed #cfd9f5;
+  font-size: 14px; font-weight: 600; color: #555555;
+  line-height: 1.5; margin-top: 12px;
+  padding-top: 12px; border-top: 1px dashed #cfd9f5;
 }
 
 /* ── FLAT panel (no border/popup look for single-step) ── */
@@ -693,7 +710,17 @@ function showProjects() {
 
 /* ── 메트릭 렌더 ── */
 function renderMetrics(metrics) {
-  return metrics
+  // summary 타입 요소는 별도로 분리해서 맨 위에 렌더
+  const summaryItems = metrics.filter(m => m.type === 'summary' && m.text);
+  const summaryHTML = summaryItems.map(s => `
+    <div class="metric-summary">
+      <div class="metric-summary-label">프로젝트 요약</div>
+      <div class="metric-summary-text">${s.text}</div>
+    </div>`).join('');
+
+  const scoreHTML = metrics
+    // summary가 아닌 실제 성과 지표만 필터
+    .filter(m => m.type !== 'summary')
     // 핵심 성과만 필터링: 점수가 '-', null, undefined, '', 0이면 제외
     .filter(m => {
       if (m.score === '-' || m.score === null || m.score === undefined || m.score === '') return false;
@@ -717,6 +744,8 @@ function renderMetrics(metrics) {
           ${captionHTML}
         </div>`;
     }).join('');
+
+  return summaryHTML + scoreHTML;
 }
 
 /* ── 유틸 ── */
