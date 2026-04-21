@@ -475,16 +475,16 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 }
 .split-diagram { flex: 1 1 0; min-width: 0; }
 .split-metrics {
-  width: 360px; flex-shrink: 0;
+  width: 420px; flex-shrink: 0;
   padding: 0 0 0 0;
-  margin-left: 48px;
+  margin-left: 40px;
   align-self: flex-start;
   position: sticky;
   top: 24px;
   max-height: calc(100vh - 48px);
   overflow-y: auto;
   display: flex; flex-direction: column;
-  gap: 20px;
+  gap: 22px;
 }
 /* sticky 스크롤바 숨김 처리 (발표용 깔끔 유지) */
 .split-metrics::-webkit-scrollbar { width: 0; background: transparent; }
@@ -505,49 +505,49 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
   background: #fffbe6;
   border: 1.5px solid #f0d878;
   border-radius: 12px;
-  padding: 16px 20px 18px;
+  padding: 22px 24px 24px;
 }
 .metric-summary-label {
-  font-size: 12px; font-weight: 800; letter-spacing: 1.2px;
-  color: #b8860b; margin-bottom: 10px;
-  text-transform: uppercase;
+  font-size: 14px; font-weight: 800; letter-spacing: .5px;
+  color: #b8860b; margin-bottom: 14px;
+  text-transform: none;
 }
 .metric-summary-text {
-  font-size: 14px; font-weight: 500; color: #444;
-  line-height: 1.7; letter-spacing: -.1px;
+  font-size: 16px; font-weight: 500; color: #222;
+  line-height: 1.75; letter-spacing: -.1px;
   white-space: pre-line;
 }
 /* 요약 박스 내부 라벨 스타일 (라벨-내용형 포맷 지원) */
 .metric-summary-text b,
 .metric-summary-text strong {
   color: #111; font-weight: 800;
-  display: inline-block; min-width: 60px;
+  display: inline-block; min-width: 76px;
 }
 .metric-item {
   background: #f7f9ff;
   border: 1.5px solid #e0e8ff;
   border-radius: 12px;
-  padding: 18px 22px 16px;
+  padding: 22px 26px 20px;
 }
 .metric-label {
-  font-size: 20px; font-weight: 800; letter-spacing: .3px;
-  color: #2563eb; margin-bottom: 12px;
+  font-size: 22px; font-weight: 800; letter-spacing: .3px;
+  color: #2563eb; margin-bottom: 14px;
   white-space: nowrap;
 }
 .metric-bar-wrap {
-  background: #dde8ff; border-radius: 8px; height: 12px; overflow: hidden; margin-bottom: 10px;
+  background: #dde8ff; border-radius: 8px; height: 14px; overflow: hidden; margin-bottom: 12px;
 }
 .metric-bar {
   height: 100%; border-radius: 8px; background: #2563eb; transition: width .8s ease;
 }
 .metric-score {
-  font-size: 44px; font-weight: 900; color: #111111; letter-spacing: -2px; line-height: 1;
+  font-size: 50px; font-weight: 900; color: #111111; letter-spacing: -2px; line-height: 1;
 }
-.metric-score span { font-size: 22px; font-weight: 600; color: #999999; margin-left: 6px; }
+.metric-score span { font-size: 24px; font-weight: 600; color: #999999; margin-left: 6px; }
 .metric-caption {
-  font-size: 14px; font-weight: 600; color: #555555;
-  line-height: 1.5; margin-top: 12px;
-  padding-top: 12px; border-top: 1px dashed #cfd9f5;
+  font-size: 15px; font-weight: 600; color: #333333;
+  line-height: 1.6; margin-top: 14px;
+  padding-top: 14px; border-top: 1px dashed #cfd9f5;
 }
 
 /* ── 이미지 섹션 (다이어그램 하단, 50:50 가로 배치) ── */
