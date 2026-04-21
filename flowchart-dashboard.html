@@ -30,6 +30,36 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 .hdr-back:hover { background: #111111; color: #ffffff; }
 .hdr-back:hover .hdr-back-arrow { transform: translateX(-3px); }
 .hdr-back:active { transform: scale(0.97); }
+.hdr-text {
+  flex: 1;
+  min-width: 0;
+}
+.hdr-pm {
+  flex-shrink: 0;
+  text-align: right;
+  padding-left: 20px;
+}
+.hdr-pm:empty { display: none; }
+.hdr-pm-label {
+  font-size: 11px;
+  color: #9ca3af;
+  letter-spacing: 2px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.hdr-pm-name {
+  font-size: 26px;
+  font-weight: 800;
+  color: #111111;
+  letter-spacing: -.5px;
+  line-height: 1;
+}
+/* 모바일: PM 블록 세로 스택 */
+@media (max-width: 720px) {
+  .hdr { flex-wrap: wrap; }
+  .hdr-pm { padding-left: 0; margin-top: 12px; text-align: left; width: 100%; }
+}
+
 .hdr-title { font-size: 30px; font-weight: 800; letter-spacing: -.3px; line-height: 1.25; }
 .hdr-sub { font-size: 18px; color: #333333; margin-top: 14px; font-weight: 600; line-height: 1.5; }
 .hdr-sub:empty { display: none; }
@@ -656,10 +686,14 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 <!-- HEADER -->
 <header class="hdr">
   <button class="hdr-back" id="btn-back" onclick="showProjects()" title="프로젝트 목록으로"><span class="hdr-back-arrow">←</span><span class="hdr-back-label">목록</span></button>
-  <div>
+  <div class="hdr-text">
     <div class="hdr-title" id="hdr-title">2026년 시즌1 프로젝트</div>
-    <div class="hdr-sub" id="hdr-sub">PM 김재영</div>
+    <div class="hdr-sub" id="hdr-sub"></div>
     <div class="hdr-collab" id="hdr-collab"></div>
+  </div>
+  <div class="hdr-pm" id="hdr-pm">
+    <div class="hdr-pm-label">PM</div>
+    <div class="hdr-pm-name">김재영</div>
   </div>
 </header>
 
@@ -829,7 +863,7 @@ async function init() {
     }
 
     return `
-      <div class="${cardClass}" onclick="showSteps(${p.id},'${esc(p.name)}','${keyContrib}')">
+      <div class="${cardClass}" onclick="showSteps(${p.id},'${esc(p.name)}','${keyContrib}',${isMain ? 'true' : 'false'},'${esc(p.pm_name || '')}')">
         <div class="pc-num">PROJECT ${String(i+1).padStart(2,'0')}</div>
         <div class="pc-name">${p.name}</div>
         ${pmHTML}
@@ -839,17 +873,30 @@ async function init() {
       </div>`;
   };
 
-  // 메인 프로젝트의 PM을 대표로 추출 (모두 같은 경우 레이블에 한 번만 표시)
+  // 메인 프로젝트의 PM을 대표로 추출 (모두 같은 경우 우측 헤더 블록에 표시)
   const mainPMs = [...new Set(mainProjects.map(p => p.pm_name).filter(Boolean))];
-  const mainPmLabel = (mainPMs.length === 1)
-    ? `<span class="section-label-pm">PM ${mainPMs[0]}</span>`
-    : '';
+  const dashboardPM = (mainPMs.length === 1) ? mainPMs[0] : '';
   const hidePmInMainCards = (mainPMs.length === 1);
+
+  // 우측 헤더 PM 블록 — 목록 화면에서 항상 표시
+  const hdrPm = document.getElementById('hdr-pm');
+  if (dashboardPM) {
+    hdrPm.innerHTML = `<div class="hdr-pm-label">PM</div><div class="hdr-pm-name">${esc(dashboardPM)}</div>`;
+    hdrPm.style.display = '';
+  } else {
+    hdrPm.innerHTML = '';
+    hdrPm.style.display = 'none';
+  }
+
+  // 기본 "PM 김재영" 서브라벨 제거 (우측 블록으로 대체)
+  const hdrSub = document.getElementById('hdr-sub');
+  hdrSub.innerHTML = '';
+  hdrSub.style.display = 'none';
 
   // 메인 프로젝트 섹션 (먼저 배치 — 순서 변경)
   const mainSection = mainProjects.length > 0
     ? `
-      <p class="section-label main-label">메인 프로젝트 (${mainProjects.length})${mainPmLabel}</p>
+      <p class="section-label main-label">메인 프로젝트 (${mainProjects.length})</p>
       <div class="projects-grid main-grid">${mainProjects.map((p, i) => renderCard(p, i, hidePmInMainCards, true)).join('')}</div>`
     : `
       <p class="section-label main-label">메인 프로젝트 (0)</p>
@@ -876,7 +923,7 @@ async function init() {
 }
 
 /* ── 단계 목록 로드 ── */
-async function showSteps(projectId, name, keyContribution = '') {
+async function showSteps(projectId, name, keyContribution = '', isMain = false, pmName = '') {
   // 프로그레스 바 시작
   startProgress();
 
@@ -885,6 +932,17 @@ async function showSteps(projectId, name, keyContribution = '') {
   document.getElementById('view-steps').style.display = 'block';
   document.getElementById('btn-back').style.display = 'flex';
   document.getElementById('hdr-title').textContent = name;
+
+  // 우측 헤더 PM 블록 — 메인 프로젝트 상세에서만 표시
+  const hdrPm = document.getElementById('hdr-pm');
+  if (isMain && pmName) {
+    hdrPm.innerHTML = `<div class="hdr-pm-label">PM</div><div class="hdr-pm-name">${esc(pmName)}</div>`;
+    hdrPm.style.display = '';
+  } else {
+    hdrPm.innerHTML = '';
+    hdrPm.style.display = 'none';
+  }
+
   // 핵심 기여 표시 (있으면 라벨 + 내용, 없으면 숨김)
   const hdrSub = document.getElementById('hdr-sub');
   if (keyContribution) {
@@ -1057,13 +1115,18 @@ function showProjects() {
   document.getElementById('view-projects').style.display = 'block';
   document.getElementById('btn-back').style.display = 'none';
   document.getElementById('hdr-title').textContent = '2026년 시즌1 프로젝트';
+  // hdr-sub 숨김 (PM은 우측 블록으로 대체)
   const hdrSub = document.getElementById('hdr-sub');
-  hdrSub.textContent = 'PM 김재영';
-  hdrSub.style.display = '';
+  hdrSub.innerHTML = '';
+  hdrSub.style.display = 'none';
   // 헤더 협업자 명단 초기화
   const hdrCollab = document.getElementById('hdr-collab');
   hdrCollab.innerHTML = '';
   hdrCollab.style.display = 'none';
+  // 우측 헤더 PM 블록 — 목록 화면에서 "김재영" 표시
+  const hdrPm = document.getElementById('hdr-pm');
+  hdrPm.innerHTML = `<div class="hdr-pm-label">PM</div><div class="hdr-pm-name">김재영</div>`;
+  hdrPm.style.display = '';
 }
 
 /* ── 메트릭 렌더 ── */
