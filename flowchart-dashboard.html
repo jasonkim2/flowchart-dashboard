@@ -629,9 +629,97 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
   width: 100%; padding: 48px 20px;
   color: #999999; font-size: 13px; text-align: center;
 }
+/* 이미지 클릭 시 커서 포인터 + hover 효과 */
+.image-item-img-wrap img {
+  cursor: zoom-in;
+  transition: opacity .2s ease;
+}
+.image-item-img-wrap img:hover {
+  opacity: .85;
+}
 /* 모바일: 세로 스택 */
 @media (max-width: 720px) {
   .images-grid { grid-template-columns: 1fr; }
+}
+
+/* ── 이미지 라이트박스 (팝업 확대) ── */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.88);
+  z-index: 10000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  cursor: zoom-out;
+  animation: lightbox-fade .18s ease-out;
+}
+.lightbox.active {
+  display: flex;
+}
+@keyframes lightbox-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.lightbox-content {
+  position: relative;
+  max-width: 95vw;
+  max-height: 95vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  cursor: default;
+}
+.lightbox-img {
+  max-width: 100%;
+  max-height: calc(95vh - 60px);
+  object-fit: contain;
+  border-radius: 4px;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.4);
+}
+.lightbox-caption {
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -.1px;
+  text-align: center;
+  max-width: 90vw;
+}
+.lightbox-close {
+  position: absolute;
+  top: 24px;
+  right: 32px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1.5px solid rgba(255, 255, 255, 0.5);
+  color: #ffffff;
+  font-size: 20px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all .15s ease;
+  font-family: inherit;
+  line-height: 1;
+}
+.lightbox-close:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: #ffffff;
+  transform: scale(1.05);
+}
+.lightbox-hint {
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 13px;
+  letter-spacing: .3px;
 }
 
 /* ── 협업자 섹션 ── */
@@ -786,6 +874,16 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 <div id="view-steps">
   <div class="steps-row" id="steps-row"></div>
   <div id="panels-area"></div>
+</div>
+
+<!-- 이미지 라이트박스 (팝업 확대) -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
+  <button class="lightbox-close" onclick="closeLightbox(event)" title="닫기 (ESC)">✕</button>
+  <div class="lightbox-content">
+    <img class="lightbox-img" id="lightbox-img" src="" alt="">
+    <div class="lightbox-caption" id="lightbox-caption"></div>
+  </div>
+  <div class="lightbox-hint">클릭하거나 ESC를 눌러 닫기</div>
 </div>
 
 <script>
@@ -1256,7 +1354,7 @@ function renderImages(metrics) {
     const url = item.url || '';
     const caption = item.caption || '';
     const imgHTML = url
-      ? `<img src="${esc(url)}" alt="${esc(caption)}" loading="lazy" onerror="this.style.display='none';this.parentElement.innerHTML='<div class=&quot;image-item-img-placeholder&quot;>이미지를 불러올 수 없습니다</div>'">`
+      ? `<img src="${esc(url)}" alt="${esc(caption)}" loading="lazy" onclick="openLightbox('${esc(url)}','${esc(caption)}')" onerror="this.style.display='none';this.parentElement.innerHTML='<div class=&quot;image-item-img-placeholder&quot;>이미지를 불러올 수 없습니다</div>'">`
       : `<div class="image-item-img-placeholder">이미지 URL이 없습니다</div>`;
     const captionHTML = caption
       ? `<div class="image-item-caption">${caption}</div>`
@@ -1338,6 +1436,40 @@ function renderCollaborators(metrics) {
 /* ── 유틸 ── */
 function esc(s) { return String(s || '').replace(/'/g,"&#39;").replace(/"/g,'&quot;'); }
 function escBt(s) { return String(s || '').replace(/`/g,'\\`').replace(/\$/g,'\\$'); }
+
+/* ── 이미지 라이트박스 ── */
+function openLightbox(url, caption) {
+  const lightbox = document.getElementById('lightbox');
+  const img = document.getElementById('lightbox-img');
+  const cap = document.getElementById('lightbox-caption');
+  img.src = url;
+  img.alt = caption || '';
+  cap.textContent = caption || '';
+  cap.style.display = caption ? 'block' : 'none';
+  lightbox.classList.add('active');
+  // 스크롤 잠금
+  document.body.style.overflow = 'hidden';
+}
+function closeLightbox(event) {
+  // 이미지나 caption 영역 클릭 시에는 닫지 않음
+  if (event && event.target && event.target.closest &&
+      event.target.closest('.lightbox-content') &&
+      !event.target.classList.contains('lightbox-close')) {
+    return;
+  }
+  const lightbox = document.getElementById('lightbox');
+  lightbox.classList.remove('active');
+  document.body.style.overflow = '';
+}
+// ESC 키로 닫기
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    const lightbox = document.getElementById('lightbox');
+    if (lightbox && lightbox.classList.contains('active')) {
+      closeLightbox();
+    }
+  }
+});
 
 /* ── 시작 ── */
 init();
