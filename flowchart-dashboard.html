@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>플로우차트 대시보드</title>
+<title>2026년 시즌1 프로젝트</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
 <style>
@@ -44,23 +44,23 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 /* ── PROJECTS VIEW ── */
 #view-projects { padding: 32px; max-width: 1100px; margin: 0 auto; }
 .section-label {
-  font-size: 13px; font-weight: 700; letter-spacing: 1.5px;
-  text-transform: uppercase; color: #999999; margin-bottom: 20px;
+  font-size: 20px; font-weight: 700; letter-spacing: 1px;
+  text-transform: uppercase; color: #000000; margin-bottom: 20px;
 }
 .section-label-pm {
   display: inline-block;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 700;
   letter-spacing: .5px;
   color: #2563eb;
   background: #eef4ff;
-  padding: 3px 10px;
-  border-radius: 4px;
-  margin-left: 8px;
+  padding: 4px 12px;
+  border-radius: 5px;
+  margin-left: 10px;
   text-transform: none;
   vertical-align: middle;
   position: relative;
-  top: -1px;
+  top: -2px;
 }
 .projects-grid {
   display: grid;
@@ -234,8 +234,8 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 <header class="hdr">
   <button class="hdr-back" id="btn-back" onclick="showProjects()">← 프로젝트 목록</button>
   <div>
-    <div class="hdr-title" id="hdr-title">플로우차트 대시보드</div>
-    <div class="hdr-sub" id="hdr-sub">프로젝트를 선택하면 상세 플로우를 확인할 수 있습니다</div>
+    <div class="hdr-title" id="hdr-title">2026년 시즌1 프로젝트</div>
+    <div class="hdr-sub" id="hdr-sub">PM 김재영</div>
   </div>
 </header>
 
@@ -503,8 +503,8 @@ function showProjects() {
   document.getElementById('view-steps').style.display = 'none';
   document.getElementById('view-projects').style.display = 'block';
   document.getElementById('btn-back').style.display = 'none';
-  document.getElementById('hdr-title').textContent = '플로우차트 대시보드';
-  document.getElementById('hdr-sub').textContent = '프로젝트를 선택하면 상세 플로우를 확인할 수 있습니다';
+  document.getElementById('hdr-title').textContent = '2026년 시즌1 프로젝트';
+  document.getElementById('hdr-sub').textContent = 'PM 김재영';
 }
 
 /* ── 메트릭 렌더 ── */
