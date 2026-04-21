@@ -515,6 +515,9 @@ async function showSteps(projectId, name, keyContribution = '') {
   // 프로그레스 바 시작
   startProgress();
 
+  // 스크롤 최상단으로 이동
+  window.scrollTo(0, 0);
+
   // 뷰 전환
   document.getElementById('view-projects').style.display = 'none';
   document.getElementById('view-steps').style.display = 'block';
@@ -661,6 +664,9 @@ function closeDiagram(stepId) {
 
 /* ── 프로젝트 목록으로 복귀 ── */
 function showProjects() {
+  // 스크롤 최상단으로 이동
+  window.scrollTo(0, 0);
+
   document.getElementById('view-steps').style.display = 'none';
   document.getElementById('view-projects').style.display = 'block';
   document.getElementById('btn-back').style.display = 'none';
