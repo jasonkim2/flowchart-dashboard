@@ -47,6 +47,12 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
   font-size: 13px; font-weight: 700; letter-spacing: 1.5px;
   text-transform: uppercase; color: #999999; margin-bottom: 20px;
 }
+.section-label-pm {
+  color: #2563eb;
+  font-weight: 700;
+  letter-spacing: .5px;
+  margin-left: 4px;
+}
 .projects-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
@@ -300,9 +306,9 @@ async function init() {
   const collabProjects = data.filter(p => (p.category || 'collaboration') === 'collaboration');
   const mainProjects   = data.filter(p => p.category === 'main');
 
-  // 프로젝트 카드 렌더 함수
-  const renderCard = (p, i) => {
-    const pmHTML = p.pm_name
+  // 프로젝트 카드 렌더 함수 (hidePm: true면 카드 내 PM 표시 생략)
+  const renderCard = (p, i, hidePm = false) => {
+    const pmHTML = (p.pm_name && !hidePm)
       ? `<div class="pc-pm">PM ${p.pm_name}</div>`
       : '';
     return `
@@ -315,11 +321,18 @@ async function init() {
       </div>`;
   };
 
+  // 메인 프로젝트의 PM을 대표로 추출 (모두 같은 경우 레이블에 한 번만 표시)
+  const mainPMs = [...new Set(mainProjects.map(p => p.pm_name).filter(Boolean))];
+  const mainPmLabel = (mainPMs.length === 1)
+    ? ` <span class="section-label-pm">— PM ${mainPMs[0]}</span>`
+    : '';
+  const hidePmInMainCards = (mainPMs.length === 1);
+
   // 협업 프로젝트 섹션
   const collabSection = collabProjects.length > 0
     ? `
       <p class="section-label">협업 프로젝트 (${collabProjects.length})</p>
-      <div class="projects-grid">${collabProjects.map(renderCard).join('')}</div>`
+      <div class="projects-grid">${collabProjects.map((p, i) => renderCard(p, i, false)).join('')}</div>`
     : `
       <p class="section-label">협업 프로젝트 (0)</p>
       <div class="empty-section">
@@ -330,8 +343,8 @@ async function init() {
   // 메인 프로젝트 섹션
   const mainSection = mainProjects.length > 0
     ? `
-      <p class="section-label" style="margin-top:48px;">메인 프로젝트 (${mainProjects.length})</p>
-      <div class="projects-grid">${mainProjects.map(renderCard).join('')}</div>`
+      <p class="section-label" style="margin-top:48px;">메인 프로젝트 (${mainProjects.length})${mainPmLabel}</p>
+      <div class="projects-grid">${mainProjects.map((p, i) => renderCard(p, i, hidePmInMainCards)).join('')}</div>`
     : `
       <p class="section-label" style="margin-top:48px;">메인 프로젝트 (0)</p>
       <div class="empty-section">
