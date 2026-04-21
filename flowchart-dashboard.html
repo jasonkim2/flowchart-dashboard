@@ -65,12 +65,44 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
   text-transform: uppercase; color: #999999; margin-bottom: 12px;
 }
 .pc-name { font-size: 20px; font-weight: 800; color: #111111; margin-bottom: 8px; transition: color .15s; }
+.pc-pm {
+  font-size: 12px; font-weight: 700; letter-spacing: .5px;
+  color: #2563eb; margin-bottom: 10px;
+  display: inline-block;
+  padding: 3px 10px;
+  background: #eef4ff;
+  border-radius: 4px;
+}
 .pc-desc { font-size: 14px; color: #888888; line-height: 1.7; }
 .pc-arrow {
   position: absolute; bottom: 20px; right: 24px;
   font-size: 26px; font-weight: 300; color: #cccccc; transition: .2s;
 }
 .project-card:hover .pc-arrow { color: #2563eb; transform: translateX(3px); }
+
+/* ── 빈 섹션 placeholder ── */
+.empty-section {
+  border: 1.5px dashed #d4d4d4;
+  background: #fafafa;
+  padding: 48px 24px;
+  text-align: center;
+  border-radius: 8px;
+}
+.empty-section-ico {
+  font-size: 36px;
+  margin-bottom: 12px;
+  opacity: 0.5;
+}
+.empty-section-msg {
+  font-size: 15px;
+  font-weight: 700;
+  color: #666666;
+  margin-bottom: 6px;
+}
+.empty-section-sub {
+  font-size: 13px;
+  color: #999999;
+}
 
 /* ── STEPS VIEW ── */
 #view-steps { display: none; padding: 32px; max-width: 1000px; margin: 0 auto; }
@@ -264,19 +296,51 @@ async function init() {
     return;
   }
 
-  const grid = data.map((p, i) => {
+  // 카테고리별 분류 (category 컬럼 없을 경우 모두 collaboration으로 간주)
+  const collabProjects = data.filter(p => (p.category || 'collaboration') === 'collaboration');
+  const mainProjects   = data.filter(p => p.category === 'main');
+
+  // 프로젝트 카드 렌더 함수
+  const renderCard = (p, i) => {
+    const pmHTML = p.pm_name
+      ? `<div class="pc-pm">PM ${p.pm_name}</div>`
+      : '';
     return `
       <div class="project-card" onclick="showSteps(${p.id},'${esc(p.name)}')">
         <div class="pc-num">PROJECT ${String(i+1).padStart(2,'0')}</div>
         <div class="pc-name">${p.name}</div>
+        ${pmHTML}
         <div class="pc-desc">${p.description || ''}</div>
         <div class="pc-arrow">›</div>
       </div>`;
-  }).join('');
+  };
 
-  container.innerHTML = `
-    <p class="section-label">전체 프로젝트 (${data.length})</p>
-    <div class="projects-grid">${grid}</div>`;
+  // 협업 프로젝트 섹션
+  const collabSection = collabProjects.length > 0
+    ? `
+      <p class="section-label">협업 프로젝트 (${collabProjects.length})</p>
+      <div class="projects-grid">${collabProjects.map(renderCard).join('')}</div>`
+    : `
+      <p class="section-label">협업 프로젝트 (0)</p>
+      <div class="empty-section">
+        <div class="empty-section-ico">🤝</div>
+        <div class="empty-section-msg">협업 프로젝트가 등록되어 있지 않습니다</div>
+      </div>`;
+
+  // 메인 프로젝트 섹션
+  const mainSection = mainProjects.length > 0
+    ? `
+      <p class="section-label" style="margin-top:48px;">메인 프로젝트 (${mainProjects.length})</p>
+      <div class="projects-grid">${mainProjects.map(renderCard).join('')}</div>`
+    : `
+      <p class="section-label" style="margin-top:48px;">메인 프로젝트 (0)</p>
+      <div class="empty-section">
+        <div class="empty-section-ico">🚧</div>
+        <div class="empty-section-msg">준비 중입니다</div>
+        <div class="empty-section-sub">곧 새로운 프로젝트가 추가될 예정입니다</div>
+      </div>`;
+
+  container.innerHTML = collabSection + mainSection;
 }
 
 /* ── 단계 목록 로드 ── */
