@@ -201,6 +201,122 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 }
 .project-card:hover .pc-arrow { color: #2563eb; transform: translateX(3px); }
 
+/* ── 메인 프로젝트 섹션 강조 (옵션 B) ── */
+.section-label.main-label {
+  font-size: 24px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid #b8ff00;
+  margin-bottom: 28px;
+}
+.projects-grid.main-grid {
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+.project-card.main-card {
+  background: #ffffff;
+  padding: 24px 26px 28px;
+  border: 1.5px solid #111111;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+.project-card.main-card:hover {
+  background: #ffffff;
+  border-color: #000000;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  transform: translateY(-3px);
+}
+.project-card.main-card .pc-name {
+  font-size: 22px;
+  margin-bottom: 10px;
+}
+.project-card.main-card .pc-desc {
+  font-size: 14px;
+  margin-bottom: 16px;
+}
+
+/* 메인 카드 내부 점수 미니바 */
+.pc-score-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 4px;
+}
+.pc-score-chip {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .2px;
+  padding: 4px 10px;
+  border-radius: 10px;
+  background: #eff6ff;
+  color: #1e3a8a;
+  white-space: nowrap;
+}
+.pc-score-chip .chip-label {
+  color: #6b7280;
+  font-weight: 600;
+  margin-right: 4px;
+}
+
+/* ── 협업 프로젝트 섹션 차분화 ── */
+.section-label.collab-label {
+  font-size: 14px;
+  color: #9ca3af;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  margin-top: 56px;
+  margin-bottom: 14px;
+}
+.projects-grid.collab-grid {
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+.project-card.collab-card {
+  background: #fafbfc;
+  padding: 16px 18px 20px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+}
+.project-card.collab-card:hover {
+  background: #ffffff;
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.06);
+  transform: translateY(-1px);
+  border-color: #c7d4ff;
+}
+.project-card.collab-card .pc-num {
+  font-size: 10px;
+  margin-bottom: 6px;
+}
+.project-card.collab-card .pc-name {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  line-height: 1.35;
+}
+.project-card.collab-card .pc-pm {
+  font-size: 11px;
+  padding: 2px 8px;
+  margin-bottom: 10px;
+}
+.project-card.collab-card .pc-desc {
+  font-size: 12px;
+  line-height: 1.5;
+  color: #9ca3af;
+}
+.project-card.collab-card .pc-arrow {
+  font-size: 18px;
+  bottom: 14px;
+  right: 16px;
+}
+
+/* 모바일: 메인·협업 모두 1열 */
+@media (max-width: 900px) {
+  .projects-grid.main-grid { grid-template-columns: 1fr; }
+  .projects-grid.collab-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 600px) {
+  .projects-grid.collab-grid { grid-template-columns: 1fr; }
+}
+
 /* ── 빈 섹션 placeholder ── */
 .empty-section {
   border: 1.5px dashed #d4d4d4;
@@ -671,18 +787,54 @@ async function init() {
   const collabProjects = data.filter(p => (p.category || 'collaboration') === 'collaboration');
   const mainProjects   = data.filter(p => p.category === 'main');
 
-  // 프로젝트 카드 렌더 함수 (hidePm: true면 카드 내 PM 표시 생략)
-  const renderCard = (p, i, hidePm = false) => {
+  // 메인 프로젝트의 점수 정보 미리 로드 (한 번의 쿼리로 일괄 조회)
+  let mainScores = {};
+  if (mainProjects.length > 0) {
+    const mainIds = mainProjects.map(p => p.id);
+    const { data: stepsData } = await sb
+      .from('steps')
+      .select('project_id, metrics')
+      .in('project_id', mainIds)
+      .eq('step_number', 1);
+    if (Array.isArray(stepsData)) {
+      stepsData.forEach(s => {
+        if (!Array.isArray(s.metrics)) return;
+        const scores = s.metrics
+          .filter(m => m.type !== 'summary' && m.type !== 'images' && m.type !== 'collaborators' && m.type !== 'collaborator_names')
+          .filter(m => m.label && m.score !== undefined && m.score !== null && m.score !== '-' && m.score !== '' && Number(m.score) > 0)
+          .map(m => ({ label: m.label, score: Number(m.score) }));
+        mainScores[s.project_id] = scores;
+      });
+    }
+  }
+
+  // 프로젝트 카드 렌더 함수
+  // isMain: 메인 프로젝트 여부 (스타일·점수 미니바 분기)
+  const renderCard = (p, i, hidePm = false, isMain = false) => {
     const pmHTML = (p.pm_name && !hidePm)
       ? `<div class="pc-pm">PM ${p.pm_name}</div>`
       : '';
     const keyContrib = esc(p.key_contribution || '');
+    const cardClass = isMain ? 'project-card main-card' : 'project-card collab-card';
+
+    // 메인 카드면 점수 칩 생성
+    let scoreChipsHTML = '';
+    if (isMain && Array.isArray(mainScores[p.id]) && mainScores[p.id].length > 0) {
+      const chips = mainScores[p.id].map(s => {
+        // "매출성과" → "매출" 축약
+        const shortLabel = String(s.label).replace(/성과$/, '').replace(/\s+/g, '');
+        return `<span class="pc-score-chip"><span class="chip-label">${esc(shortLabel)}</span>${s.score}</span>`;
+      }).join('');
+      scoreChipsHTML = `<div class="pc-score-chips">${chips}</div>`;
+    }
+
     return `
-      <div class="project-card" onclick="showSteps(${p.id},'${esc(p.name)}','${keyContrib}')">
+      <div class="${cardClass}" onclick="showSteps(${p.id},'${esc(p.name)}','${keyContrib}')">
         <div class="pc-num">PROJECT ${String(i+1).padStart(2,'0')}</div>
         <div class="pc-name">${p.name}</div>
         ${pmHTML}
         <div class="pc-desc">${p.description || ''}</div>
+        ${scoreChipsHTML}
         <div class="pc-arrow">›</div>
       </div>`;
   };
@@ -694,32 +846,32 @@ async function init() {
     : '';
   const hidePmInMainCards = (mainPMs.length === 1);
 
-  // 협업 프로젝트 섹션
-  const collabSection = collabProjects.length > 0
-    ? `
-      <p class="section-label">협업 프로젝트 (${collabProjects.length})</p>
-      <div class="projects-grid">${collabProjects.map((p, i) => renderCard(p, i, false)).join('')}</div>`
-    : `
-      <p class="section-label">협업 프로젝트 (0)</p>
-      <div class="empty-section">
-        <div class="empty-section-ico">🤝</div>
-        <div class="empty-section-msg">협업 프로젝트가 등록되어 있지 않습니다</div>
-      </div>`;
-
-  // 메인 프로젝트 섹션
+  // 메인 프로젝트 섹션 (먼저 배치 — 순서 변경)
   const mainSection = mainProjects.length > 0
     ? `
-      <p class="section-label" style="margin-top:64px;">메인 프로젝트 (${mainProjects.length})${mainPmLabel}</p>
-      <div class="projects-grid">${mainProjects.map((p, i) => renderCard(p, i, hidePmInMainCards)).join('')}</div>`
+      <p class="section-label main-label">메인 프로젝트 (${mainProjects.length})${mainPmLabel}</p>
+      <div class="projects-grid main-grid">${mainProjects.map((p, i) => renderCard(p, i, hidePmInMainCards, true)).join('')}</div>`
     : `
-      <p class="section-label" style="margin-top:64px;">메인 프로젝트 (0)</p>
+      <p class="section-label main-label">메인 프로젝트 (0)</p>
       <div class="empty-section">
         <div class="empty-section-ico">🚧</div>
         <div class="empty-section-msg">준비 중입니다</div>
         <div class="empty-section-sub">곧 새로운 프로젝트가 추가될 예정입니다</div>
       </div>`;
 
-  container.innerHTML = collabSection + mainSection;
+  // 협업 프로젝트 섹션 (나중에 배치)
+  const collabSection = collabProjects.length > 0
+    ? `
+      <p class="section-label collab-label">협업 프로젝트 (${collabProjects.length})</p>
+      <div class="projects-grid collab-grid">${collabProjects.map((p, i) => renderCard(p, i, false, false)).join('')}</div>`
+    : `
+      <p class="section-label collab-label">협업 프로젝트 (0)</p>
+      <div class="empty-section">
+        <div class="empty-section-ico">🤝</div>
+        <div class="empty-section-msg">협업 프로젝트가 등록되어 있지 않습니다</div>
+      </div>`;
+
+  container.innerHTML = mainSection + collabSection;
   endProgress();
 }
 
