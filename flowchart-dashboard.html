@@ -42,6 +42,19 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
   color: #111111;
   font-weight: 700;
 }
+.hdr-collab {
+  font-size: 16px; color: #333333; margin-top: 4px; font-weight: 600;
+}
+.hdr-collab:empty { display: none; }
+.hdr-collab-label {
+  color: #6b7280;
+  font-weight: 600;
+  margin-right: 4px;
+}
+.hdr-collab-names {
+  color: #2563eb;
+  font-weight: 700;
+}
 
 /* ── LOADING / ERROR / EMPTY ── */
 .state-box { text-align: center; padding: 80px 20px; color: #999999; }
@@ -530,6 +543,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
   <div>
     <div class="hdr-title" id="hdr-title">2026년 시즌1 프로젝트</div>
     <div class="hdr-sub" id="hdr-sub">PM 김재영</div>
+    <div class="hdr-collab" id="hdr-collab"></div>
   </div>
 </header>
 
@@ -729,6 +743,11 @@ async function showSteps(projectId, name, keyContribution = '') {
     hdrSub.style.display = 'none';
   }
 
+  // 헤더 협업자 명단 초기화 (steps 데이터 로드 후 채움)
+  const hdrCollab = document.getElementById('hdr-collab');
+  hdrCollab.innerHTML = '';
+  hdrCollab.style.display = 'none';
+
   // 초기화 — 스켈레톤 UI 표시
   activeStep = null;
   renderedDiagrams = {};
@@ -751,6 +770,16 @@ async function showSteps(projectId, name, keyContribution = '') {
         <p>Supabase <code>steps</code> 테이블에서 이 프로젝트의 단계를 추가해주세요.</p>
       </div>`;
     return;
+  }
+
+  // 헤더 협업자 명단 채우기 — 첫 step의 metrics에서 type: "collaborator_names" 찾기
+  const firstStep = data[0];
+  if (firstStep && Array.isArray(firstStep.metrics)) {
+    const namesBlock = firstStep.metrics.find(m => m.type === 'collaborator_names' && Array.isArray(m.names) && m.names.length > 0);
+    if (namesBlock) {
+      hdrCollab.innerHTML = `<span class="hdr-collab-label">협업자 :</span> <span class="hdr-collab-names">${namesBlock.names.join(', ')}</span>`;
+      hdrCollab.style.display = '';
+    }
   }
 
   // Step 데이터 저장 및 카드 렌더
@@ -879,6 +908,10 @@ function showProjects() {
   const hdrSub = document.getElementById('hdr-sub');
   hdrSub.textContent = 'PM 김재영';
   hdrSub.style.display = '';
+  // 헤더 협업자 명단 초기화
+  const hdrCollab = document.getElementById('hdr-collab');
+  hdrCollab.innerHTML = '';
+  hdrCollab.style.display = 'none';
 }
 
 /* ── 메트릭 렌더 ── */
@@ -892,8 +925,8 @@ function renderMetrics(metrics) {
     </div>`).join('');
 
   const scoreHTML = metrics
-    // summary/images/collaborators 등 비-지표 타입 제외
-    .filter(m => m.type !== 'summary' && m.type !== 'images' && m.type !== 'collaborators')
+    // summary/images/collaborators/collaborator_names 등 비-지표 타입 제외
+    .filter(m => m.type !== 'summary' && m.type !== 'images' && m.type !== 'collaborators' && m.type !== 'collaborator_names')
     // 핵심 성과만 필터링: 점수가 '-', null, undefined, '', 0이면 제외
     .filter(m => {
       if (m.score === '-' || m.score === null || m.score === undefined || m.score === '') return false;
