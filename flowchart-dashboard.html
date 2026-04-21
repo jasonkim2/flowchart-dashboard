@@ -637,7 +637,11 @@ async function toggleDiagram(stepId) {
   if (card) card.classList.add('open');
   activeStep = stepId;
 
-  panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  // 단일 단계(flat 모드)에서는 자동 스크롤하지 않음
+  // 이미 헤더 아래에 바로 표시되므로 스크롤 이동 시 헤더가 화면 밖으로 밀림
+  if (!panel.classList.contains('flat')) {
+    panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
 
   // 아직 렌더 안 됐으면 렌더
   if (!renderedDiagrams[stepId] && diagram.trim()) {
