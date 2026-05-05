@@ -363,9 +363,9 @@
       <dt>모집 형태</dt>
       <dd>일회성 외주 <span class="ban">✕</span> &nbsp; 수익 분배 파트너 <span class="ok">◯</span></dd>
       <dt>분배 기준</dt>
-      <dd>참여 전 기준 수익 초과분 (내가 올린 부분만)</dd>
+      <dd>매 시즌, 전 시즌 실적 초과분 (계속 올려야 더 번다)</dd>
       <dt>시즌 단위</dt>
-      <dd>4개월 1시즌, 연 3시즌</dd>
+      <dd>4개월 1시즌, 연 3시즌 (시즌마다 기준 갱신)</dd>
       <dt>정산</dt>
       <dd>월 단위 (익월 말 지급)</dd>
       <dt>보장 기간</dt>
@@ -404,22 +404,22 @@
   <section>
     <h2>수익 분배 구조</h2>
     <div class="revenue-block">
-      <div class="rev-title">기존 수익은 건드리지 않습니다 — 내가 올린 부분만 나눕니다</div>
+      <div class="rev-title">전 시즌보다 올린 만큼만 나눕니다 — 시즌마다 기준이 높아집니다</div>
       <div class="revenue-formula">
-        <div class="rev-box">참여 전<br>기준 수익</div>
+        <div class="rev-box">전 시즌<br>실적</div>
         <div class="rev-arrow">→</div>
         <div class="rev-box">이번 시즌<br>실제 수익</div>
         <div class="rev-arrow">→</div>
         <div class="rev-box target">초과분<br>= 분배 대상</div>
       </div>
       <div class="rev-example">
-        기준 수익 월 1,000만원 → 실제 수익 월 1,400만원<br>
-        초과분 400만원 × 쉐어 비율 20%
-        <div class="ex-result">→ 매월 80만원 지급</div>
+        시즌 1: 기준 1,000만 → 실적 1,400만 → 초과 400만 × 20% = <strong>월 80만원</strong><br>
+        시즌 2: 기준 1,400만 → 실적 1,700만 → 초과 300만 × 20% = <strong>월 60만원</strong><br>
+        시즌 3: 기준 1,700만 → 실적 2,100만 → 초과 400만 × 20% = <strong>월 80만원</strong>
+        <div class="ex-result">올릴수록 버는 구조. 전 시즌 실적이 다음 시즌 기준이 됩니다.</div>
       </div>
       <div class="rev-note">
-        비율과 기준 수익은 계약 시 협의 후 고정. 잘한다고 기준선이 올라가지 않습니다.<br>
-        위 수치는 구조 이해를 위한 예시입니다.
+        쉐어 비율은 계약 시 협의 후 고정. 위 수치는 구조 이해를 위한 예시입니다.
       </div>
     </div>
   </section>
@@ -429,11 +429,11 @@
     <h2>진행 순서</h2>
     <ol class="steps">
       <li>어떤 기능을 만들지 <strong>제안서 제출</strong></li>
-      <li><strong>면접</strong> — 기준 수익·쉐어 비율·기간 협의 및 계약 체결</li>
+      <li><strong>면접</strong> — 쉐어 비율·기간 협의 및 계약 체결</li>
       <li><strong>개발 → 내부 검토 → 배포</strong></li>
-      <li>매월 초과 수익의 N% <strong class="highlight">정산</strong> (익월 말 지급)</li>
+      <li>매월 전 시즌 초과 수익의 N% <strong class="highlight">정산</strong> (익월 말 지급)</li>
       <li>매월 <strong>수익 리포트 투명 공유</strong></li>
-      <li>4개월 시즌 종료 후 <strong>성과 평가 → 연장 협의</strong></li>
+      <li>4개월 시즌 종료 → <strong>실적이 다음 시즌 기준으로 갱신</strong> → 연장 협의</li>
     </ol>
   </section>
 
@@ -479,7 +479,7 @@
     <div class="trust-block">
       <ul class="dotlist">
         <li>월별 광고 수익 리포트 <strong>투명 공유</strong></li>
-        <li>기준 수익 수치 <strong>계약서 고정</strong> (계약 후 변경 불가)</li>
+        <li>시즌 1 기준 수익 <strong>계약서 명시</strong>, 이후 매 시즌 전 시즌 실적으로 자동 갱신</li>
         <li>쉐어 비율·정산 주기 <strong>계약서 명기</strong></li>
         <li>최소 <strong class="highlight">12개월 (3시즌)</strong> 정산 보장</li>
       </ul>
