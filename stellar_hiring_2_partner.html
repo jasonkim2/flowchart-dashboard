@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>[파트너 모집] 스텔러 기능 개발 파트너 — 매달 광고 수익 분배</title>
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { -webkit-text-size-adjust: 100%; }
+
+  body {
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', sans-serif;
+    background: #ffffff;
+    color: #000000;
+    line-height: 1.65;
+    padding: 48px 24px 64px;
+    -webkit-font-smoothing: antialiased;
+    font-weight: 400;
+  }
+
+  .container {
+    max-width: 760px;
+    margin: 0 auto;
+  }
+
+  /* Header */
+  .tag {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 700;
+    color: #dc2626;
+    border: 1.5px solid #dc2626;
+    padding: 4px 10px;
+    letter-spacing: 0.05em;
+    margin-bottom: 18px;
+  }
+
+  h1 {
+    font-size: 30px;
+    font-weight: 800;
+    line-height: 1.3;
+    letter-spacing: -0.02em;
+    margin-bottom: 10px;
+  }
+
+  .subtitle {
+    font-size: 14px;
+    color: #555555;
+    margin-bottom: 36px;
+    font-weight: 500;
+  }
+
+  /* Hero */
+  .hero {
+    border-top: 3px solid #000000;
+    border-bottom: 3px solid #000000;
+    padding: 36px 0 36px;
+    margin-bottom: 48px;
+  }
+
+  .hero-mega {
+    font-size: 16px;
+    font-weight: 700;
+    color: #555555;
+    margin-bottom: 8px;
+    letter-spacing: 0.02em;
+  }
+
+  .hero-mega .num {
+    color: #dc2626;
+    font-size: 26px;
+    font-weight: 800;
+    margin: 0 4px;
+  }
+
+  .lead {
+    font-size: 26px;
+    font-weight: 800;
+    line-height: 1.4;
+    letter-spacing: -0.02em;
+    margin: 18px 0 22px;
+  }
+
+  .lead .accent { color: #dc2626; }
+
+  .hero-tail {
+    font-size: 14px;
+    font-weight: 600;
+    color: #000000;
+    border-top: 1px dashed #cccccc;
+    padding-top: 16px;
+    letter-spacing: 0.01em;
+  }
+
+  .hero-tail .sep {
+    color: #999999;
+    margin: 0 10px;
+    font-weight: 400;
+  }
+
+  /* Sections */
+  section { margin-bottom: 40px; }
+
+  h2 {
+    font-size: 17px;
+    font-weight: 800;
+    padding-bottom: 8px;
+    border-bottom: 1.5px solid #000000;
+    margin-bottom: 18px;
+    letter-spacing: -0.01em;
+  }
+
+  p {
+    font-size: 15.5px;
+    margin-bottom: 8px;
+  }
+
+  /* Info grid */
+  .info-grid {
+    display: grid;
+    grid-template-columns: 110px 1fr;
+    gap: 10px 20px;
+    font-size: 15.5px;
+  }
+
+  .info-grid dt {
+    font-weight: 700;
+  }
+
+  .info-grid dd .ban { color: #999999; }
+  .info-grid dd .ok { color: #dc2626; font-weight: 700; }
+
+  /* Stat cards */
+  .stat-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+
+  .stat-card {
+    border: 1.5px solid #000000;
+    padding: 18px 16px;
+    text-align: center;
+  }
+
+  .stat-card .stat-num {
+    font-size: 24px;
+    font-weight: 800;
+    color: #dc2626;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+
+  .stat-card .stat-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #555555;
+    margin-top: 6px;
+    letter-spacing: 0.02em;
+  }
+
+  .stat-card.full {
+    grid-column: 1 / -1;
+    background: #000000;
+  }
+
+  .stat-card.full .stat-num {
+    color: #ffffff;
+    font-size: 30px;
+  }
+
+  .stat-card.full .stat-label {
+    color: #cccccc;
+  }
+
+  /* Lists */
+  ul.dotlist {
+    list-style: none;
+    padding-left: 0;
+  }
+
+  ul.dotlist li {
+    padding-left: 16px;
+    position: relative;
+    margin-bottom: 7px;
+    font-size: 15.5px;
+  }
+
+  ul.dotlist li::before {
+    content: '';
+    position: absolute;
+    left: 2px;
+    top: 11px;
+    width: 4px;
+    height: 4px;
+    background: #000000;
+    border-radius: 50%;
+  }
+
+  ol.steps {
+    counter-reset: step;
+    list-style: none;
+    padding-left: 0;
+  }
+
+  ol.steps > li {
+    counter-increment: step;
+    padding-left: 32px;
+    position: relative;
+    margin-bottom: 12px;
+    font-size: 15.5px;
+  }
+
+  ol.steps > li::before {
+    content: counter(step);
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 22px;
+    height: 22px;
+    background: #000000;
+    color: #ffffff;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 22px;
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  ol.steps ul.dotlist {
+    margin-top: 6px;
+  }
+
+  /* Data block */
+  .data-block {
+    background: #f5f5f5;
+    padding: 22px 26px;
+  }
+
+  .data-row {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 14px;
+    margin-bottom: 12px;
+    font-size: 15px;
+  }
+
+  .data-row:last-of-type { margin-bottom: 0; }
+
+  .data-row .label {
+    font-weight: 700;
+  }
+
+  .data-block .note {
+    font-size: 13.5px;
+    color: #555555;
+    margin-top: 16px;
+    padding-top: 14px;
+    border-top: 1px solid #d4d4d4;
+    line-height: 1.6;
+  }
+
+  .data-block .note strong { color: #000000; }
+
+  /* Trust block */
+  .trust-block {
+    border-left: 4px solid #000000;
+    padding: 4px 0 4px 20px;
+  }
+
+  .trust-block ul.dotlist li { font-size: 15px; }
+
+  /* Highlights */
+  .highlight-red {
+    color: #dc2626;
+    font-weight: 700;
+  }
+
+  .team-note {
+    font-size: 13.5px;
+    color: #555555;
+    margin-top: 14px;
+    padding: 12px 14px;
+    background: #f5f5f5;
+    line-height: 1.6;
+  }
+
+  .team-note strong { color: #000000; }
+
+  /* CTA */
+  .cta-box {
+    border: 2.5px solid #000000;
+    padding: 28px 24px;
+    text-align: center;
+    margin: 40px 0;
+  }
+
+  .cta-box .cta-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: #555555;
+    letter-spacing: 0.1em;
+    margin-bottom: 10px;
+  }
+
+  .cta-box .cta-email {
+    font-size: 22px;
+    font-weight: 800;
+  }
+
+  /* Links */
+  a {
+    color: #2563eb;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  a:hover { opacity: 0.75; }
+
+  /* Footer */
+  footer {
+    margin-top: 56px;
+    padding-top: 24px;
+    border-top: 1px solid #cccccc;
+    font-size: 14px;
+    color: #555555;
+    line-height: 1.9;
+  }
+
+  footer strong { color: #000000; }
+
+  /* Mobile */
+  @media (max-width: 600px) {
+    body { padding: 32px 18px 48px; }
+    h1 { font-size: 24px; }
+    .lead { font-size: 21px; }
+    .hero-mega { font-size: 14px; }
+    .hero-mega .num { font-size: 22px; }
+    .hero-tail .sep { display: block; height: 4px; margin: 0; }
+    .info-grid {
+      grid-template-columns: 1fr;
+      gap: 4px;
+    }
+    .info-grid dt {
+      margin-top: 10px;
+      color: #555555;
+      font-size: 13px;
+    }
+    .info-grid dt:first-child { margin-top: 0; }
+    .data-row {
+      grid-template-columns: 1fr;
+      gap: 4px;
+    }
+    .stat-cards { grid-template-columns: 1fr 1fr; }
+    .stat-card.full { grid-column: 1 / -1; }
+    .stat-card .stat-num { font-size: 20px; }
+    .stat-card.full .stat-num { font-size: 26px; }
+    .cta-box .cta-email { font-size: 17px; }
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+
+    <div class="tag">상시 모집</div>
+    <h1>[파트너 모집] 스텔러 기능 개발 파트너<br>매달 광고 수익 분배</h1>
+    <div class="subtitle">(주)사이넷 / LIVE스코어 운영 · AIAE팀</div>
+
+    <div class="hero">
+      <div class="hero-mega">
+        LIVE스코어 연 매출 <span class="num">100억 이상</span>
+      </div>
+      <div class="lead">
+        당신이 만든 기능이 만든 수익,<br>
+        <span class="accent">매달 당신 통장으로.</span>
+      </div>
+      <div class="hero-tail">
+        월 300만 뷰 스텔러
+        <span class="sep">·</span>
+        12개월 정산 보장
+        <span class="sep">·</span>
+        개인·팀 지원 가능
+      </div>
+    </div>
+
+    <section>
+      <h2>한눈에</h2>
+      <dl class="info-grid">
+        <dt>모집 형태</dt>
+        <dd>일회성 외주 <span class="ban">✕</span> &nbsp; 장기 수익 쉐어 <span class="ok">◯</span></dd>
+        <dt>분배 대상</dt>
+        <dd>스텔러 페이지 광고 수익 (전면 + 배너)</dd>
+        <dt>정산</dt>
+        <dd>월 단위 (익월 말 지급)</dd>
+        <dt>보장</dt>
+        <dd>최소 12개월</dd>
+        <dt>지원 단위</dt>
+        <dd>개인 또는 2~3인 팀</dd>
+        <dt>근무</dt>
+        <dd>초기 사무실 출근, 이후 재택 병행</dd>
+      </dl>
+    </section>
+
+    <section>
+      <h2>왜 LIVE스코어 / 스텔러인가</h2>
+      <div class="stat-cards">
+        <div class="stat-card full">
+          <div class="stat-num">100억 이상</div>
+          <div class="stat-label">연 매출</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">125만</div>
+          <div class="stat-label">MAU</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">46만</div>
+          <div class="stat-label">DAU</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">300만+</div>
+          <div class="stat-label">스텔러 월 조회수</div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>어떻게 작동하는가</h2>
+      <ol class="steps">
+        <li>스텔러에 어떤 기능을 만들지 <strong>제안</strong></li>
+        <li><strong>면접</strong> — 수익 쉐어 비율·기여도 산정 방식 협의</li>
+        <li><strong>개발 → 배포</strong></li>
+        <li>매달 그 기능이 만든 광고 수익 <strong class="highlight-red">정산</strong></li>
+        <li>매월 수익 리포트 <strong>투명 공유</strong></li>
+      </ol>
+    </section>
+
+    <section>
+      <h2>누가 와야 하는가</h2>
+      <p>스텔러 기능을 <strong>데이터 → AI → 서비스까지 end-to-end</strong>로 설계·구현할 수 있는 개발자.</p>
+      <p style="margin-top: 14px; font-size: 14px; color: #555555;">요구 역량 (전부 갖출 필요는 없음)</p>
+      <ul class="dotlist" style="margin-top: 6px;">
+        <li>백엔드 (API · DB)</li>
+        <li>AI / LLM (프롬프트 · 모델 연동)</li>
+        <li>데이터 파이프라인 (수집 · 가공 · 저장)</li>
+        <li>AI 콘텐츠 생성 시스템</li>
+      </ul>
+      <div class="team-note">
+        <strong>※ 개인 또는 2~3인 팀 지원 가능</strong><br>
+        팀 지원 시 대표 1인이 계약 주체가 되며, 내부 분배는 팀 자율.
+      </div>
+    </section>
+
+    <section>
+      <h2>활용 가능한 데이터 — 스텔러 데이터 프로토콜</h2>
+      <div class="data-block">
+        <div class="data-row">
+          <div class="label">스포츠</div>
+          <div>Opta (옵타) · LIVE스코어 자체 빅데이터</div>
+        </div>
+        <div class="data-row">
+          <div class="label">이미지</div>
+          <div>Getty Images · OSEN (국내 전용)</div>
+        </div>
+        <div class="note">
+          <strong>활용 원칙</strong> &nbsp;&nbsp; 사내 환경 내부에서만 활용 / 외부 반출·재배포 금지<br>
+          ※ 신규 데이터 자산은 프로토콜에 지속 추가 예정
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>신뢰 보장</h2>
+      <div class="trust-block">
+        <ul class="dotlist">
+          <li>월별 광고 수익 리포트 <strong>투명 공유</strong></li>
+          <li>baseline 기준 <strong>계약서 명시</strong></li>
+          <li>최소 <strong class="highlight-red">12개월</strong> 정산 보장 계약 명기</li>
+        </ul>
+      </div>
+    </section>
+
+    <section>
+      <h2>지원 방법</h2>
+      <ol class="steps">
+        <li><strong>이력서</strong> (포트폴리오 포함, 팀 지원 시 전원분)</li>
+        <li>
+          <strong>기능 제안서</strong> (1~3장, 자유 형식)
+          <ul class="dotlist">
+            <li>어떤 기능을 만들 것인지</li>
+            <li>어떻게 구현할지 (기술 스택·방식)</li>
+            <li>광고 수익 기여 가설 (왜 이게 수익을 늘릴지)</li>
+          </ul>
+        </li>
+      </ol>
+    </section>
+
+    <div class="cta-box">
+      <div class="cta-title">지원 접수</div>
+      <div class="cta-email"><a href="mailto:xhermes2013@psynet.co.kr">xhermes2013@psynet.co.kr</a></div>
+    </div>
+
+    <section>
+      <h2>조건</h2>
+      <ul class="dotlist">
+        <li>결과물·시스템·AI 학습 산출물 권리 회사 귀속</li>
+        <li>회사 내부 정보 외부 공유 금지 서약</li>
+      </ul>
+    </section>
+
+    <footer>
+      <strong>문의</strong> &nbsp;·&nbsp; AIAE팀 김재영 팀장 &nbsp;·&nbsp; <a href="mailto:xhermes2013@psynet.co.kr">xhermes2013@psynet.co.kr</a><br>
+      <strong>회사 홈페이지</strong> &nbsp;·&nbsp; <a href="https://www.psynet.co.kr" target="_blank" rel="noopener">www.psynet.co.kr</a>
+    </footer>
+
+  </div>
+</body>
+</html>

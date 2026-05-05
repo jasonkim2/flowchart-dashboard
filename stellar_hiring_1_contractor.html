@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>[채용] 스텔러 AI 매치프리뷰 개선 — 단기 계약직</title>
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { -webkit-text-size-adjust: 100%; }
+
+  body {
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', sans-serif;
+    background: #ffffff;
+    color: #000000;
+    line-height: 1.65;
+    padding: 48px 24px 64px;
+    -webkit-font-smoothing: antialiased;
+    font-weight: 400;
+  }
+
+  .container {
+    max-width: 760px;
+    margin: 0 auto;
+  }
+
+  /* Header */
+  .tag {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 700;
+    color: #dc2626;
+    border: 1.5px solid #dc2626;
+    padding: 4px 10px;
+    letter-spacing: 0.05em;
+    margin-bottom: 18px;
+  }
+
+  h1 {
+    font-size: 30px;
+    font-weight: 800;
+    line-height: 1.3;
+    letter-spacing: -0.02em;
+    margin-bottom: 10px;
+  }
+
+  .subtitle {
+    font-size: 14px;
+    color: #555555;
+    margin-bottom: 36px;
+    font-weight: 500;
+  }
+
+  /* Hero */
+  .hero {
+    border-top: 3px solid #000000;
+    border-bottom: 3px solid #000000;
+    padding: 32px 0 36px;
+    margin-bottom: 48px;
+  }
+
+  .stats {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 22px;
+    letter-spacing: 0.01em;
+  }
+
+  .stats .num {
+    color: #dc2626;
+    font-weight: 800;
+    font-size: 16px;
+  }
+
+  .stats .sep {
+    color: #999999;
+    margin: 0 10px;
+    font-weight: 400;
+  }
+
+  .lead {
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1.45;
+    letter-spacing: -0.015em;
+  }
+
+  .lead .accent { color: #dc2626; }
+  .lead .arrow { color: #999999; font-weight: 500; }
+
+  /* Sections */
+  section { margin-bottom: 40px; }
+
+  h2 {
+    font-size: 17px;
+    font-weight: 800;
+    padding-bottom: 8px;
+    border-bottom: 1.5px solid #000000;
+    margin-bottom: 18px;
+    letter-spacing: -0.01em;
+  }
+
+  p {
+    font-size: 15.5px;
+    margin-bottom: 8px;
+  }
+
+  /* Info grid */
+  .info-grid {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    gap: 10px 20px;
+    font-size: 15.5px;
+  }
+
+  .info-grid dt {
+    font-weight: 700;
+  }
+
+  /* Lists */
+  ul.dotlist {
+    list-style: none;
+    padding-left: 0;
+  }
+
+  ul.dotlist li {
+    padding-left: 16px;
+    position: relative;
+    margin-bottom: 7px;
+    font-size: 15.5px;
+  }
+
+  ul.dotlist li::before {
+    content: '';
+    position: absolute;
+    left: 2px;
+    top: 11px;
+    width: 4px;
+    height: 4px;
+    background: #000000;
+    border-radius: 50%;
+  }
+
+  ol.steps {
+    counter-reset: step;
+    list-style: none;
+    padding-left: 0;
+  }
+
+  ol.steps > li {
+    counter-increment: step;
+    padding-left: 32px;
+    position: relative;
+    margin-bottom: 14px;
+    font-size: 15.5px;
+  }
+
+  ol.steps > li::before {
+    content: counter(step);
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 22px;
+    height: 22px;
+    background: #000000;
+    color: #ffffff;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 22px;
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  ol.steps ul.dotlist {
+    margin-top: 6px;
+  }
+
+  /* Data block */
+  .data-block {
+    background: #f5f5f5;
+    padding: 22px 26px;
+  }
+
+  .data-row {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 14px;
+    margin-bottom: 12px;
+    font-size: 15px;
+  }
+
+  .data-row:last-of-type { margin-bottom: 0; }
+
+  .data-row .label {
+    font-weight: 700;
+  }
+
+  .data-block .note {
+    font-size: 13.5px;
+    color: #555555;
+    margin-top: 16px;
+    padding-top: 14px;
+    border-top: 1px solid #d4d4d4;
+    line-height: 1.6;
+  }
+
+  .data-block .note strong { color: #000000; }
+
+  /* CTA */
+  .cta-box {
+    border: 2.5px solid #000000;
+    padding: 28px 24px;
+    text-align: center;
+    margin: 40px 0;
+  }
+
+  .cta-box .cta-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: #555555;
+    letter-spacing: 0.1em;
+    margin-bottom: 10px;
+  }
+
+  .cta-box .cta-email {
+    font-size: 22px;
+    font-weight: 800;
+  }
+
+  /* Highlights */
+  .highlight-red {
+    color: #dc2626;
+    font-weight: 700;
+  }
+
+  /* Links */
+  a {
+    color: #2563eb;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  a:hover { opacity: 0.75; }
+
+  /* Footer */
+  footer {
+    margin-top: 56px;
+    padding-top: 24px;
+    border-top: 1px solid #cccccc;
+    font-size: 14px;
+    color: #555555;
+    line-height: 1.9;
+  }
+
+  footer strong { color: #000000; }
+
+  /* Mobile */
+  @media (max-width: 600px) {
+    body { padding: 32px 18px 48px; }
+    h1 { font-size: 24px; }
+    .lead { font-size: 19px; }
+    .stats .sep { display: block; height: 4px; margin: 0; }
+    .info-grid {
+      grid-template-columns: 1fr;
+      gap: 4px;
+    }
+    .info-grid dt {
+      margin-top: 10px;
+      color: #555555;
+      font-size: 13px;
+    }
+    .info-grid dt:first-child { margin-top: 0; }
+    .data-row {
+      grid-template-columns: 1fr;
+      gap: 4px;
+    }
+    .cta-box .cta-email { font-size: 17px; }
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+
+    <div class="tag">상시 모집</div>
+    <h1>[채용] 스텔러 AI 매치프리뷰 개선<br>단기 계약직</h1>
+    <div class="subtitle">(주)사이넷 / LIVE스코어 운영 · AIAE팀</div>
+
+    <div class="hero">
+      <div class="stats">
+        누적 다운로드 <span class="num">1,000만+</span>
+        <span class="sep">·</span>
+        MAU <span class="num">125만</span>
+        <span class="sep">·</span>
+        DAU <span class="num">46만</span>
+      </div>
+      <div class="lead">
+        LIVE스코어 AI 매치프리뷰를 당신이 고친다.<br>
+        아이디어 1장 <span class="arrow">→</span> 1~3개월 계약 <span class="arrow">→</span>
+        <span class="accent">성과 우수 시 정규직 전환</span>.
+      </div>
+    </div>
+
+    <section>
+      <h2>한눈에</h2>
+      <dl class="info-grid">
+        <dt>회사</dt>
+        <dd>(주)사이넷 (LIVE스코어 운영) / AIAE팀</dd>
+        <dt>기간</dt>
+        <dd>1~3개월 (연장·정규직 전환 가능)</dd>
+        <dt>포지션</dt>
+        <dd>AI 콘텐츠 기획자 / 스포츠 데이터 분석가 / 프롬프트 엔지니어</dd>
+        <dt>근무</dt>
+        <dd>초기 사무실 출근, 이후 재택 병행</dd>
+        <dt>단가</dt>
+        <dd>경력·역할 협의</dd>
+      </dl>
+    </section>
+
+    <section>
+      <h2>무엇을 하는가</h2>
+      <p>스텔러 = LIVE스코어 앱 내 AI 매치프리뷰 페이지 (월 <span class="highlight-red">300만 뷰+</span>).</p>
+      <p>이 콘텐츠 품질을 한 단계 끌어올린다.</p>
+      <ul class="dotlist" style="margin-top: 14px;">
+        <li>매치프리뷰 콘텐츠 품질 개선</li>
+        <li>프롬프트 최적화 / 데이터 활용 로직 보완</li>
+        <li>AI 생성 콘텐츠 검수·교정</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>평가 기준 (KPI)</h2>
+      <p>스텔러 페이지 조회수 향상 (현재 대비 상승)</p>
+    </section>
+
+    <section>
+      <h2>활용 가능한 데이터 — 스텔러 데이터 프로토콜</h2>
+      <div class="data-block">
+        <div class="data-row">
+          <div class="label">스포츠</div>
+          <div>Opta (옵타) · LIVE스코어 자체 빅데이터</div>
+        </div>
+        <div class="data-row">
+          <div class="label">이미지</div>
+          <div>Getty Images · OSEN (국내 전용)</div>
+        </div>
+        <div class="note">
+          <strong>활용 원칙</strong> &nbsp;&nbsp; 사내 환경 내부에서만 활용 / 외부 반출·재배포 금지<br>
+          ※ 신규 데이터 자산은 프로토콜에 지속 추가 예정
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>지원 방법 — 두 가지만 보내면 된다</h2>
+      <ol class="steps">
+        <li><strong>이력서</strong></li>
+        <li>
+          <strong>스텔러 개선 아이디어</strong> (A4 1장, 자유 형식)
+          <ul class="dotlist">
+            <li>어떤 부분을 어떻게 개선할지</li>
+            <li>왜 효과가 있을지 (근거·예상 결과)</li>
+          </ul>
+        </li>
+      </ol>
+    </section>
+
+    <div class="cta-box">
+      <div class="cta-title">지원 접수</div>
+      <div class="cta-email"><a href="mailto:xhermes2013@psynet.co.kr">xhermes2013@psynet.co.kr</a></div>
+    </div>
+
+    <section>
+      <h2>채용 절차</h2>
+      <p>서류 → 화상 면담 (상위 3~5인) → 계약 협의 → 체결</p>
+    </section>
+
+    <section>
+      <h2>조건</h2>
+      <ul class="dotlist">
+        <li>결과물 권리 회사 귀속</li>
+        <li>회사 내부 정보 외부 공유 금지 서약</li>
+      </ul>
+    </section>
+
+    <footer>
+      <strong>문의</strong> &nbsp;·&nbsp; AIAE팀 김재영 팀장 &nbsp;·&nbsp; <a href="mailto:xhermes2013@psynet.co.kr">xhermes2013@psynet.co.kr</a><br>
+      <strong>회사 홈페이지</strong> &nbsp;·&nbsp; <a href="https://www.psynet.co.kr" target="_blank" rel="noopener">www.psynet.co.kr</a>
+    </footer>
+
+  </div>
+</body>
+</html>
