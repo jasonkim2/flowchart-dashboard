@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LIVE SCORE 인포툰 제작 파이프라인</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;600;700;900&display=swap');
+
+  :root {
+    --dark: #1A1A2E;
+    --artist: #2C3E50;
+    --ai: #C0392B;
+    --ai-light: #FDECEA;
+    --artist-light: #EEF0F2;
+    --gold: #E67E22;
+    --gold-light: #FEF5EC;
+    --bg: #F5F3EF;
+    --white: #FFFFFF;
+    --muted: #999;
+    --border: #E0DDD8;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Noto Sans KR', sans-serif;
+    background: var(--bg);
+    padding: 40px 28px 64px;
+    color: var(--dark);
+  }
+
+  /* HEADER */
+  .header {
+    text-align: center;
+    margin-bottom: 36px;
+  }
+  .badge {
+    display: inline-block;
+    background: var(--dark);
+    color: #fff;
+    border-radius: 999px;
+    padding: 5px 16px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  .header h1 {
+    font-size: 24px;
+    font-weight: 900;
+    letter-spacing: -1px;
+    line-height: 1.25;
+  }
+  .header h1 em { font-style: normal; color: var(--ai); }
+  .header p {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 8px;
+  }
+
+  /* INSIGHT */
+  .insight {
+    max-width: 900px;
+    margin: 0 auto 32px;
+    background: var(--dark);
+    border-radius: 10px;
+    padding: 14px 20px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .insight-icon { font-size: 20px; margin-top: 1px; }
+  .insight-text { font-size: 11.5px; color: rgba(255,255,255,0.7); line-height: 1.7; }
+  .insight-text strong { color: #fff; }
+
+  /* COLUMN LABELS */
+  .grid3 {
+    max-width: 900px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 64px 1fr;
+  }
+  .col-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 11px 16px;
+    border-radius: 9px;
+    font-size: 12.5px;
+    font-weight: 800;
+    letter-spacing: -0.2px;
+    margin-bottom: 14px;
+  }
+  .col-label.left  { background: var(--artist); color: #fff; }
+  .col-label.right { background: var(--ai);     color: #fff; }
+
+  /* SECTION DIVIDER */
+  .divider {
+    max-width: 900px;
+    margin: 16px auto 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 9.5px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .divider::before, .divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* STEP ROW */
+  .step-row {
+    max-width: 900px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 64px 1fr;
+    align-items: stretch;
+  }
+
+  /* PIPE ROW */
+  .pipe-row {
+    max-width: 900px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 64px 1fr;
+    height: 24px;
+  }
+  .pipe {
+    display: flex;
+    justify-content: center;
+  }
+  .pipe .line {
+    width: 2px;
+    height: 100%;
+  }
+  .pipe.a .line { background: var(--artist); opacity: 0.2; }
+  .pipe.b .line { background: var(--ai);     opacity: 0.2; }
+
+  /* BOX */
+  .box {
+    background: var(--white);
+    border-radius: 11px;
+    padding: 15px 17px;
+    border: 2px solid transparent;
+  }
+  .box.left  { border-color: var(--artist); margin-right: 10px; }
+  .box.right { border-color: var(--ai);     margin-left: 10px;  }
+  .box.hl-l  { background: var(--artist-light); }
+  .box.hl-r  { background: var(--ai-light); }
+  .box.hl-g  { background: var(--gold-light); border-color: var(--gold); }
+
+  .snum {
+    font-size: 9px;
+    font-weight: 900;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    opacity: 0.4;
+    margin-bottom: 4px;
+  }
+  .snum.a { color: var(--artist); opacity: 1; }
+  .snum.r { color: var(--ai);     opacity: 1; }
+  .snum.g { color: var(--gold);   opacity: 1; }
+
+  .stitle {
+    font-size: 13.5px;
+    font-weight: 800;
+    color: var(--dark);
+    margin-bottom: 4px;
+    letter-spacing: -0.3px;
+    line-height: 1.3;
+  }
+  .ssub {
+    font-size: 11px;
+    color: #666;
+    line-height: 1.65;
+  }
+  .tag {
+    display: inline-block;
+    margin-top: 8px;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 700;
+  }
+  .tag.a { background: var(--artist-light); color: var(--artist); }
+  .tag.r { background: var(--ai-light);     color: var(--ai);     }
+  .tag.g { background: var(--gold-light);   color: var(--gold);   }
+
+  /* BRIDGE */
+  .bridge {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .bline { flex: 1; width: 2px; background: var(--border); }
+  .bicon {
+    width: 34px;
+    height: 34px;
+    background: var(--white);
+    border: 2px solid var(--border);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.07);
+    flex-shrink: 0;
+  }
+
+  /* FINAL */
+  .final-wrap {
+    max-width: 900px;
+    margin: 4px auto 0;
+  }
+  .final-pipes {
+    display: grid;
+    grid-template-columns: 1fr 64px 1fr;
+    height: 24px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .final-node {
+    background: var(--dark);
+    border-radius: 13px;
+    padding: 20px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .fn-title {
+    font-size: 15px;
+    font-weight: 900;
+    color: #fff;
+    letter-spacing: -0.5px;
+    margin-bottom: 6px;
+  }
+  .fn-sub {
+    font-size: 11px;
+    color: rgba(255,255,255,0.5);
+    line-height: 1.65;
+  }
+  .fn-badge {
+    background: var(--ai);
+    color: #fff;
+    border-radius: 8px;
+    padding: 10px 18px;
+    font-size: 11px;
+    font-weight: 800;
+    text-align: center;
+    white-space: nowrap;
+    line-height: 1.5;
+    flex-shrink: 0;
+  }
+
+  /* LEGEND */
+  .legend {
+    max-width: 900px;
+    margin: 24px auto 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+  }
+  .li {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 11px;
+    color: #666;
+  }
+  .dot {
+    width: 11px;
+    height: 11px;
+    border-radius: 3px;
+    flex-shrink: 0;
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="badge">LIVE SCORE — Sports Teller 2.0</div>
+  <h1>AI 인포툰 <em>제작 파이프라인</em></h1>
+  <p>만화가의 전통 제작 프로세스를 착안한 AI 자동화 순서도 &nbsp;|&nbsp; Guideline v1.6</p>
+</div>
+
+<!-- INSIGHT -->
+<div class="insight">
+  <div class="insight-icon">💡</div>
+  <div class="insight-text">
+    <strong>착안점</strong> : 만화가가 수십 년간 발전시켜온 기획→콘티→작화→채색→마감 프로세스를 AI 파이프라인으로 1:1 구조화.
+    좌측(만화가 프로세스)과 우측(AI MD 기반 파이프라인)은 각 단계의 목적과 논리가 동일하다.
+  </div>
+</div>
+
+<!-- COLUMN LABELS -->
+<div class="grid3">
+  <div class="col-label left">✏️ 만화가 전통 프로세스</div>
+  <div></div>
+  <div class="col-label right">🤖 AI 인포툰 파이프라인 (MD 기반)</div>
+</div>
+
+<!-- ── 기획 단계 ── -->
+<div class="divider">기획 단계</div>
+
+<div class="step-row">
+  <div class="box left">
+    <div class="snum a">STEP 01</div>
+    <div class="stitle">기획 · 컨셉 설정</div>
+    <div class="ssub">장르, 타겟 독자, 톤앤매너 결정<br>서비스 규칙 및 세계관 수립</div>
+    <span class="tag a">기획</span>
+  </div>
+  <div class="bridge"><div class="bline"></div><div class="bicon">🔗</div><div class="bline"></div></div>
+  <div class="box right">
+    <div class="snum r">PART 1 · 2</div>
+    <div class="stitle">서비스 정의 + 데이터 수집</div>
+    <div class="ssub">인포툰 포맷 규격 확정<br>경기 데이터 JSON 입력 (팀·승률·선수·배당)</div>
+    <span class="tag r">데이터 자동 수집</span>
+  </div>
+</div>
+
+<div class="pipe-row">
+  <div class="pipe a"><div class="line"></div></div>
+  <div></div>
+  <div class="pipe b"><div class="line"></div></div>
+</div>
+
+<div class="step-row">
+  <div class="box left">
+    <div class="snum a">STEP 02</div>
+    <div class="stitle">캐릭터 설정집 (Character Bible)</div>
+    <div class="ssub">주인공 외형·성격·말투·관계도<br>반복 등장 캐릭터 자산화</div>
+    <span class="tag a">설정</span>
+  </div>
+  <div class="bridge"><div class="bline"></div><div class="bicon">🔗</div><div class="bline"></div></div>
+  <div class="box right">
+    <div class="snum r">PART 6</div>
+    <div class="stitle">캐릭터 시스템</div>
+    <div class="ssub">심판관·해설자·팬·오라클 등 6종 유형<br>표정 코드 + 이미지 생성 프롬프트 키워드 내장</div>
+    <span class="tag r">고정 자산</span>
+  </div>
+</div>
+
+<!-- ── 시나리오 단계 ── -->
+<div class="divider">시나리오 단계 ★ 핵심</div>
+
+<div class="step-row">
+  <div class="box left hl-l">
+    <div class="snum g">STEP 03</div>
+    <div class="stitle">시나리오 · 상황 분류</div>
+    <div class="ssub">이번 화의 핵심 갈등 설정<br>어떤 서사 방향으로 이야기할 것인가 결정</div>
+    <span class="tag g">★ 핵심 단계</span>
+  </div>
+  <div class="bridge"><div class="bline"></div><div class="bicon">🔗</div><div class="bline"></div></div>
+  <div class="box right hl-r">
+    <div class="snum g">PART 3-B</div>
+    <div class="stitle">종목별 상황 분류 (15종)</div>
+    <div class="ssub">야구 5종 · 축구 5종 · 농구 5종<br>발동 조건 체크 → 스토리 패턴 자동 연결</div>
+    <span class="tag g">★ 핵심 단계</span>
+  </div>
+</div>
+
+<div class="pipe-row">
+  <div class="pipe a"><div class="line"></div></div>
+  <div></div>
+  <div class="pipe b"><div class="line"></div></div>
+</div>
+
+<div class="step-row">
+  <div class="box left hl-l">
+    <div class="snum g">STEP 04</div>
+    <div class="stitle">콘티 (Storyboard) 작성</div>
+    <div class="ssub">칸 배치·앵글·연출 방향 결정<br>만화 제작의 가장 핵심적인 단계</div>
+    <span class="tag g">★ 핵심 단계</span>
+  </div>
+  <div class="bridge"><div class="bline"></div><div class="bicon">🔗</div><div class="bline"></div></div>
+  <div class="box right hl-r">
+    <div class="snum g">PART 3 + 4</div>
+    <div class="stitle">서사 패턴 + 레이아웃 결정</div>
+    <div class="ssub">5가지 서사 패턴(A~E) 중 1개 선택<br>4가지 레이아웃 타입(A~D) 세트 확정</div>
+    <span class="tag g">★ 핵심 단계</span>
+  </div>
+</div>
+
+<!-- ── 작화 단계 ── -->
+<div class="divider">작화 단계</div>
+
+<div class="step-row">
+  <div class="box left">
+    <div class="snum a">STEP 05</div>
+    <div class="stitle">대사 · 스크립트 확정</div>
+    <div class="ssub">말풍선 텍스트 확정<br>감정·톤·강약 조율</div>
+    <span class="tag a">대사</span>
+  </div>
+  <div class="bridge"><div class="bline"></div><div class="bicon">🔗</div><div class="bline"></div></div>
+  <div class="box right">
+    <div class="snum r">PART 5 + 7</div>
+    <div class="stitle">컷별 스크립트 생성</div>
+    <div class="ssub">장면·대사·인포박스·비주얼 4필드 자동 출력<br>15자 원칙 · 결론 먼저 · 데이터를 대사 안에</div>
+    <span class="tag r">자동 생성</span>
+  </div>
+</div>
+
+<div class="pipe-row">
+  <div class="pipe a"><div class="line"></div></div>
+  <div></div>
+  <div class="pipe b"><div class="line"></div></div>
+</div>
+
+<div class="step-row">
+  <div class="box left">
+    <div class="snum a">STEP 06</div>
+    <div class="stitle">러프 · 선화 작업</div>
+    <div class="ssub">대략적 스케치 후<br>깔끔한 외곽선으로 정리 (Clean Line Art)</div>
+    <span class="tag a">작화</span>
+  </div>
+  <div class="bridge"><div class="bline"></div><div class="bicon">🔗</div><div class="bline"></div></div>
+  <div class="box right">
+    <div class="snum r">PART 8-1 ~ 8-3</div>
+    <div class="stitle">비주얼 디렉션 + 이미지 프롬프트</div>
+    <div class="ssub">'오!' 반응 기준 통과 필수<br>앵글·감정·이미지 생성 프롬프트(영어) → 이미지 AI 전달</div>
+    <span class="tag r">이미지 AI 전달</span>
+  </div>
+</div>
+
+<div class="pipe-row">
+  <div class="pipe a"><div class="line"></div></div>
+  <div></div>
+  <div class="pipe b"><div class="line"></div></div>
+</div>
+
+<div class="step-row">
+  <div class="box left">
+    <div class="snum a">STEP 07</div>
+    <div class="stitle">채색 (Coloring)</div>
+    <div class="ssub">컬러 팔레트 기반 채색<br>음영 최소화, 플랫 컬러 처리</div>
+    <span class="tag a">채색</span>
+  </div>
+  <div class="bridge"><div class="bline"></div><div class="bicon">🔗</div><div class="bline"></div></div>
+  <div class="box right">
+    <div class="snum r">PART 8-4</div>
+    <div class="stitle">색상 규칙 적용</div>
+    <div class="ssub">단색 배경 원칙 · 저채도 파스텔 팔레트<br>최대 8색 제한 · 그라디언트·패턴·텍스처 금지</div>
+    <span class="tag r">규칙 기반</span>
+  </div>
+</div>
+
+<!-- ── 편집·마감 단계 ── -->
+<div class="divider">편집 · 마감 단계</div>
+
+<div class="step-row">
+  <div class="box left">
+    <div class="snum a">STEP 08</div>
+    <div class="stitle">매 화 연출 차별화</div>
+    <div class="ssub">독자 이탈 방지를 위해<br>매 회 구도·앵글·배색 변주</div>
+    <span class="tag a">편집</span>
+  </div>
+  <div class="bridge"><div class="bline"></div><div class="bicon">🔗</div><div class="bline"></div></div>
+  <div class="box right">
+    <div class="snum r">PART 9</div>
+    <div class="stitle">다양성 보장 시스템</div>
+    <div class="ssub">패턴·레이아웃·감정·컬러 변수 자동 조합<br>직전 경기 동일 조합 자동 금지 로직 내장</div>
+    <span class="tag r">자동 변주</span>
+  </div>
+</div>
+
+<div class="pipe-row">
+  <div class="pipe a"><div class="line"></div></div>
+  <div></div>
+  <div class="pipe b"><div class="line"></div></div>
+</div>
+
+<div class="step-row">
+  <div class="box left">
+    <div class="snum a">STEP 09</div>
+    <div class="stitle">편집장 최종 검수 · 출고</div>
+    <div class="ssub">품질 기준 대조 후 수정·보완<br>최종 승인 후 발행</div>
+    <span class="tag a">마감</span>
+  </div>
+  <div class="bridge"><div class="bline"></div><div class="bicon">🔗</div><div class="bline"></div></div>
+  <div class="box right">
+    <div class="snum r">PART 10 + 대표님 원칙</div>
+    <div class="stitle">품질 검수 체크리스트</div>
+    <div class="ssub">8개 항목 자가 점검 · 하나라도 N이면 재생성<br>행인 원칙 6가지 (0.5초 정지·소구점 우선·가독성) 최종 확인</div>
+    <span class="tag r">품질 보장</span>
+  </div>
+</div>
+
+<!-- FINAL PIPES -->
+<div class="final-pipes">
+  <div class="pipe a" style="justify-content:center;"><div class="line"></div></div>
+  <div></div>
+  <div class="pipe b" style="justify-content:center;"><div class="line"></div></div>
+</div>
+
+<!-- FINAL NODE -->
+<div class="final-wrap">
+  <div class="final-node">
+    <div>
+      <div class="fn-title">🚀 최종 출력 — LIVE SCORE 인포툰 매치프리뷰 발행</div>
+      <div class="fn-sub">
+        컷별 스크립트 완성 &nbsp;·&nbsp; 이미지 생성 프롬프트(영어) 포함 &nbsp;·&nbsp; 품질 검수 완료<br>
+        야구 · 축구 · 농구 전 종목 대응 &nbsp;·&nbsp; 매 경기 다른 레이아웃·패턴 자동 변주
+      </div>
+    </div>
+    <div class="fn-badge">LIVE SCORE<br>Sports Teller 2.0</div>
+  </div>
+</div>
+
+<!-- LEGEND -->
+<div class="legend">
+  <div class="li"><div class="dot" style="background:#2C3E50"></div><span>만화가 전통 프로세스 (착안 근거)</span></div>
+  <div class="li"><div class="dot" style="background:#C0392B"></div><span>AI 인포툰 파이프라인 (MD 구조)</span></div>
+  <div class="li"><div class="dot" style="background:#E67E22"></div><span>핵심 단계 (콘티 = 패턴·레이아웃 결정)</span></div>
+</div>
+
+</body>
+</html>
