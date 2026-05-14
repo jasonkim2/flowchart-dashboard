@@ -379,6 +379,7 @@
     footer { border-top: 2px solid #111; padding: 32px 28px; text-align: center; }
     footer p { font-size: 13px; color: var(--muted); margin-top: 4px; }
     .proj-mobile-title { display: none; }
+    .proj-desktop-info { display: block; }
 
     /* ── RESPONSIVE ── */
     @media (max-width: 720px) {
@@ -424,6 +425,7 @@
       .proj-row > div:last-child { border-bottom: none; }
       .proj-row > div:nth-child(2) { flex: none !important; padding: 16px 24px !important; flex-direction: row !important; align-items: center !important; justify-content: flex-start !important; gap: 12px; }
       .proj-mobile-title { display: block; background: #111; color: #fff; font-size: 15px; font-weight: 800; padding: 12px 24px; }
+      .proj-desktop-info { display: none; }
     }
   </style>
 </head>
@@ -674,8 +676,12 @@
 
       <!-- 중계 -->
       <div class="proj-row" style="display:flex; border-bottom:1px solid #111;">
-        <div class="proj-mobile-title">🎙️ 실시간 스포츠 중계</div>
-        <div style="flex:2; padding:24px; border-right:1px solid #111;">
+        <div class="proj-mobile-title">
+          <div style="font-size:11px; font-weight:700; border:1px solid #fff; display:inline-block; padding:2px 8px; margin-bottom:8px; opacity:0.7;">상시 모집</div>
+          <div>🎙️ 실시간 스포츠 중계</div>
+          <div style="font-size:13px; font-weight:400; opacity:0.7; margin-top:4px;">경기 중계 방송 · 후원 포인트 수익</div>
+        </div>
+        <div class="proj-desktop-info" style="flex:2; padding:24px; border-right:1px solid #111;">
           <div style="font-size:12px; font-weight:700; border:1px solid #111; display:inline-block; padding:3px 10px; margin-bottom:12px;">상시 모집</div>
           <div style="font-size:18px; font-weight:800; margin-bottom:4px;">🎙️ 실시간 스포츠 중계</div>
           <div style="font-size:14px; color:#555;">경기 중계 방송 · 후원 포인트 수익</div>
@@ -693,8 +699,12 @@
 
       <!-- 분석글 -->
       <div class="proj-row" style="display:flex; border-bottom:1px solid #111;">
-        <div class="proj-mobile-title">📊 스포츠 분석글 판매</div>
-        <div style="flex:2; padding:24px; border-right:1px solid #111;">
+        <div class="proj-mobile-title">
+          <div style="font-size:11px; font-weight:700; border:1px solid #fff; display:inline-block; padding:2px 8px; margin-bottom:8px; opacity:0.7;">상시 모집</div>
+          <div>📊 스포츠 분석글 판매</div>
+          <div style="font-size:13px; font-weight:400; opacity:0.7; margin-top:4px;">유료 분석글 등록 · 판매 건당 수익</div>
+        </div>
+        <div class="proj-desktop-info" style="flex:2; padding:24px; border-right:1px solid #111;">
           <div style="font-size:12px; font-weight:700; border:1px solid #111; display:inline-block; padding:3px 10px; margin-bottom:12px;">상시 모집</div>
           <div style="font-size:18px; font-weight:800; margin-bottom:4px;">📊 스포츠 분석글 판매</div>
           <div style="font-size:14px; color:#555;">유료 분석글 등록 · 판매 건당 수익</div>
@@ -712,8 +722,12 @@
 
       <!-- 배당 탐색기 -->
       <div class="proj-row" style="display:flex; border-bottom:1px solid #111;">
-        <div class="proj-mobile-title">💻 배당 탐색기 개발</div>
-        <div style="flex:2; padding:24px; border-right:1px solid #111;">
+        <div class="proj-mobile-title">
+          <div style="font-size:11px; font-weight:700; border:1px solid #fff; display:inline-block; padding:2px 8px; margin-bottom:8px; opacity:0.7;">1팀 선정</div>
+          <div>💻 배당 탐색기 개발</div>
+          <div style="font-size:13px; font-weight:400; opacity:0.7; margin-top:4px;">해외 배당률 실시간 연동 시스템</div>
+        </div>
+        <div class="proj-desktop-info" style="flex:2; padding:24px; border-right:1px solid #111;">
           <div style="font-size:12px; font-weight:700; border:1px solid #111; display:inline-block; padding:3px 10px; margin-bottom:12px;">1팀 선정</div>
           <div style="font-size:18px; font-weight:800; margin-bottom:4px;">💻 배당 탐색기 개발</div>
           <div style="font-size:14px; color:#555;">해외 배당률 실시간 연동 시스템</div>
@@ -731,8 +745,12 @@
 
       <!-- 마케팅 -->
       <div class="proj-row" style="display:flex;">
-        <div class="proj-mobile-title">📣 홍보마케팅 기획</div>
-        <div style="flex:2; padding:24px; border-right:1px solid #111;">
+        <div class="proj-mobile-title">
+          <div style="font-size:11px; font-weight:700; border:1px solid #fff; display:inline-block; padding:2px 8px; margin-bottom:8px; opacity:0.7;">상시 접수</div>
+          <div>📣 홍보마케팅 기획</div>
+          <div style="font-size:13px; font-weight:400; opacity:0.7; margin-top:4px;">온·오프라인 마케팅 아이디어 제안</div>
+        </div>
+        <div class="proj-desktop-info" style="flex:2; padding:24px; border-right:1px solid #111;">
           <div style="font-size:12px; font-weight:700; border:1px solid #111; display:inline-block; padding:3px 10px; margin-bottom:12px;">상시 접수</div>
           <div style="font-size:18px; font-weight:800; margin-bottom:4px;">📣 홍보마케팅 기획</div>
           <div style="font-size:14px; color:#555;">온·오프라인 마케팅 아이디어 제안</div>
