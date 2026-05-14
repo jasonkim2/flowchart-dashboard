@@ -12,11 +12,11 @@
       --blue: #1A56DB;
       --green: #1A7B34;
       --text: #111;
-      --sub: #444;
-      --muted: #888;
+      --sub: #111;
+      --muted: #555;
       --bg: #fff;
-      --bg2: #F5F6F8;
-      --border: #E2E5EA;
+      --bg2: #fff;
+      --border: #111;
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
@@ -24,7 +24,7 @@
       font-family: 'Pretendard', -apple-system, 'Apple SD Gothic Neo', sans-serif;
       background: var(--bg);
       color: var(--text);
-      font-size: 16px;
+      font-size: 17px;
       line-height: 1.6;
       -webkit-font-smoothing: antialiased;
     }
@@ -32,25 +32,25 @@
     .sec { padding: 72px 0; }
     .sec-sm { padding: 48px 0; }
     .label {
-      font-size: 14px;
-      font-weight: 700;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 20px;
+      font-size: 22px;
+      font-weight: 900;
+      letter-spacing: -0.3px;
+      text-transform: none;
+      color: #111;
+      margin-bottom: 24px;
     }
-    .divider { height: 1px; background: var(--border); }
+    .divider { height: 1px; background: #111; }
 
     /* ── HEADER ── */
     header {
-      border-bottom: 1px solid var(--border);
+      border-bottom: 2px solid #111;
       padding: 20px 28px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       max-width: 100%;
     }
-    .logo { font-size: 14px; font-weight: 800; color: var(--red); letter-spacing: 1px; }
+    .logo { font-size: 14px; font-weight: 800; color: #111; letter-spacing: 1px; }
     .header-badge {
       font-size: 12px;
       font-weight: 600;
@@ -62,7 +62,7 @@
     .dot {
       width: 6px; height: 6px;
       border-radius: 50%;
-      background: var(--red);
+      background: #111;
       animation: blink 1.4s infinite;
     }
     @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
@@ -70,7 +70,7 @@
     /* ── HERO ── */
     .hero {
       padding: 64px 0 56px;
-      border-bottom: 1px solid var(--border);
+      border-bottom: 2px solid #111;
       background: var(--bg2);
     }
     .hero-title {
@@ -80,13 +80,12 @@
       line-height: 1.05;
       margin-bottom: 40px;
     }
-    .hero-title .red { color: var(--red); }
+    .hero-title .red { color: #111; }
 
     /* 숫자 바 */
     .stat-bar {
       display: flex;
-      border: 1px solid var(--border);
-      border-radius: 12px;
+      border: 1px solid #111;
       overflow: hidden;
       background: var(--bg);
       width: fit-content;
@@ -99,7 +98,7 @@
     .stat-num {
       font-size: 30px;
       font-weight: 900;
-      color: var(--blue);
+      color: #111;
       display: block;
       letter-spacing: -1px;
       line-height: 1;
@@ -114,7 +113,7 @@
     /* ── 수익 실사례 ── */
     .revenue-block {
       background: var(--text);
-      border-radius: 16px;
+      
       padding: 44px 48px;
       display: flex;
       align-items: center;
@@ -129,11 +128,11 @@
       line-height: 1;
       letter-spacing: -3px;
     }
-    .revenue-unit { font-size: 32px; font-weight: 700; color: rgba(255,255,255,0.5); }
-    .revenue-sub { font-size: 14px; color: rgba(255,255,255,0.4); margin-top: 8px; }
+    .revenue-unit { font-size: 32px; font-weight: 700; color: rgba(255,255,255,0.9); }
+    .revenue-sub { font-size: 14px; color: rgba(255,255,255,0.85); margin-top: 8px; }
     .revenue-desc {
       font-size: 18px;
-      color: rgba(255,255,255,0.7);
+      color: #fff;
       line-height: 1.8;
       max-width: 420px;
     }
@@ -141,8 +140,8 @@
 
     /* ── DATA ── */
     .opta-block {
-      border: 1px solid var(--border);
-      border-radius: 16px;
+      border: 1px solid #111;
+      
       overflow: hidden;
       margin-bottom: 16px;
     }
@@ -156,19 +155,18 @@
       gap: 12px;
     }
     .opta-head-title {
-      font-size: 20px;
+      font-size: 22px;
       font-weight: 800;
       color: #fff;
     }
-    .opta-head-sub { font-size: 16px; color: rgba(255,255,255,0.8); line-height: 1.7; margin-top: 6px; }
+    .opta-head-sub { font-size: 16px; color: #fff; line-height: 1.7; margin-top: 6px; }
     .opta-contract {
       font-size: 15px;
       font-weight: 800;
       color: #fff;
-      background: var(--blue);
+      background: #111;
       border: none;
       padding: 8px 20px;
-      border-radius: 100px;
       letter-spacing: 1px;
       white-space: nowrap;
     }
@@ -176,45 +174,45 @@
     /* 팀 스탯 테이블 */
     .match-table { width: 100%; border-collapse: collapse; }
     .match-table .col-team { width: 40%; padding: 13px 24px; font-size: 16px; font-weight: 700; }
-    .match-table .col-label { width: 20%; padding: 13px 0; font-size: 13px; color: var(--muted); text-align: center; border-left: 1px solid var(--border); border-right: 1px solid var(--border); }
-    .match-table tr { border-bottom: 1px solid var(--border); }
+    .match-table .col-label { width: 20%; padding: 13px 0; font-size: 16px; color: #111; text-align: center; border-left: 1px solid var(--border); border-right: 1px solid var(--border); }
+    .match-table tr { border-bottom: 2px solid #111; }
     .match-table tr:last-child { border-bottom: none; }
-    .match-table .head-row { background: var(--bg2); font-size: 13px; font-weight: 700; }
-    .match-table .val-home { text-align: right; color: var(--red); }
+    .match-table .head-row { background: #fff; font-size: 16px; font-weight: 700; }
+    .match-table .val-home { text-align: right; color: #111; font-weight: 700; }
     .match-table .val-away { color: var(--sub); }
-    .match-table tr:nth-child(even):not(.head-row) { background: #FAFAFA; }
-    .match-num { font-size: 16px; font-weight: 700; }
+    .match-table tr:nth-child(even):not(.head-row) { background: #fff; }
+    .match-num { font-size: 18px; font-weight: 700; }
 
     /* 선수 테이블 */
     .player-table { width: 100%; border-collapse: collapse; }
-    .player-table th { background: var(--bg2); padding: 12px 16px; font-size: 12px; font-weight: 700; color: var(--muted); border-bottom: 1px solid var(--border); text-align: center; }
+    .player-table th { background: var(--bg2); padding: 12px 16px; font-size: 16px; font-weight: 700; color: #111; border-bottom: 2px solid #111; text-align: center; }
     .player-table th:first-child { text-align: left; }
-    .player-table td { padding: 13px 16px; font-size: 14px; color: var(--sub); border-bottom: 1px solid var(--border); text-align: center; }
+    .player-table td { padding: 13px 16px; font-size: 16px; color: #111; border-bottom: 1px solid #111; text-align: center; }
     .player-table td:first-child { font-weight: 700; color: var(--text); text-align: left; }
     .player-table tr:last-child td { border-bottom: none; }
-    .player-table tr:nth-child(even) td { background: #FAFAFA; }
-    .val-red { color: var(--red); font-weight: 700; }
-    .val-blue { color: var(--blue); font-weight: 700; }
-    .val-green { color: var(--green); font-weight: 700; }
+    .player-table tr:nth-child(even) td { background: #fff; }
+    .val-red { color: #111; font-weight: 700; }
+    .val-blue { color: #111; font-weight: 700; }
+    .val-green { color: #444; font-weight: 700; }
 
     /* 데이터 카드 그리드 */
     .data-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 1px;
-      background: var(--border);
-      border: 1px solid var(--border);
-      border-radius: 14px;
+      background: #111;
+      border: 1px solid #111;
+      
       overflow: hidden;
     }
     .data-cell {
       background: var(--bg);
       padding: 24px 22px;
     }
-    .data-cell-title { font-size: 13px; font-weight: 700; color: var(--muted); margin-bottom: 12px; }
+    .data-cell-title { font-size: 16px; font-weight: 700; color: var(--muted); margin-bottom: 12px; }
     .data-cell-num { font-size: 26px; font-weight: 900; color: var(--text); letter-spacing: -1px; line-height: 1; margin-bottom: 8px; }
     .data-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 10px; }
-    .data-tag { font-size: 12px; color: var(--sub); background: var(--bg2); border: 1px solid var(--border); padding: 3px 9px; border-radius: 5px; }
+    .data-tag { font-size: 14px; color: var(--sub); background: var(--bg2); border: 1px solid #111; padding: 3px 9px; }
 
     /* ── 프로젝트 ── */
     .proj-table { width: 100%; border-collapse: collapse; }
@@ -224,33 +222,32 @@
       font-size: 12px;
       font-weight: 700;
       color: var(--muted);
-      border-bottom: 1px solid var(--border);
+      border-bottom: 2px solid #111;
       text-align: left;
     }
     .proj-table td {
       padding: 20px 20px;
       font-size: 15px;
       color: var(--sub);
-      border-bottom: 1px solid var(--border);
+      border-bottom: 2px solid #111;
       vertical-align: top;
     }
     .proj-table tr:last-child td { border-bottom: none; }
-    .proj-table tr:nth-child(even) td { background: #FAFAFA; }
+    .proj-table tr:nth-child(even) td { background: #fff; }
     .proj-name { font-size: 16px; font-weight: 800; color: var(--text); margin-bottom: 4px; }
-    .proj-earn { font-size: 24px; font-weight: 900; color: var(--red); letter-spacing: -0.5px; }
-    .proj-earn.blue { color: var(--blue); }
-    .proj-earn.green { color: var(--green); }
+    .proj-earn { font-size: 24px; font-weight: 900; color: #111; letter-spacing: -0.5px; }
+    .proj-earn.blue { color: #111; }
+    .proj-earn.green { color: #111; }
     .proj-type {
       display: inline-block;
       font-size: 11px;
       font-weight: 700;
       letter-spacing: 1px;
       padding: 3px 10px;
-      border-radius: 100px;
       margin-bottom: 8px;
     }
-    .type-always { background: #FFF2EE; color: var(--red); border: 1px solid #FBBDAA; }
-    .type-select { background: var(--bg2); color: var(--muted); border: 1px solid var(--border); }
+    .type-always { background: #fff; color: #444; border: 1px solid #111; }
+    .type-select { background: #fff; color: #444; border: 1px solid #111; }
 
     /* ── 기술 수익 ── */
     .tech-flow {
@@ -261,20 +258,19 @@
       margin-bottom: 24px;
     }
     .flow-step {
-      border: 1px solid var(--border);
-      border-radius: 12px;
+      border: 1px solid #111;
       padding: 20px 16px;
       text-align: center;
       background: var(--bg);
     }
-    .flow-step.active { border-color: var(--red); background: #FFF2EE; }
+    .flow-step.active { border-color: #111; background: #fff; }
     .flow-icon { font-size: 22px; margin-bottom: 8px; }
     .flow-title { font-size: 14px; font-weight: 700; color: var(--text); }
     .flow-arrow { text-align: center; color: var(--border); font-size: 18px; font-weight: 300; }
 
     .dist-table { width: 100%; border-collapse: collapse; }
-    .dist-table th { background: var(--bg2); padding: 13px 20px; font-size: 12px; font-weight: 700; color: var(--muted); border-bottom: 1px solid var(--border); text-align: left; }
-    .dist-table td { padding: 18px 20px; font-size: 15px; border-bottom: 1px solid var(--border); color: var(--sub); }
+    .dist-table th { background: var(--bg2); padding: 13px 20px; font-size: 12px; font-weight: 700; color: var(--muted); border-bottom: 2px solid #111; text-align: left; }
+    .dist-table td { padding: 18px 20px; font-size: 15px; border-bottom: 2px solid #111; color: var(--sub); }
     .dist-table tr:last-child td { border-bottom: none; }
     .dist-num { font-size: 26px; font-weight: 900; letter-spacing: -1px; }
 
@@ -283,15 +279,15 @@
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 1px;
-      background: var(--border);
-      border: 1px solid var(--border);
-      border-radius: 14px;
+      background: #111;
+      border: 1px solid #111;
+      
       overflow: hidden;
       margin-bottom: 16px;
     }
     .settle-cell { background: var(--bg); padding: 28px 24px; text-align: center; }
     .settle-label { font-size: 13px; color: var(--muted); font-weight: 600; margin-bottom: 14px; line-height: 1.5; }
-    .settle-num { font-size: 48px; font-weight: 900; color: var(--blue); letter-spacing: -2px; line-height: 1; }
+    .settle-num { font-size: 48px; font-weight: 900; color: #111; letter-spacing: -2px; line-height: 1; }
     .settle-unit { font-size: 20px; font-weight: 700; color: var(--sub); }
     .settle-note { font-size: 13px; color: var(--muted); margin-top: 10px; line-height: 1.6; }
 
@@ -301,7 +297,7 @@
       display: flex;
       gap: 16px;
       padding: 18px 0;
-      border-bottom: 1px solid var(--border);
+      border-bottom: 2px solid #111;
       align-items: flex-start;
     }
     .cond-item:last-child { border-bottom: none; }
@@ -321,7 +317,7 @@
       position: absolute;
       top: 20px; left: 12%; right: 12%;
       height: 1px;
-      background: var(--border);
+      background: #111;
     }
     .step { text-align: center; padding: 0 8px; }
     .step-num {
@@ -332,23 +328,22 @@
       margin: 0 auto 16px;
       position: relative; z-index: 1;
       background: var(--bg2);
-      border: 1px solid var(--border);
+      border: 1px solid #111;
       color: var(--sub);
     }
-    .step:first-child .step-num { background: var(--blue); border-color: var(--blue); color: #fff; }
+    .step:first-child .step-num { background: #111; border-color: #111; color: #fff; }
     .step-title { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 6px; }
     .step-note { font-size: 14px; color: var(--muted); line-height: 1.6; }
 
     /* ── MD 프로토콜 ── */
     .md-box {
-      background: #F8F9FA;
-      border: 1px solid var(--border);
-      border-radius: 12px;
+      background: #fff;
+      border: 1px solid #111;
       overflow: hidden;
       font-family: 'SF Mono', 'Fira Code', monospace;
     }
     .md-bar {
-      background: #EAECEF;
+      background: #fff;
       padding: 9px 16px;
       display: flex;
       align-items: center;
@@ -357,22 +352,21 @@
     .md-dot { width: 10px; height: 10px; border-radius: 50%; }
     .md-content { padding: 20px 24px; }
     .md-line { font-size: 14px; line-height: 2.1; display: block; }
-    .mk { color: var(--blue); font-weight: 600; }
-    .mv { color: var(--green); }
-    .mc { color: #AAA; font-style: italic; }
-    .mh { color: var(--red); font-weight: 700; }
-    .md-sep { color: #AAA; }
+    .mk { color: #111; font-weight: 600; }
+    .mv { color: #444; }
+    .mc { color: #555; font-style: italic; }
+    .mh { color: #111; font-weight: 700; }
+    .md-sep { color: #555; }
 
     /* ── CONTACT ── */
-    .contact-wrap { text-align: center; padding: 64px 0; border-top: 1px solid var(--border); }
+    .contact-wrap { text-align: center; padding: 64px 0; border-top: 2px solid #111; }
     .contact-email {
       display: inline-block;
-      font-size: 20px;
+      font-size: 22px;
       font-weight: 800;
-      color: var(--red);
-      background: #FFF2EE;
-      border: 1.5px solid #FBBDAA;
-      border-radius: 12px;
+      color: #fff;
+      background: #111;
+      border: 1.5px solid #111;
       padding: 18px 40px;
       text-decoration: none;
       margin-bottom: 16px;
@@ -380,7 +374,7 @@
     .contact-note { font-size: 14px; color: var(--muted); line-height: 1.8; }
 
     /* ── FOOTER ── */
-    footer { border-top: 1px solid var(--border); padding: 32px 28px; text-align: center; }
+    footer { border-top: 2px solid #111; padding: 32px 28px; text-align: center; }
     footer p { font-size: 13px; color: var(--muted); margin-top: 4px; }
 
     /* ── RESPONSIVE ── */
@@ -412,7 +406,7 @@
 </header>
 
 <!-- ── HERO ── -->
-<section class="hero">
+<section class="hero" >
   <div class="wrap">
     <div class="hero-title">
       스포츠 크리에이터<br/>
@@ -444,7 +438,7 @@
   <div class="wrap">
     <div class="revenue-block" style="justify-content:center;">
       <div style="display:flex; align-items:center; gap:24px; flex-wrap:wrap;">
-        <div style="font-size:36px; font-weight:800; color:rgba(255,255,255,0.8);">활동 중 픽스터 · 월 최고 수익</div>
+        <div style="font-size:36px; font-weight:800; color:#fff;">활동 중 픽스터 · 월 최고 수익</div>
         <div style="font-size:36px; font-weight:800; color:#fff;">:</div>
         <div style="font-size:36px; font-weight:900; color:#fff; letter-spacing:-1px;">1,000만원+</div>
       </div>
@@ -586,7 +580,7 @@
         </tbody>
       </table>
     </div>
-    <div style="font-size:12px; color:#BBB; padding-left:2px;">* 실제 Opta 데이터 구조 기반 샘플. 수치는 예시입니다.</div>
+    <div style="font-size:12px; color:#555; padding-left:2px;">* 실제 Opta 데이터 구조 기반 샘플. 수치는 예시입니다.</div>
 
     <!-- 데이터 카드 그리드 -->
     <div style="margin-top:32px;" class="label">전체 데이터 구성</div>
@@ -626,26 +620,26 @@
           <span class="data-tag">오센(OSEN) · 국내</span><span class="data-tag">Getty Images · 해외</span><span class="data-tag">종목·리그·선수 검색</span>
         </div>
       </div>
-      <div class="data-cell" style="opacity:0.6;">
-        <div class="data-cell-title">🤖 AI·분석 <span style="font-size:11px; background:#E2E5EA; color:#888; padding:2px 8px; border-radius:100px; margin-left:6px;">순차 오픈</span></div>
+      <div class="data-cell">
+        <div class="data-cell-title">🤖 AI·분석 <span style="font-size:11px; background:#E2E5EA; color:#888; padding:2px 8px; margin-left:6px;">순차 오픈</span></div>
         <div class="data-cell-num" style="font-size:18px; color:var(--muted);">준비 중</div>
         <div class="data-tags">
           <span class="data-tag">픽 조합</span><span class="data-tag">분석가 승률</span><span class="data-tag">축구·야구·농구 예측</span>
         </div>
       </div>
     </div>
-    <div style="margin-top:12px; background:var(--text); border-radius:12px; padding:20px 28px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
-      <div style="font-size:28px; font-weight:900; color:#fff; letter-spacing:-1px;">13억+ <span style="font-size:16px; color:rgba(255,255,255,0.4); font-weight:500;">건</span></div>
-      <div style="font-size:13px; color:rgba(255,255,255,0.45);">Opta · BetsAPI · Betradar · Sports2i · 오센 · Getty Images · 자체 수집</div>
+    <div style="margin-top:12px; background:var(--text); padding:20px 28px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+      <div style="font-size:28px; font-weight:900; color:#fff; letter-spacing:-1px;">13억+ <span style="font-size:16px; color:rgba(255,255,255,0.85); font-weight:500;">건</span></div>
+      <div style="font-size:13px; color:#fff;">Opta · BetsAPI · Betradar · Sports2i · 오센 · Getty Images · 자체 수집</div>
     </div>
   </div>
 </div>
 
 <!-- ── 모집 프로젝트 ── -->
-<div class="sec" style="background:var(--bg2); border-bottom:1px solid var(--border);">
+<div class="sec" style="background:var(--bg); border-bottom:1px solid var(--border);">
   <div class="wrap">
     <div class="label">현재 모집 중인 프로젝트</div>
-    <div style="border:1px solid var(--border); border-radius:14px; overflow:hidden; background:var(--bg);">
+    <div style="border:1px solid var(--border);  overflow:hidden; background:var(--bg);">
       <table class="proj-table" style="width:100%; border-collapse:collapse;">
         <thead>
           <tr>
@@ -717,7 +711,7 @@
 
 
 <!-- ── 수익 구조 ── -->
-<div class="sec" style="background:var(--bg2); border-bottom:1px solid var(--border);">
+<div class="sec" style="background:var(--bg); border-bottom:1px solid var(--border);">
   <div class="wrap">
     <div class="label">수익 구조</div>
     <div class="settle-grid">
@@ -737,11 +731,11 @@
         <div class="settle-note">사업소득세<br/>연간 종합소득세 신고 필요</div>
       </div>
     </div>
-    <div style="border:1px solid var(--border); border-radius:12px; background:var(--bg); padding:20px 24px;">
+    <div style="border:1px solid var(--border); background:var(--bg); padding:20px 24px;">
       <ul style="list-style:none;">
-        <li style="font-size:15px; color:var(--sub); padding:5px 0; display:flex; gap:10px;"><span style="color:var(--blue);">·</span>크리에이터 콘텐츠 일부(제목·요약·썸네일)는 플랫폼 마케팅에 활용될 수 있습니다.</li>
-        <li style="font-size:15px; color:var(--sub); padding:5px 0; display:flex; gap:10px;"><span style="color:var(--blue);">·</span>개발·마케팅 결과물의 지식재산권은 회사에 귀속됩니다. 기여자는 약정 수익 배분권을 보장받습니다.</li>
-        <li style="font-size:15px; color:var(--sub); padding:5px 0; display:flex; gap:10px;"><span style="color:var(--blue);">·</span>정산율·운영 정책 변경 시 30일 전 공지합니다.</li>
+        <li style="font-size:15px; color:var(--sub); padding:5px 0; display:flex; gap:10px;"><span style="color:#111;">·</span>크리에이터 콘텐츠 일부(제목·요약·썸네일)는 플랫폼 마케팅에 활용될 수 있습니다.</li>
+        <li style="font-size:15px; color:var(--sub); padding:5px 0; display:flex; gap:10px;"><span style="color:#111;">·</span>개발·마케팅 결과물의 지식재산권은 회사에 귀속됩니다. 기여자는 약정 수익 배분권을 보장받습니다.</li>
+        <li style="font-size:15px; color:var(--sub); padding:5px 0; display:flex; gap:10px;"><span style="color:#111;">·</span>정산율·운영 정책 변경 시 30일 전 공지합니다.</li>
       </ul>
     </div>
   </div>
@@ -777,10 +771,10 @@
 </div>
 
 <!-- ── 산출물 프로토콜 ── -->
-<div class="sec" style="background:var(--bg2); border-bottom:1px solid var(--border);">
+<div class="sec" style="background:var(--bg); border-bottom:1px solid var(--border);">
   <div class="wrap">
     <div class="label">활동 기록 프로토콜 — 전체 참여자</div>
-    <div style="background:var(--bg); border:1px solid var(--border); border-radius:14px; overflow:hidden;">
+    <div style="background:var(--bg); border:1px solid var(--border);  overflow:hidden;">
       <div style="padding:20px 24px; border-bottom:1px solid var(--border); font-size:15px; color:var(--sub); line-height:1.8;">
         참여 유형에 관계없이 모든 활동의 진행 과정·방식·의사결정 내용을<br/>
         <strong style="color:var(--text);">MD 파일로 정리하여 제출해야 합니다.</strong><br/>
@@ -815,7 +809,7 @@
 <div class="sec" style="border-bottom:1px solid var(--border);">
   <div class="wrap">
     <div class="label">참여 조건</div>
-    <div style="background:var(--bg); border:1px solid var(--border); border-radius:14px; padding:4px 24px;">
+    <div style="background:var(--bg); border:1px solid var(--border);  padding:4px 24px;">
       <ul class="cond-list">
         <li class="cond-item">
           <span class="cond-icon">🏅</span>
