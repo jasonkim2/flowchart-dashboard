@@ -378,6 +378,7 @@
     /* ── FOOTER ── */
     footer { border-top: 2px solid #111; padding: 32px 28px; text-align: center; }
     footer p { font-size: 13px; color: var(--muted); margin-top: 4px; }
+    .proj-mobile-title { display: none; }
 
     /* ── RESPONSIVE ── */
     @media (max-width: 720px) {
@@ -418,9 +419,11 @@
       .step-row { grid-template-columns: repeat(2, 1fr); gap: 28px; }
       .step-row::before { display: none; }
       .contact-email { width: 100%; font-size: 16px; padding: 16px 20px; }
-      .proj-grid-row { grid-template-columns: 1fr !important; }
-      .proj-grid-row > div { border-right: none !important; border-bottom: 1px solid #111; }
-      .proj-grid-row > div:last-child { border-bottom: none; }
+      .proj-row { flex-direction: column !important; }
+      .proj-row > div { border-right: none !important; border-bottom: 1px solid #111; }
+      .proj-row > div:last-child { border-bottom: none; }
+      .proj-row > div:nth-child(2) { flex: none !important; padding: 16px 24px !important; flex-direction: row !important; align-items: center !important; justify-content: flex-start !important; gap: 12px; }
+      .proj-mobile-title { display: block; background: #111; color: #fff; font-size: 15px; font-weight: 800; padding: 12px 24px; }
     }
   </style>
 </head>
@@ -667,74 +670,78 @@
 <div class="sec" style="background:var(--bg); border-bottom:1px solid #111;">
   <div class="wrap">
     <div class="label">현재 모집 중인 프로젝트</div>
-    <div style="display:flex; flex-direction:column; gap:0; border:1px solid #111;">
+    <div style="border:1px solid #111;">
 
       <!-- 중계 -->
-      <div class="proj-grid-row" style="display:grid; grid-template-columns:1fr 1fr 1fr; border-bottom:1px solid #111;">
-        <div style="padding:20px; border-right:1px solid #111;">
-          <div style="font-size:12px; font-weight:700; border:1px solid #111; display:inline-block; padding:3px 10px; margin-bottom:10px;">상시 모집</div>
-          <div style="font-size:17px; font-weight:800; margin-bottom:4px;">🎙️ 실시간 스포츠 중계</div>
+      <div class="proj-row" style="display:flex; border-bottom:1px solid #111;">
+        <div class="proj-mobile-title">🎙️ 실시간 스포츠 중계</div>
+        <div style="flex:2; padding:24px; border-right:1px solid #111;">
+          <div style="font-size:12px; font-weight:700; border:1px solid #111; display:inline-block; padding:3px 10px; margin-bottom:12px;">상시 모집</div>
+          <div style="font-size:18px; font-weight:800; margin-bottom:4px;">🎙️ 실시간 스포츠 중계</div>
           <div style="font-size:14px; color:#555;">경기 중계 방송 · 후원 포인트 수익</div>
         </div>
-        <div style="padding:20px; border-right:1px solid #111; text-align:center; display:flex; flex-direction:column; align-items:center; justify-content:center;">
-          <div style="font-size:28px; font-weight:900; white-space:nowrap;">70 %</div>
-          <div style="font-size:12px; color:#555; margin-top:6px; line-height:1.6;">※ 구글·애플 플랫폼<br/>수수료 제외</div>
+        <div style="flex:1; padding:20px; border-right:1px solid #111; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;">
+          <div style="font-size:18px; font-weight:900;">수익 70 %</div>
+          <div style="font-size:11px; color:#555; margin-top:6px; line-height:1.6;">※ 구글·애플<br/>수수료 제외</div>
         </div>
-        <div style="padding:20px; font-size:14px; color:#444; line-height:1.9;">
+        <div style="flex:2; padding:24px; font-size:14px; color:#444; line-height:2;">
           약관 동의 후 즉시 시작<br/>
-          누적 5만원 이상 시 익월 말일 정산<br/>
+          5만원 이상 시 익월 말일 정산<br/>
           계약 기간 제한 없음
         </div>
       </div>
 
       <!-- 분석글 -->
-      <div class="proj-grid-row" style="display:grid; grid-template-columns:1fr 1fr 1fr; border-bottom:1px solid #111;">
-        <div style="padding:20px; border-right:1px solid #111;">
-          <div style="font-size:12px; font-weight:700; border:1px solid #111; display:inline-block; padding:3px 10px; margin-bottom:10px;">상시 모집</div>
-          <div style="font-size:17px; font-weight:800; margin-bottom:4px;">📊 스포츠 분석글 판매</div>
+      <div class="proj-row" style="display:flex; border-bottom:1px solid #111;">
+        <div class="proj-mobile-title">📊 스포츠 분석글 판매</div>
+        <div style="flex:2; padding:24px; border-right:1px solid #111;">
+          <div style="font-size:12px; font-weight:700; border:1px solid #111; display:inline-block; padding:3px 10px; margin-bottom:12px;">상시 모집</div>
+          <div style="font-size:18px; font-weight:800; margin-bottom:4px;">📊 스포츠 분석글 판매</div>
           <div style="font-size:14px; color:#555;">유료 분석글 등록 · 판매 건당 수익</div>
         </div>
-        <div style="padding:20px; border-right:1px solid #111; text-align:center; display:flex; flex-direction:column; align-items:center; justify-content:center;">
-          <div style="font-size:28px; font-weight:900; white-space:nowrap;">70 %</div>
-          <div style="font-size:12px; color:#555; margin-top:6px; line-height:1.6;">※ 구글·애플 플랫폼<br/>수수료 제외</div>
+        <div style="flex:1; padding:20px; border-right:1px solid #111; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;">
+          <div style="font-size:18px; font-weight:900;">수익 70 %</div>
+          <div style="font-size:11px; color:#555; margin-top:6px; line-height:1.6;">※ 구글·애플<br/>수수료 제외</div>
         </div>
-        <div style="padding:20px; font-size:14px; color:#444; line-height:1.9;">
+        <div style="flex:2; padding:24px; font-size:14px; color:#444; line-height:2;">
           약관 동의 후 즉시 업로드<br/>
-          누적 5만원 이상 시 익월 말일 정산<br/>
+          5만원 이상 시 익월 말일 정산<br/>
           1건 등록 후 반복 수익 발생
         </div>
       </div>
 
       <!-- 배당 탐색기 -->
-      <div class="proj-grid-row" style="display:grid; grid-template-columns:1fr 1fr 1fr; border-bottom:1px solid #111;">
-        <div style="padding:20px; border-right:1px solid #111;">
-          <div style="font-size:12px; font-weight:700; border:1px solid #111; display:inline-block; padding:3px 10px; margin-bottom:10px;">1팀 선정</div>
-          <div style="font-size:17px; font-weight:800; margin-bottom:4px;">💻 배당 탐색기 개발</div>
+      <div class="proj-row" style="display:flex; border-bottom:1px solid #111;">
+        <div class="proj-mobile-title">💻 배당 탐색기 개발</div>
+        <div style="flex:2; padding:24px; border-right:1px solid #111;">
+          <div style="font-size:12px; font-weight:700; border:1px solid #111; display:inline-block; padding:3px 10px; margin-bottom:12px;">1팀 선정</div>
+          <div style="font-size:18px; font-weight:800; margin-bottom:4px;">💻 배당 탐색기 개발</div>
           <div style="font-size:14px; color:#555;">해외 배당률 실시간 연동 시스템</div>
         </div>
-        <div style="padding:20px; border-right:1px solid #111; text-align:center; display:flex; flex-direction:column; align-items:center; justify-content:center;">
-          <div style="font-size:28px; font-weight:900; white-space:nowrap;">100 %</div>
+        <div style="flex:1; padding:20px; border-right:1px solid #111; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;">
+          <div style="font-size:18px; font-weight:900;">비용 100 % + 성과금</div>
         </div>
-        <div style="padding:20px; font-size:14px; color:#444; line-height:1.9;">
+        <div style="flex:2; padding:24px; font-size:14px; color:#444; line-height:2;">
           RFP 제안서 제출 → 선정<br/>
           착수 30% → 중도금 → 잔금<br/>
-          목표 달성 시 러닝 개런티 추가<br/>
+          목표 달성 시 러닝 개런티<br/>
           익월 10일 정산
         </div>
       </div>
 
       <!-- 마케팅 -->
-      <div class="proj-grid-row" style="display:grid; grid-template-columns:1fr 1fr 1fr;">
-        <div style="padding:20px; border-right:1px solid #111;">
-          <div style="font-size:12px; font-weight:700; border:1px solid #111; display:inline-block; padding:3px 10px; margin-bottom:10px;">상시 접수</div>
-          <div style="font-size:17px; font-weight:800; margin-bottom:4px;">📣 홍보마케팅 기획</div>
+      <div class="proj-row" style="display:flex;">
+        <div class="proj-mobile-title">📣 홍보마케팅 기획</div>
+        <div style="flex:2; padding:24px; border-right:1px solid #111;">
+          <div style="font-size:12px; font-weight:700; border:1px solid #111; display:inline-block; padding:3px 10px; margin-bottom:12px;">상시 접수</div>
+          <div style="font-size:18px; font-weight:800; margin-bottom:4px;">📣 홍보마케팅 기획</div>
           <div style="font-size:14px; color:#555;">온·오프라인 마케팅 아이디어 제안</div>
         </div>
-        <div style="padding:20px; border-right:1px solid #111; text-align:center; display:flex; flex-direction:column; align-items:center; justify-content:center;">
-          <div style="font-size:24px; font-weight:900; white-space:nowrap;">채택 시</div>
+        <div style="flex:1; padding:20px; border-right:1px solid #111; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;">
+          <div style="font-size:18px; font-weight:900;">수익 제안</div>
         </div>
-        <div style="padding:20px; font-size:14px; color:#444; line-height:1.9;">
-          제안서 제출 → 검토 → 채택 시 계약<br/>
+        <div style="flex:2; padding:24px; font-size:14px; color:#444; line-height:2;">
+          제안서 제출 → 채택 시 계약<br/>
           소요 비용 전액 지급<br/>
           성과에 따라 보너스 추가<br/>
           익월 10일 정산
