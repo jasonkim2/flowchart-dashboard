@@ -173,8 +173,8 @@
 
     /* 팀 스탯 테이블 */
     .match-table { width: 100%; border-collapse: collapse; }
-    .match-table .col-team { width: 40%; padding: 13px 24px; font-size: 16px; font-weight: 700; }
-    .match-table .col-label { width: 20%; padding: 13px 0; font-size: 16px; color: #111; text-align: center; border-left: 1px solid var(--border); border-right: 1px solid var(--border); }
+    .match-table .col-team { width: 35%; padding: 13px 24px; font-size: 16px; font-weight: 700; }
+    .match-table .col-label { width: 30%; padding: 13px 0; font-size: 16px; color: #111; text-align: center; border-left: 1px solid var(--border); border-right: 1px solid var(--border); }
     .match-table tr { border-bottom: 1px solid #111; }
     .match-table tr:last-child { border-bottom: none; }
     .match-table .head-row { background: #fff; font-size: 16px; font-weight: 700; }
@@ -235,7 +235,7 @@
     .proj-table tr:last-child td { border-bottom: none; }
     .proj-table tr:nth-child(even) td { background: #fff; }
     .proj-name { font-size: 16px; font-weight: 800; color: var(--text); margin-bottom: 4px; }
-    .proj-earn { font-size: 24px; font-weight: 900; color: #111; letter-spacing: -0.5px; }
+    .proj-earn { font-size: 24px; font-weight: 900; color: #111; letter-spacing: -0.5px; white-space: nowrap; }
     .proj-earn.blue { color: #111; }
     .proj-earn.green { color: #111; }
     .proj-type {
@@ -361,15 +361,17 @@
     /* ── CONTACT ── */
     .contact-wrap { text-align: center; padding: 64px 0; border-top: 2px solid #111; }
     .contact-email {
-      display: inline-block;
-      font-size: 22px;
+      display: block;
+      width: fit-content;
+      margin: 0 auto 16px;
+      font-size: 20px;
       font-weight: 800;
       color: #fff;
       background: #111;
       border: 1.5px solid #111;
       padding: 18px 40px;
       text-decoration: none;
-      margin-bottom: 16px;
+      text-align: center;
     }
     .contact-note { font-size: 14px; color: var(--muted); line-height: 1.8; }
 
@@ -415,6 +417,7 @@
       .opta-head-sub { font-size: 14px; }
       .step-row { grid-template-columns: repeat(2, 1fr); gap: 28px; }
       .step-row::before { display: none; }
+      .contact-email { width: 100%; font-size: 16px; padding: 16px 20px; }
     }
   </style>
 </head>
@@ -666,8 +669,8 @@
         <thead>
           <tr>
             <th style="width:36%;">프로젝트</th>
-            <th style="width:18%;">수익</th>
-            <th style="width:46%;">조건</th>
+            <th style="width:22%;">수익</th>
+            <th style="width:42%;">조건</th>
           </tr>
         </thead>
         <tbody>
