@@ -1,1478 +1,874 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>2026년 시즌1 프로젝트</title>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
-<style>
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #ffffff; min-height: 100vh; color: #111111; }
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>LIVE스코어 오픈플랫폼</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --red: #D92B00;
+      --blue: #1A56DB;
+      --green: #1A7B34;
+      --text: #111;
+      --sub: #444;
+      --muted: #888;
+      --bg: #fff;
+      --bg2: #F5F6F8;
+      --border: #E2E5EA;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Pretendard', -apple-system, 'Apple SD Gothic Neo', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    .wrap { max-width: 960px; margin: 0 auto; padding: 0 28px; }
+    .sec { padding: 72px 0; }
+    .sec-sm { padding: 48px 0; }
+    .label {
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+    .divider { height: 1px; background: var(--border); }
 
-/* ── HEADER ── */
-.hdr {
-  background: #ffffff; color: #111111;
-  padding: 36px 48px 32px; display: flex; align-items: center; gap: 20px;
-  border-bottom: 2px solid #111111;
-}
-.hdr-back {
-  background: #ffffff; border: 1.5px solid #111111; color: #111111;
-  height: 44px; padding: 0 18px 0 14px;
-  border-radius: 22px; cursor: pointer;
-  font-size: 15px; font-weight: 700; transition: all .2s ease; display: none;
-  align-items: center; justify-content: center; gap: 8px;
-  letter-spacing: -.2px;
-  font-family: inherit;
-}
-.hdr-back-arrow { font-size: 18px; line-height: 1; display: inline-block; transition: transform .2s ease; }
-.hdr-back-label { line-height: 1; }
-.hdr-back:hover { background: #111111; color: #ffffff; }
-.hdr-back:hover .hdr-back-arrow { transform: translateX(-3px); }
-.hdr-back:active { transform: scale(0.97); }
-.hdr-text {
-  flex: 1;
-  min-width: 0;
-}
-.hdr-pm {
-  flex-shrink: 0;
-  text-align: right;
-  padding-left: 20px;
-  display: flex;
-  align-items: baseline;
-  gap: 10px;
-}
-.hdr-pm:empty { display: none; }
-.hdr-pm-label {
-  font-size: 30px;
-  color: #111111;
-  font-weight: 800;
-  letter-spacing: -.3px;
-  line-height: 1.25;
-}
-.hdr-pm-name {
-  font-size: 30px;
-  font-weight: 800;
-  color: #111111;
-  letter-spacing: -.3px;
-  line-height: 1.25;
-}
-/* 모바일: PM 블록 세로 스택 */
-@media (max-width: 720px) {
-  .hdr { flex-wrap: wrap; }
-  .hdr-pm { padding-left: 0; margin-top: 12px; text-align: left; width: 100%; }
-}
+    /* ── HEADER ── */
+    header {
+      border-bottom: 1px solid var(--border);
+      padding: 20px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 100%;
+    }
+    .logo { font-size: 14px; font-weight: 800; color: var(--red); letter-spacing: 1px; }
+    .header-badge {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+    .dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--red);
+      animation: blink 1.4s infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
 
-.hdr-title { font-size: 30px; font-weight: 800; letter-spacing: -.3px; line-height: 1.25; }
-.hdr-sub { font-size: 18px; color: #333333; margin-top: 14px; font-weight: 600; line-height: 1.5; }
-.hdr-sub:empty { display: none; }
-.hdr-sub-label {
-  color: #6b7280;
-  font-weight: 600;
-  margin-right: 6px;
-}
-.hdr-sub-content {
-  color: #111111;
-  font-weight: 700;
-}
-.hdr-collab {
-  font-size: 16px; color: #333333; margin-top: 10px; font-weight: 600; line-height: 1.5;
-}
-.hdr-collab:empty { display: none; }
-.hdr-collab-label {
-  color: #6b7280;
-  font-weight: 600;
-  margin-right: 6px;
-}
-.hdr-collab-names {
-  color: #2563eb;
-  font-weight: 700;
-}
+    /* ── HERO ── */
+    .hero {
+      padding: 64px 0 56px;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg2);
+    }
+    .hero-title {
+      font-size: clamp(40px, 6vw, 72px);
+      font-weight: 900;
+      letter-spacing: -2px;
+      line-height: 1.05;
+      margin-bottom: 40px;
+    }
+    .hero-title .red { color: var(--red); }
 
-/* ── LOADING / ERROR / EMPTY ── */
-.state-box { text-align: center; padding: 80px 20px; color: #999999; }
-.state-box .ico { font-size: 36px; margin-bottom: 16px; color: #cccccc; }
-.state-box h2 { font-size: 16px; color: #333333; margin-bottom: 8px; font-weight: 700; }
-.state-box p { font-size: 13px; line-height: 1.8; color: #666666; }
-.state-box code {
-  background: #f4f4f4; padding: 2px 8px; border-radius: 4px;
-  font-family: monospace; color: #2563eb;
-}
-.spinner {
-  width: 32px; height: 32px; border: 2.5px solid #e0e0e0;
-  border-top-color: #2563eb; border-radius: 50%;
-  animation: spin .7s linear infinite; margin: 0 auto 16px;
-}
-@keyframes spin { to { transform: rotate(360deg); } }
+    /* 숫자 바 */
+    .stat-bar {
+      display: flex;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      background: var(--bg);
+      width: fit-content;
+    }
+    .stat-item {
+      padding: 20px 36px;
+      border-right: 1px solid var(--border);
+    }
+    .stat-item:last-child { border-right: none; }
+    .stat-num {
+      font-size: 30px;
+      font-weight: 900;
+      color: var(--blue);
+      display: block;
+      letter-spacing: -1px;
+      line-height: 1;
+    }
+    .stat-label {
+      font-size: 13px;
+      color: var(--muted);
+      margin-top: 6px;
+      display: block;
+    }
 
-/* ── Top Progress Bar ── */
-.progress-bar {
-  position: fixed; top: 0; left: 0; right: 0;
-  height: 3px; background: transparent; z-index: 9999;
-  pointer-events: none;
-}
-.progress-bar::before {
-  content: ''; display: block; height: 100%;
-  background: linear-gradient(90deg, #2563eb 0%, #3b82f6 50%, #60a5fa 100%);
-  width: 0%; transition: width .3s ease-out, opacity .3s ease;
-  box-shadow: 0 0 8px rgba(37, 99, 235, .4);
-}
-.progress-bar.active::before { animation: progress-fake 2s ease-out forwards; opacity: 1; }
-.progress-bar.done::before { width: 100% !important; opacity: 0; transition: width .2s ease, opacity .4s ease .1s; }
-@keyframes progress-fake {
-  0%   { width: 0%; }
-  30%  { width: 45%; }
-  60%  { width: 70%; }
-  90%  { width: 88%; }
-  100% { width: 92%; }
-}
+    /* ── 수익 실사례 ── */
+    .revenue-block {
+      background: var(--text);
+      border-radius: 16px;
+      padding: 44px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 32px;
+      flex-wrap: wrap;
+    }
+    .revenue-num {
+      font-size: 72px;
+      font-weight: 900;
+      color: #fff;
+      line-height: 1;
+      letter-spacing: -3px;
+    }
+    .revenue-unit { font-size: 32px; font-weight: 700; color: rgba(255,255,255,0.5); }
+    .revenue-sub { font-size: 14px; color: rgba(255,255,255,0.4); margin-top: 8px; }
+    .revenue-desc {
+      font-size: 18px;
+      color: rgba(255,255,255,0.7);
+      line-height: 1.8;
+      max-width: 420px;
+    }
+    .revenue-desc strong { color: #fff; font-weight: 800; }
 
-/* ── Skeleton UI ── */
-.skeleton {
-  background: linear-gradient(90deg, #eeeeee 0%, #f5f5f5 50%, #eeeeee 100%);
-  background-size: 200% 100%; border-radius: 6px;
-  animation: shimmer 1.4s ease-in-out infinite;
-  display: block;
-}
-@keyframes shimmer {
-  0%   { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
-}
-.sk-line   { height: 14px; margin: 8px 0; }
-.sk-line.w-40 { width: 40%; }
-.sk-line.w-60 { width: 60%; }
-.sk-line.w-80 { width: 80%; }
-.sk-line.w-100 { width: 100%; }
-.sk-title { height: 24px; width: 60%; margin: 0 0 12px; }
+    /* ── DATA ── */
+    .opta-block {
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      margin-bottom: 16px;
+    }
+    .opta-head {
+      background: var(--text);
+      padding: 20px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .opta-head-title {
+      font-size: 20px;
+      font-weight: 800;
+      color: #fff;
+    }
+    .opta-head-sub { font-size: 16px; color: rgba(255,255,255,0.8); line-height: 1.7; margin-top: 6px; }
+    .opta-contract {
+      font-size: 15px;
+      font-weight: 800;
+      color: #fff;
+      background: var(--blue);
+      border: none;
+      padding: 8px 20px;
+      border-radius: 100px;
+      letter-spacing: 1px;
+      white-space: nowrap;
+    }
 
-/* 프로젝트 카드 스켈레톤 */
-.sk-card {
-  background: #ffffff; border: 1px solid #eeeeee; border-radius: 12px;
-  padding: 24px; min-height: 180px;
-}
-.sk-grid {
-  display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 16px; padding: 0 0 24px;
-}
-.sk-section-label {
-  height: 20px; width: 180px; margin-bottom: 24px;
-}
+    /* 팀 스탯 테이블 */
+    .match-table { width: 100%; border-collapse: collapse; }
+    .match-table .col-team { width: 40%; padding: 13px 24px; font-size: 16px; font-weight: 700; }
+    .match-table .col-label { width: 20%; padding: 13px 0; font-size: 13px; color: var(--muted); text-align: center; border-left: 1px solid var(--border); border-right: 1px solid var(--border); }
+    .match-table tr { border-bottom: 1px solid var(--border); }
+    .match-table tr:last-child { border-bottom: none; }
+    .match-table .head-row { background: var(--bg2); font-size: 13px; font-weight: 700; }
+    .match-table .val-home { text-align: right; color: var(--red); }
+    .match-table .val-away { color: var(--sub); }
+    .match-table tr:nth-child(even):not(.head-row) { background: #FAFAFA; }
+    .match-num { font-size: 16px; font-weight: 700; }
 
-/* 상세 페이지 스켈레톤 */
-.sk-detail { padding: 32px; display: flex; gap: 48px; align-items: flex-start; }
-.sk-detail-diagram {
-  flex: 1; min-height: 360px;
-  background: linear-gradient(90deg, #eeeeee 0%, #f5f5f5 50%, #eeeeee 100%);
-  background-size: 200% 100%;
-  animation: shimmer 1.4s ease-in-out infinite;
-  border-radius: 8px;
-}
-.sk-detail-metrics { width: 360px; display: flex; flex-direction: column; gap: 28px; }
-.sk-metric-card {
-  background: #ffffff; border: 1px solid #eeeeee; border-radius: 10px;
-  padding: 20px; min-height: 92px;
-}
+    /* 선수 테이블 */
+    .player-table { width: 100%; border-collapse: collapse; }
+    .player-table th { background: var(--bg2); padding: 12px 16px; font-size: 12px; font-weight: 700; color: var(--muted); border-bottom: 1px solid var(--border); text-align: center; }
+    .player-table th:first-child { text-align: left; }
+    .player-table td { padding: 13px 16px; font-size: 14px; color: var(--sub); border-bottom: 1px solid var(--border); text-align: center; }
+    .player-table td:first-child { font-weight: 700; color: var(--text); text-align: left; }
+    .player-table tr:last-child td { border-bottom: none; }
+    .player-table tr:nth-child(even) td { background: #FAFAFA; }
+    .val-red { color: var(--red); font-weight: 700; }
+    .val-blue { color: var(--blue); font-weight: 700; }
+    .val-green { color: var(--green); font-weight: 700; }
 
-/* ── PROJECTS VIEW ── */
-#view-projects { padding: 40px 48px; max-width: 1440px; margin: 0 auto; }
-.section-label {
-  font-size: 20px; font-weight: 700; letter-spacing: 1px;
-  text-transform: uppercase; color: #000000; margin-bottom: 24px;
-}
-.section-label-pm {
-  display: inline-block;
-  font-size: 14px;
-  font-weight: 700;
-  letter-spacing: .5px;
-  color: #2563eb;
-  background: #eef4ff;
-  padding: 4px 12px;
-  border-radius: 5px;
-  margin-left: 10px;
-  text-transform: none;
-  vertical-align: middle;
-  position: relative;
-  top: -2px;
-}
-.projects-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 16px;
-}
-.project-card {
-  background: #ffffff; padding: 28px 28px 32px;
-  cursor: pointer; transition: background .15s, box-shadow .15s, transform .15s;
-  position: relative;
-  border: 1px solid #e5e7eb;
-  border-radius: 10px;
-}
-.project-card:hover {
-  background: #fafbff;
-  box-shadow: 0 4px 16px rgba(37, 99, 235, 0.08);
-  transform: translateY(-2px);
-  border-color: #c7d4ff;
-}
-.project-card:hover .pc-name { color: #2563eb; }
-.pc-icon { display: none; }
-.pc-num {
-  font-size: 11px; font-weight: 700; letter-spacing: 1.5px;
-  text-transform: uppercase; color: #9ca3af; margin-bottom: 12px;
-}
-.pc-name { font-size: 20px; font-weight: 800; color: #111111; margin-bottom: 12px; transition: color .15s; line-height: 1.3; }
-.pc-pm {
-  font-size: 12px; font-weight: 700; letter-spacing: .5px;
-  color: #2563eb; margin-bottom: 20px;
-  display: inline-block;
-  padding: 3px 10px;
-  background: #eef4ff;
-  border-radius: 4px;
-}
-.pc-desc { font-size: 14px; color: #6b7280; line-height: 1.6; }
-.pc-arrow {
-  position: absolute; bottom: 20px; right: 24px;
-  font-size: 22px; font-weight: 300; color: #d1d5db; transition: .2s;
-}
-.project-card:hover .pc-arrow { color: #2563eb; transform: translateX(3px); }
+    /* 데이터 카드 그리드 */
+    .data-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+    }
+    .data-cell {
+      background: var(--bg);
+      padding: 24px 22px;
+    }
+    .data-cell-title { font-size: 13px; font-weight: 700; color: var(--muted); margin-bottom: 12px; }
+    .data-cell-num { font-size: 26px; font-weight: 900; color: var(--text); letter-spacing: -1px; line-height: 1; margin-bottom: 8px; }
+    .data-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 10px; }
+    .data-tag { font-size: 12px; color: var(--sub); background: var(--bg2); border: 1px solid var(--border); padding: 3px 9px; border-radius: 5px; }
 
-/* ── 메인 프로젝트 섹션 강조 ── */
-.section-label.main-label {
-  font-size: 26px;
-  font-weight: 800;
-  color: #111111;
-  letter-spacing: -.2px;
-  text-transform: none;
-  padding-bottom: 0;
-  border-bottom: none;
-  margin-bottom: 28px;
-}
-.projects-grid.main-grid {
-  grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
-}
-.project-card.main-card {
-  background: #ffffff;
-  padding: 28px 30px 32px;
-  border: 1.5px solid #111111;
-  border-radius: 12px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
-}
-.project-card.main-card:hover {
-  background: #ffffff;
-  border-color: #000000;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
-  transform: translateY(-3px);
-}
-.project-card.main-card .pc-num {
-  font-size: 12px;
-  color: #111111;
-  font-weight: 700;
-  letter-spacing: 1.5px;
-  margin-bottom: 14px;
-}
-.project-card.main-card .pc-name {
-  font-size: 24px;
-  font-weight: 800;
-  color: #111111;
-  margin-bottom: 12px;
-  line-height: 1.3;
-}
-.project-card.main-card:hover .pc-name { color: #111111; }
-.project-card.main-card .pc-desc {
-  font-size: 16px;
-  color: #111111;
-  font-weight: 500;
-  margin-bottom: 20px;
-  line-height: 1.55;
-}
-.project-card.main-card .pc-arrow {
-  color: #111111;
-  opacity: 0.3;
-}
-.project-card.main-card:hover .pc-arrow {
-  color: #111111;
-  opacity: 1;
-  transform: translateX(3px);
-}
+    /* ── 프로젝트 ── */
+    .proj-table { width: 100%; border-collapse: collapse; }
+    .proj-table th {
+      background: var(--bg2);
+      padding: 14px 20px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--muted);
+      border-bottom: 1px solid var(--border);
+      text-align: left;
+    }
+    .proj-table td {
+      padding: 20px 20px;
+      font-size: 15px;
+      color: var(--sub);
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+    .proj-table tr:last-child td { border-bottom: none; }
+    .proj-table tr:nth-child(even) td { background: #FAFAFA; }
+    .proj-name { font-size: 16px; font-weight: 800; color: var(--text); margin-bottom: 4px; }
+    .proj-earn { font-size: 24px; font-weight: 900; color: var(--red); letter-spacing: -0.5px; }
+    .proj-earn.blue { color: var(--blue); }
+    .proj-earn.green { color: var(--green); }
+    .proj-type {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      padding: 3px 10px;
+      border-radius: 100px;
+      margin-bottom: 8px;
+    }
+    .type-always { background: #FFF2EE; color: var(--red); border: 1px solid #FBBDAA; }
+    .type-select { background: var(--bg2); color: var(--muted); border: 1px solid var(--border); }
 
-/* 메인 카드 내부 점수 미니바 */
-.pc-score-chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 4px;
-}
-.pc-score-chip {
-  font-size: 17px;
-  font-weight: 800;
-  letter-spacing: -.2px;
-  padding: 8px 16px;
-  border-radius: 10px;
-  background: #eff6ff;
-  color: #1e3a8a;
-  white-space: nowrap;
-}
-.pc-score-chip .chip-label {
-  color: #1e3a8a;
-  font-weight: 700;
-  margin-right: 8px;
-  font-size: 15px;
-}
+    /* ── 기술 수익 ── */
+    .tech-flow {
+      display: grid;
+      grid-template-columns: 1fr 32px 1fr 32px 1fr 32px 1fr;
+      align-items: center;
+      gap: 0;
+      margin-bottom: 24px;
+    }
+    .flow-step {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 16px;
+      text-align: center;
+      background: var(--bg);
+    }
+    .flow-step.active { border-color: var(--red); background: #FFF2EE; }
+    .flow-icon { font-size: 22px; margin-bottom: 8px; }
+    .flow-title { font-size: 14px; font-weight: 700; color: var(--text); }
+    .flow-arrow { text-align: center; color: var(--border); font-size: 18px; font-weight: 300; }
 
-/* ── 협업 프로젝트 섹션 차분화 ── */
-.section-label.collab-label {
-  font-size: 18px;
-  color: #111111;
-  font-weight: 700;
-  letter-spacing: -.1px;
-  text-transform: none;
-  margin-top: 56px;
-  margin-bottom: 16px;
-}
-.projects-grid.collab-grid {
-  grid-template-columns: repeat(4, 1fr);
-  gap: 10px;
-}
-.project-card.collab-card {
-  background: #fafbfc;
-  padding: 18px 20px 22px;
-  border: 1px solid #e5e7eb;
-  border-radius: 8px;
-}
-.project-card.collab-card:hover {
-  background: #ffffff;
-  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.06);
-  transform: translateY(-1px);
-  border-color: #c7d4ff;
-}
-.project-card.collab-card .pc-num {
-  font-size: 11px;
-  color: #111111;
-  font-weight: 700;
-  letter-spacing: 1.2px;
-  margin-bottom: 8px;
-}
-.project-card.collab-card .pc-name {
-  font-size: 17px;
-  font-weight: 800;
-  color: #111111;
-  margin-bottom: 8px;
-  line-height: 1.35;
-}
-.project-card.collab-card .pc-pm {
-  font-size: 12px;
-  padding: 3px 9px;
-  margin-bottom: 12px;
-}
-.project-card.collab-card .pc-desc {
-  font-size: 13px;
-  line-height: 1.55;
-  color: #111111;
-  font-weight: 500;
-}
-.project-card.collab-card .pc-arrow {
-  font-size: 18px;
-  bottom: 14px;
-  right: 16px;
-}
+    .dist-table { width: 100%; border-collapse: collapse; }
+    .dist-table th { background: var(--bg2); padding: 13px 20px; font-size: 12px; font-weight: 700; color: var(--muted); border-bottom: 1px solid var(--border); text-align: left; }
+    .dist-table td { padding: 18px 20px; font-size: 15px; border-bottom: 1px solid var(--border); color: var(--sub); }
+    .dist-table tr:last-child td { border-bottom: none; }
+    .dist-num { font-size: 26px; font-weight: 900; letter-spacing: -1px; }
 
-/* 모바일: 메인·협업 모두 1열 */
-@media (max-width: 900px) {
-  .projects-grid.main-grid { grid-template-columns: 1fr; }
-  .projects-grid.collab-grid { grid-template-columns: repeat(2, 1fr); }
-}
-@media (max-width: 600px) {
-  .projects-grid.collab-grid { grid-template-columns: 1fr; }
-}
+    /* ── 정산 ── */
+    .settle-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      margin-bottom: 16px;
+    }
+    .settle-cell { background: var(--bg); padding: 28px 24px; text-align: center; }
+    .settle-label { font-size: 13px; color: var(--muted); font-weight: 600; margin-bottom: 14px; line-height: 1.5; }
+    .settle-num { font-size: 48px; font-weight: 900; color: var(--blue); letter-spacing: -2px; line-height: 1; }
+    .settle-unit { font-size: 20px; font-weight: 700; color: var(--sub); }
+    .settle-note { font-size: 13px; color: var(--muted); margin-top: 10px; line-height: 1.6; }
 
-/* ── 빈 섹션 placeholder ── */
-.empty-section {
-  border: 1.5px dashed #d4d4d4;
-  background: #fafafa;
-  padding: 56px 24px;
-  text-align: center;
-  border-radius: 10px;
-}
-.empty-section-ico {
-  font-size: 40px;
-  margin-bottom: 16px;
-  opacity: 0.5;
-}
-.empty-section-msg {
-  font-size: 16px;
-  font-weight: 700;
-  color: #6b7280;
-  margin-bottom: 8px;
-}
-.empty-section-sub {
-  font-size: 13px;
-  color: #9ca3af;
-}
+    /* ── 조건 ── */
+    .cond-list { list-style: none; }
+    .cond-item {
+      display: flex;
+      gap: 16px;
+      padding: 18px 0;
+      border-bottom: 1px solid var(--border);
+      align-items: flex-start;
+    }
+    .cond-item:last-child { border-bottom: none; }
+    .cond-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+    .cond-title { font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+    .cond-desc { font-size: 15px; color: var(--sub); line-height: 1.65; }
 
-/* ── STEPS VIEW ── */
-#view-steps { display: none; padding: 40px 48px; max-width: 1440px; margin: 0 auto; }
-.steps-row {
-  display: flex; align-items: stretch;
-  justify-content: center; flex-wrap: wrap;
-  gap: 0; margin-bottom: 0;
-  border: 1px solid #e0e0e0;
-}
-.step-card {
-  flex: 1; min-width: 160px; max-width: 240px;
-  background: #ffffff; padding: 24px 18px 36px; text-align: center;
-  cursor: pointer; transition: background .15s;
-  border-right: 1px solid #e0e0e0; position: relative;
-  user-select: none;
-}
-.step-card:last-child { border-right: none; }
-.step-card:hover { background: #f7f9ff; }
-.step-card.open { background: #f0f5ff; }
-.step-card.open .sc-title { color: #2563eb; }
-.sc-icon { display: none; }
-.sc-num {
-  font-size: 12px; font-weight: 700; letter-spacing: 1.5px;
-  color: #999999; margin-bottom: 10px; text-transform: uppercase;
-}
-.sc-title { font-size: 16px; font-weight: 800; color: #111111; transition: color .15s; }
-.sc-sub { font-size: 13px; color: #888888; margin-top: 6px; line-height: 1.6; }
-.sc-tap {
-  position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%);
-  font-size: 12px; font-weight: 700; color: #2563eb;
-  opacity: 0; transition: .2s; white-space: nowrap;
-}
-.step-card.open .sc-tap { opacity: 1; }
-.steps-arrow { display: none; }
+    /* ── 절차 ── */
+    .step-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      position: relative;
+    }
+    .step-row::before {
+      content: '';
+      position: absolute;
+      top: 20px; left: 12%; right: 12%;
+      height: 1px;
+      background: var(--border);
+    }
+    .step { text-align: center; padding: 0 8px; }
+    .step-num {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      font-size: 15px; font-weight: 800;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 16px;
+      position: relative; z-index: 1;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      color: var(--sub);
+    }
+    .step:first-child .step-num { background: var(--blue); border-color: var(--blue); color: #fff; }
+    .step-title { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 6px; }
+    .step-note { font-size: 14px; color: var(--muted); line-height: 1.6; }
 
-/* ── DIAGRAM PANEL ── */
-.diagram-panel {
-  display: none; margin: 0 0 2px 0;
-  border: 1px solid #e0e0e0; border-top: none;
-  animation: sd .25s ease;
-}
-@keyframes sd { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
-.panel-inner { background: #ffffff; padding: 28px 28px 36px; }
-.panel-title {
-  font-size: 18px; font-weight: 800; color: #111111;
-  padding-bottom: 16px;
-  margin-bottom: 32px; display: flex; align-items: center; gap: 10px;
-}
-.diagram-panel.flat .panel-title { display: none; }
-.panel-title-label { color: #2563eb; }
-.close-btn {
-  margin-left: auto; background: none; border: 1.5px solid #cccccc;
-  border-radius: 4px; padding: 6px 16px; font-size: 13px; font-weight: 600;
-  color: #666666; cursor: pointer; transition: .2s;
-}
-.close-btn:hover { border-color: #dc2626; color: #dc2626; }
-.mermaid-wrap { display: flex; justify-content: center; overflow-x: auto; padding: 8px 0; }
-.mermaid-wrap svg {
-  max-width: none;
-  height: auto;
-  min-height: 560px;
-  width: auto;
-}
-/* 작은 다이어그램도 최소 노드 크기 유지 */
-.mermaid-wrap .node rect,
-.mermaid-wrap .node polygon,
-.mermaid-wrap .node circle,
-.mermaid-wrap .node ellipse,
-.mermaid-wrap .node path { stroke-width: 1.5px; }
-.mermaid-wrap .nodeLabel,
-.mermaid-wrap .edgeLabel { font-size: 15px !important; }
-.mermaid-wrap .cluster .nodeLabel,
-.mermaid-wrap .cluster-label .nodeLabel { font-size: 14px !important; }
-.no-diagram { text-align: center; padding: 40px; color: #999999; font-size: 13px; }
-.loading-diag { text-align: center; padding: 40px; color: #999999; font-size: 13px; }
-.loading-diag .spinner { width: 24px; height: 24px; border-width: 2px; }
+    /* ── MD 프로토콜 ── */
+    .md-box {
+      background: #F8F9FA;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+    .md-bar {
+      background: #EAECEF;
+      padding: 9px 16px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .md-dot { width: 10px; height: 10px; border-radius: 50%; }
+    .md-content { padding: 20px 24px; }
+    .md-line { font-size: 14px; line-height: 2.1; display: block; }
+    .mk { color: var(--blue); font-weight: 600; }
+    .mv { color: var(--green); }
+    .mc { color: #AAA; font-style: italic; }
+    .mh { color: var(--red); font-weight: 700; }
+    .md-sep { color: #AAA; }
 
-/* ── SPLIT LAYOUT (diagram left + metrics right) ── */
-.split-layout {
-  display: flex; gap: 0; align-items: flex-start;
-}
-.split-diagram { flex: 1 1 0; min-width: 0; }
-.split-metrics {
-  width: 420px; flex-shrink: 0;
-  padding: 0 0 0 0;
-  margin-left: 64px;
-  align-self: flex-start;
-  position: sticky;
-  top: 24px;
-  max-height: calc(100vh - 48px);
-  overflow-y: auto;
-  display: flex; flex-direction: column;
-  gap: 22px;
-}
-/* sticky 스크롤바 숨김 처리 (발표용 깔끔 유지) */
-.split-metrics::-webkit-scrollbar { width: 0; background: transparent; }
-.split-metrics { scrollbar-width: none; -ms-overflow-style: none; }
+    /* ── CONTACT ── */
+    .contact-wrap { text-align: center; padding: 64px 0; border-top: 1px solid var(--border); }
+    .contact-email {
+      display: inline-block;
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--red);
+      background: #FFF2EE;
+      border: 1.5px solid #FBBDAA;
+      border-radius: 12px;
+      padding: 18px 40px;
+      text-decoration: none;
+      margin-bottom: 16px;
+    }
+    .contact-note { font-size: 14px; color: var(--muted); line-height: 1.8; }
 
-/* 모바일에서는 sticky 해제 (세로 스택으로 전환) */
-@media (max-width: 900px) {
-  .split-layout { flex-direction: column; }
-  .split-metrics {
-    width: 100%; margin-left: 0; margin-top: 32px;
-    position: static;
-    max-height: none; overflow-y: visible;
-  }
-}
+    /* ── FOOTER ── */
+    footer { border-top: 1px solid var(--border); padding: 32px 28px; text-align: center; }
+    footer p { font-size: 13px; color: var(--muted); margin-top: 4px; }
 
-/* 프로젝트 요약 박스 (메인 프로젝트 전용) */
-.metric-summary {
-  background: #fffbe6;
-  border: 1.5px solid #f0d878;
-  border-radius: 12px;
-  padding: 22px 24px 24px;
-}
-.metric-summary-label {
-  font-size: 14px; font-weight: 800; letter-spacing: .5px;
-  color: #b8860b; margin-bottom: 14px;
-  text-transform: none;
-}
-.metric-summary-text {
-  font-size: 16px; font-weight: 500; color: #222;
-  line-height: 1.75; letter-spacing: -.1px;
-  white-space: pre-line;
-}
-/* 요약 박스 내부 라벨 스타일 (라벨-내용형 포맷 지원) */
-.metric-summary-text b,
-.metric-summary-text strong {
-  color: #111; font-weight: 800;
-  display: inline-block; min-width: 76px;
-}
-.metric-item {
-  background: #f7f9ff;
-  border: 1.5px solid #e0e8ff;
-  border-radius: 12px;
-  padding: 22px 26px 20px;
-}
-.metric-label {
-  font-size: 22px; font-weight: 800; letter-spacing: .3px;
-  color: #2563eb; margin-bottom: 14px;
-  white-space: nowrap;
-}
-.metric-bar-wrap {
-  background: #dde8ff; border-radius: 8px; height: 14px; overflow: hidden; margin-bottom: 12px;
-}
-.metric-bar {
-  height: 100%; border-radius: 8px; background: #2563eb; transition: width .8s ease;
-}
-.metric-score {
-  font-size: 50px; font-weight: 900; color: #111111; letter-spacing: -2px; line-height: 1;
-}
-.metric-score span { font-size: 24px; font-weight: 600; color: #999999; margin-left: 6px; }
-.metric-caption {
-  font-size: 15px; font-weight: 600; color: #333333;
-  line-height: 1.6; margin-top: 14px;
-  padding-top: 14px; border-top: 1px dashed #cfd9f5;
-}
-
-/* ── 이미지 섹션 (다이어그램 하단, 50:50 가로 배치) ── */
-.images-section {
-  margin-top: 40px;
-  padding-top: 32px;
-  border-top: 1.5px dashed #d1d9e6;
-}
-.images-section-label {
-  font-size: 18px; font-weight: 800; letter-spacing: .3px;
-  color: #2563eb; margin-bottom: 20px;
-}
-.images-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
-}
-/* 1장 전용 — 풀폭 한 칸 레이아웃 */
-.images-grid.single {
-  grid-template-columns: 1fr;
-  gap: 0;
-}
-.image-item {
-  display: flex; flex-direction: column;
-  background: #fafbfc;
-  border: 1px solid #e5e7eb;
-  border-radius: 12px;
-  overflow: hidden;
-}
-.image-item-img-wrap {
-  width: 100%;
-  background: #ffffff;
-  display: flex; align-items: center; justify-content: center;
-  padding: 12px;
-  min-height: 160px;
-}
-.image-item-img-wrap img {
-  max-width: 100%; max-height: 400px; height: auto; display: block;
-  border-radius: 6px;
-  object-fit: contain;
-}
-/* 1장 전용 — 이미지 더 크게 표시 */
-.images-grid.single .image-item-img-wrap {
-  padding: 20px;
-  min-height: 300px;
-}
-.images-grid.single .image-item-img-wrap img {
-  max-height: 640px;
-}
-.image-item-caption {
-  font-size: 13px; font-weight: 600; color: #444444;
-  line-height: 1.55; letter-spacing: -.1px;
-  padding: 14px 16px 16px;
-  border-top: 1px solid #e5e7eb;
-  background: #ffffff;
-}
-/* 1장 전용 — caption도 여유롭게 중앙 */
-.images-grid.single .image-item-caption {
-  font-size: 15px;
-  padding: 18px 22px 20px;
-  text-align: center;
-}
-.image-item-img-placeholder {
-  width: 100%; padding: 48px 20px;
-  color: #999999; font-size: 13px; text-align: center;
-}
-/* 이미지 클릭 시 커서 포인터 + hover 효과 */
-.image-item-img-wrap img {
-  cursor: zoom-in;
-  transition: opacity .2s ease;
-}
-.image-item-img-wrap img:hover {
-  opacity: .85;
-}
-/* 모바일: 세로 스택 */
-@media (max-width: 720px) {
-  .images-grid { grid-template-columns: 1fr; }
-}
-
-/* ── 이미지 라이트박스 (팝업 확대) ── */
-.lightbox {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.88);
-  z-index: 10000;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  padding: 40px;
-  cursor: zoom-out;
-  animation: lightbox-fade .18s ease-out;
-}
-.lightbox.active {
-  display: flex;
-}
-@keyframes lightbox-fade {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-.lightbox-content {
-  position: relative;
-  max-width: 95vw;
-  max-height: 95vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 16px;
-  cursor: default;
-}
-.lightbox-img {
-  max-width: 100%;
-  max-height: calc(95vh - 60px);
-  object-fit: contain;
-  border-radius: 4px;
-  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.4);
-}
-.lightbox-caption {
-  color: #ffffff;
-  font-size: 16px;
-  font-weight: 600;
-  letter-spacing: -.1px;
-  text-align: center;
-  max-width: 90vw;
-}
-.lightbox-close {
-  position: absolute;
-  top: 24px;
-  right: 32px;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.1);
-  border: 1.5px solid rgba(255, 255, 255, 0.5);
-  color: #ffffff;
-  font-size: 20px;
-  font-weight: 700;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all .15s ease;
-  font-family: inherit;
-  line-height: 1;
-}
-.lightbox-close:hover {
-  background: rgba(255, 255, 255, 0.2);
-  border-color: #ffffff;
-  transform: scale(1.05);
-}
-.lightbox-hint {
-  position: absolute;
-  bottom: 24px;
-  left: 50%;
-  transform: translateX(-50%);
-  color: rgba(255, 255, 255, 0.6);
-  font-size: 13px;
-  letter-spacing: .3px;
-}
-
-/* ── 협업자 섹션 ── */
-.collaborators-section {
-  margin-top: 40px;
-  padding-top: 32px;
-  border-top: 1.5px dashed #d1d9e6;
-}
-.collaborators-section-label {
-  font-size: 20px; font-weight: 800; letter-spacing: .3px;
-  color: #2563eb; margin-bottom: 22px;
-}
-.collaborators-list {
-  display: flex; flex-direction: column; gap: 20px;
-}
-.collaborator-card {
-  border: 1px solid #e5e7eb;
-  border-radius: 12px;
-  background: #fafbfc;
-  overflow: hidden;
-}
-.collaborator-header {
-  padding: 18px 24px;
-  background: #ffffff;
-  border-bottom: 1px solid #e5e7eb;
-  display: flex; align-items: baseline; gap: 16px;
-}
-.collaborator-name {
-  font-size: 22px; font-weight: 800; color: #111111; letter-spacing: -.3px;
-}
-.collaborator-role {
-  font-size: 16px; font-weight: 700; color: #2563eb;
-}
-.collaborator-body {
-  padding: 20px 24px 22px;
-  font-size: 17px; color: #222222; line-height: 1.8;
-}
-.collab-section + .collab-section {
-  margin-top: 18px;
-}
-.collab-section-label {
-  font-weight: 800; color: #2563eb;
-  font-size: 15px; letter-spacing: .3px;
-  margin-bottom: 10px;
-}
-.collab-section-items {
-  padding-left: 0;
-  list-style: none;
-  margin: 0;
-}
-.collab-section-items li {
-  position: relative;
-  padding-left: 18px;
-  margin-bottom: 8px;
-  white-space: pre-wrap;
-  font-size: 17px;
-  line-height: 1.75;
-}
-.collab-section-items li::before {
-  content: "·";
-  position: absolute;
-  left: 2px;
-  font-weight: 700;
-  color: #2563eb;
-  font-size: 22px;
-  line-height: 1.4;
-}
-/* 임동근 스타일: 색상 있는 박스 섹션 */
-.collab-section.boxed {
-  border-radius: 8px;
-  padding: 14px 18px;
-}
-.collab-section.boxed .collab-section-label {
-  margin-bottom: 8px;
-}
-/* 이재원 스타일: 3열 그리드 섹션 */
-.collab-body-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 18px;
-}
-.collab-body-grid .collab-section {
-  margin-top: 0 !important;
-}
-.collab-body-grid .collab-section-items li {
-  font-size: 15px;
-  line-height: 1.7;
-}
-.collab-body-grid .collab-section-label {
-  font-size: 15px;
-  margin-bottom: 10px;
-}
-.collab-footer {
-  margin-top: 18px;
-  background: #eff6ff;
-  border: 1px solid #2563eb;
-  border-radius: 8px;
-  padding: 14px 18px;
-  font-size: 15px;
-  color: #1e3a8a;
-  line-height: 1.75;
-}
-.collab-footer-label {
-  font-weight: 800; margin-bottom: 8px; font-size: 15px; letter-spacing: .3px;
-}
-/* 모바일: 3열 → 세로 스택 */
-@media (max-width: 720px) {
-  .collab-body-grid { grid-template-columns: 1fr; }
-}
-
-/* ── FLAT panel (no border/popup look for single-step) ── */
-.diagram-panel.flat { border: none; margin: 0; }
-.diagram-panel.flat .panel-inner {
-  padding: 0 0 40px;
-}
-</style>
+    /* ── RESPONSIVE ── */
+    @media (max-width: 720px) {
+      .wrap { padding: 0 20px; }
+      .sec { padding: 52px 0; }
+      .stat-bar { flex-wrap: wrap; }
+      .stat-item { padding: 16px 20px; }
+      .data-grid { grid-template-columns: 1fr; }
+      .tech-flow { grid-template-columns: 1fr; }
+      .flow-arrow { display: none; }
+      .settle-grid { grid-template-columns: 1fr; }
+      .step-row { grid-template-columns: repeat(2, 1fr); gap: 28px; }
+      .step-row::before { display: none; }
+      .revenue-block { flex-direction: column; padding: 32px 28px; }
+      .revenue-num { font-size: 56px; }
+    }
+  </style>
 </head>
 <body>
 
-<!-- TOP PROGRESS BAR -->
-<div class="progress-bar" id="progress-bar"></div>
-
-<!-- HEADER -->
-<header class="hdr">
-  <button class="hdr-back" id="btn-back" onclick="showProjects()" title="프로젝트 목록으로"><span class="hdr-back-arrow">←</span><span class="hdr-back-label">목록</span></button>
-  <div class="hdr-text">
-    <div class="hdr-title" id="hdr-title">2026년 시즌1 프로젝트</div>
-    <div class="hdr-sub" id="hdr-sub"></div>
-    <div class="hdr-collab" id="hdr-collab"></div>
-  </div>
-  <div class="hdr-pm" id="hdr-pm">
-    <div class="hdr-pm-label">PM</div>
-    <div class="hdr-pm-name">김재영</div>
+<!-- ── HEADER ── -->
+<header>
+  <div class="logo">LIVE SCORE</div>
+  <div class="header-badge">
+    <span class="dot"></span>
+    오픈플랫폼 모집 중 · 2026
   </div>
 </header>
 
-<!-- VIEW: PROJECTS -->
-<div id="view-projects">
-  <div id="projects-container">
-    <!-- 초기 스켈레톤 (JS가 교체) -->
-    <div class="section-label skeleton sk-section-label"></div>
-    <div class="sk-grid">
-      <div class="sk-card"><span class="skeleton sk-title"></span><span class="skeleton sk-line w-100"></span><span class="skeleton sk-line w-80"></span></div>
-      <div class="sk-card"><span class="skeleton sk-title"></span><span class="skeleton sk-line w-100"></span><span class="skeleton sk-line w-60"></span></div>
-      <div class="sk-card"><span class="skeleton sk-title"></span><span class="skeleton sk-line w-100"></span><span class="skeleton sk-line w-80"></span></div>
-      <div class="sk-card"><span class="skeleton sk-title"></span><span class="skeleton sk-line w-100"></span><span class="skeleton sk-line w-60"></span></div>
+<!-- ── HERO ── -->
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-title">
+      스포츠 크리에이터<br/>
+      <span class="red">오픈플랫폼</span>
+    </div>
+    <div class="stat-bar">
+      <div class="stat-item">
+        <span class="stat-num">40만+</span>
+        <span class="stat-label">월간 활성 사용자</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">70 %</span>
+        <span class="stat-label">크리에이터 수익 배분</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">익월 말일</span>
+        <span class="stat-label">크리에이터 정산일</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">익월 10일</span>
+        <span class="stat-label">프로젝트 정산일</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── 수익 실사례 ── -->
+<div class="sec-sm" style="background:#fff; border-bottom:1px solid var(--border);">
+  <div class="wrap">
+    <div class="revenue-block" style="justify-content:center;">
+      <div style="display:flex; align-items:center; gap:24px; flex-wrap:wrap;">
+        <div style="font-size:36px; font-weight:800; color:rgba(255,255,255,0.8);">픽 분석가 월 최고 수익</div>
+        <div style="font-size:36px; font-weight:800; color:#fff;">:</div>
+        <div style="font-size:36px; font-weight:900; color:#fff; letter-spacing:-1px;">1,000 만원</div>
+      </div>
     </div>
   </div>
 </div>
 
-<!-- VIEW: STEPS -->
-<div id="view-steps">
-  <div class="steps-row" id="steps-row"></div>
-  <div id="panels-area"></div>
-</div>
+<!-- ── OPTA 데이터 ── -->
+<div class="sec" style="border-bottom:1px solid var(--border);">
+  <div class="wrap">
+    <div class="label">Data — Opta 공식 계약</div>
 
-<!-- 이미지 라이트박스 (팝업 확대) -->
-<div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
-  <button class="lightbox-close" onclick="closeLightbox(event)" title="닫기 (ESC)">✕</button>
-  <div class="lightbox-content">
-    <img class="lightbox-img" id="lightbox-img" src="" alt="">
-    <div class="lightbox-caption" id="lightbox-caption"></div>
+    <!-- Opta 헤더 -->
+    <div class="opta-block" style="margin-bottom:12px;">
+      <div class="opta-head">
+        <div>
+          <div class="opta-head-title">Opta Sports Data</div>
+          <div class="opta-head-sub">전세계 스포츠 빅데이터 라이선스 사용 가능</div>
+        </div>
+        <div class="opta-contract">공식 계약</div>
+      </div>
+      <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:0; border-top:1px solid var(--border);">
+        <div style="padding:16px 24px; border-right:1px solid var(--border);">
+          <div style="font-size:12px; color:var(--muted); margin-bottom:4px;">⚽ 축구</div>
+          <div style="font-size:14px; color:var(--sub);">점유율·슈팅·xG·패스·코너킥·오프사이드·경고·퇴장</div>
+        </div>
+        <div style="padding:16px 24px; border-right:1px solid var(--border);">
+          <div style="font-size:12px; color:var(--muted); margin-bottom:4px;">⚾ 야구</div>
+          <div style="font-size:14px; color:var(--sub);">타율·방어율·구종·구속·이닝별 득점·피칭 기록</div>
+        </div>
+        <div style="padding:16px 24px;">
+          <div style="font-size:12px; color:var(--muted); margin-bottom:4px;">🏀 농구 · 배구 · 테니스</div>
+          <div style="font-size:14px; color:var(--sub);">득점·리바운드·어시스트·블로킹·선수별 퍼포먼스</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 샘플 — 팀 스탯 -->
+    <div class="opta-block" style="margin-bottom:12px;">
+      <div style="padding:12px 20px; background:var(--bg2); border-bottom:1px solid var(--border); font-size:12px; color:var(--muted); font-weight:600; letter-spacing:0.5px;">
+        SAMPLE · 2026.05.10 · EPL · Arsenal vs Chelsea
+      </div>
+      <table class="match-table">
+        <tr class="head-row">
+          <td class="col-team" style="text-align:right; font-size:13px;">Arsenal</td>
+          <td class="col-label">지표</td>
+          <td class="col-team" style="font-size:13px;">Chelsea</td>
+        </tr>
+        <tr>
+          <td class="col-team val-home"><span class="match-num">62%</span></td>
+          <td class="col-label">점유율</td>
+          <td class="col-team val-away"><span class="match-num">38%</span></td>
+        </tr>
+        <tr>
+          <td class="col-team val-home"><span class="match-num">18</span></td>
+          <td class="col-label">슈팅</td>
+          <td class="col-team val-away"><span class="match-num">9</span></td>
+        </tr>
+        <tr>
+          <td class="col-team val-home"><span class="match-num">7</span></td>
+          <td class="col-label">유효슈팅</td>
+          <td class="col-team val-away"><span class="match-num">3</span></td>
+        </tr>
+        <tr>
+          <td class="col-team val-home"><span class="match-num">1.87</span></td>
+          <td class="col-label">xG (기대득점)</td>
+          <td class="col-team val-away"><span class="match-num">0.74</span></td>
+        </tr>
+        <tr>
+          <td class="col-team val-home"><span class="match-num">543</span></td>
+          <td class="col-label">패스 시도</td>
+          <td class="col-team val-away"><span class="match-num">312</span></td>
+        </tr>
+        <tr>
+          <td class="col-team val-home"><span class="match-num">88%</span></td>
+          <td class="col-label">패스 성공률</td>
+          <td class="col-team val-away"><span class="match-num">79%</span></td>
+        </tr>
+        <tr>
+          <td class="col-team val-home"><span class="match-num">7</span></td>
+          <td class="col-label">코너킥</td>
+          <td class="col-team val-away"><span class="match-num">3</span></td>
+        </tr>
+        <tr>
+          <td class="col-team val-home"><span class="match-num">2</span></td>
+          <td class="col-label">오프사이드</td>
+          <td class="col-team val-away"><span class="match-num">1</span></td>
+        </tr>
+        <tr>
+          <td class="col-team val-home"><span class="match-num">1</span></td>
+          <td class="col-label">경고</td>
+          <td class="col-team val-away"><span class="match-num">3</span></td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- 샘플 — 선수 스탯 -->
+    <div class="opta-block" style="margin-bottom:8px;">
+      <table class="player-table">
+        <thead>
+          <tr>
+            <th>선수</th>
+            <th>출전시간</th>
+            <th>득점</th>
+            <th>어시스트</th>
+            <th>슈팅</th>
+            <th>패스</th>
+            <th>평점</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Saka, B.</td>
+            <td>90'</td>
+            <td class="val-red">2</td>
+            <td>1</td>
+            <td>5</td>
+            <td>47</td>
+            <td class="val-green">9.2</td>
+          </tr>
+          <tr>
+            <td>Ødegaard, M.</td>
+            <td>90'</td>
+            <td>0</td>
+            <td class="val-blue">2</td>
+            <td>3</td>
+            <td>68</td>
+            <td class="val-green">8.7</td>
+          </tr>
+          <tr>
+            <td>Havertz, K.</td>
+            <td>74'</td>
+            <td class="val-red">1</td>
+            <td>0</td>
+            <td>4</td>
+            <td>29</td>
+            <td class="val-green">8.1</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div style="font-size:12px; color:#BBB; padding-left:2px;">* 실제 Opta 데이터 구조 기반 샘플. 수치는 예시입니다.</div>
+
+    <!-- 데이터 카드 그리드 -->
+    <div style="margin-top:32px;" class="label">전체 데이터 구성</div>
+    <div class="data-grid">
+      <div class="data-cell">
+        <div class="data-cell-title">🏟️ 경기 기록</div>
+        <div class="data-cell-num">4억 5천만+</div>
+        <div class="data-tags">
+          <span class="data-tag">경기 결과</span><span class="data-tag">선발 라인업</span><span class="data-tag">교체 기록</span><span class="data-tag">리그 순위</span><span class="data-tag">중계 정보</span><span class="data-tag">득점·어시스트</span><span class="data-tag">타율·방어율</span><span class="data-tag">이닝별 득점</span><span class="data-tag">리바운드</span>
+        </div>
+      </div>
+      <div class="data-cell">
+        <div class="data-cell-title">💬 팬 반응</div>
+        <div class="data-cell-num">3억 6천만+</div>
+        <div class="data-tags">
+          <span class="data-tag">응원글</span><span class="data-tag">댓글·리플</span><span class="data-tag">게시판 글</span><span class="data-tag">핫뉴스</span><span class="data-tag">사진 공유</span><span class="data-tag">카툰·만화</span><span class="data-tag">유튜브</span><span class="data-tag">속보</span>
+        </div>
+      </div>
+      <div class="data-cell">
+        <div class="data-cell-title">📈 배당률</div>
+        <div class="data-cell-num">3억 2천만+</div>
+        <div class="data-tags">
+          <span class="data-tag">BetsAPI</span><span class="data-tag">Betradar</span><span class="data-tag">BetMan</span><span class="data-tag">경기 전 배당</span><span class="data-tag">라이브 배당</span><span class="data-tag">핸디캡</span><span class="data-tag">오버/언더</span><span class="data-tag">변동 이력</span>
+        </div>
+      </div>
+      <div class="data-cell">
+        <div class="data-cell-title">👥 사용자 관심</div>
+        <div class="data-cell-num">4천 9백만+</div>
+        <div class="data-tags">
+          <span class="data-tag">팀 관심</span><span class="data-tag">선수 관심</span><span class="data-tag">리그 관심</span><span class="data-tag">분석가 팔로우</span><span class="data-tag">태그 관심</span><span class="data-tag">접속 UV</span><span class="data-tag">경기별 비교</span>
+        </div>
+      </div>
+      <div class="data-cell">
+        <div class="data-cell-title">📸 선수 공식 사진</div>
+        <div class="data-cell-num" style="font-size:20px; margin-bottom:4px;">계약 제공</div>
+        <div class="data-tags">
+          <span class="data-tag">오센(OSEN) · 국내</span><span class="data-tag">Getty Images · 해외</span><span class="data-tag">종목·리그·선수 검색</span>
+        </div>
+      </div>
+      <div class="data-cell" style="opacity:0.6;">
+        <div class="data-cell-title">🤖 AI·분석 <span style="font-size:11px; background:#E2E5EA; color:#888; padding:2px 8px; border-radius:100px; margin-left:6px;">순차 오픈</span></div>
+        <div class="data-cell-num" style="font-size:18px; color:var(--muted);">준비 중</div>
+        <div class="data-tags">
+          <span class="data-tag">픽 조합</span><span class="data-tag">분석가 승률</span><span class="data-tag">축구·야구·농구 예측</span>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:12px; background:var(--text); border-radius:12px; padding:20px 28px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+      <div style="font-size:28px; font-weight:900; color:#fff; letter-spacing:-1px;">13억+ <span style="font-size:16px; color:rgba(255,255,255,0.4); font-weight:500;">건</span></div>
+      <div style="font-size:13px; color:rgba(255,255,255,0.45);">Opta · BetsAPI · Betradar · Sports2i · 오센 · Getty Images · 자체 수집</div>
+    </div>
   </div>
-  <div class="lightbox-hint">클릭하거나 ESC를 눌러 닫기</div>
 </div>
 
-<script>
-/* ── Supabase 초기화 ── */
-const { createClient } = supabase;
-const sb = createClient(
-  'https://vagxudxlhwwqylkkmbth.supabase.co',
-  'sb_publishable_Z7_zr63nWe3IBWhMXapp2g_qTpF01fo'
-);
+<!-- ── 모집 프로젝트 ── -->
+<div class="sec" style="background:var(--bg2); border-bottom:1px solid var(--border);">
+  <div class="wrap">
+    <div class="label">현재 모집 중인 프로젝트</div>
+    <div style="border:1px solid var(--border); border-radius:14px; overflow:hidden; background:var(--bg);">
+      <table class="proj-table" style="width:100%; border-collapse:collapse;">
+        <thead>
+          <tr>
+            <th style="width:36%;">프로젝트</th>
+            <th style="width:18%;">수익</th>
+            <th style="width:46%;">조건</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <span class="proj-type type-always">상시 모집</span>
+              <div class="proj-name">🎙️ 실시간 스포츠 중계</div>
+              <div style="font-size:14px; color:var(--muted);">경기 중계 방송 · 후원 포인트 수익</div>
+            </td>
+            <td><span class="proj-earn">70 %</span></td>
+            <td style="font-size:14px; color:var(--sub); line-height:1.8;">
+              약관 동의 후 즉시 시작<br/>
+              누적 5만원 이상 시 익월 말일 정산<br/>
+              계약 기간 제한 없음
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <span class="proj-type type-always">상시 모집</span>
+              <div class="proj-name">📊 스포츠 분석글 판매</div>
+              <div style="font-size:14px; color:var(--muted);">유료 분석글 등록 · 판매 건당 수익</div>
+            </td>
+            <td><span class="proj-earn">70 %</span></td>
+            <td style="font-size:14px; color:var(--sub); line-height:1.8;">
+              약관 동의 후 즉시 업로드<br/>
+              누적 5만원 이상 시 익월 말일 정산<br/>
+              1건 등록 후 반복 수익 발생
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <span class="proj-type type-select">1팀 선정</span>
+              <div class="proj-name">💻 배당 탐색기 개발</div>
+              <div style="font-size:14px; color:var(--muted);">해외 배당률 실시간 연동 시스템</div>
+            </td>
+            <td><span class="proj-earn blue">100 %</span></td>
+            <td style="font-size:14px; color:var(--sub); line-height:1.8;">
+              RFP 제안서 제출 → 선정<br/>
+              착수 30% → 중도금 → 잔금<br/>
+              목표 달성 시 러닝 개런티 추가<br/>
+              익월 10일 정산
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <span class="proj-type type-always">상시 접수</span>
+              <div class="proj-name">📣 홍보마케팅 기획</div>
+              <div style="font-size:14px; color:var(--muted);">온·오프라인 마케팅 아이디어 제안</div>
+            </td>
+            <td><span class="proj-earn green">채택 시</span></td>
+            <td style="font-size:14px; color:var(--sub); line-height:1.8;">
+              제안서 제출 → 검토 → 채택 시 계약<br/>
+              소요 비용 전액 지급<br/>
+              성과에 따라 보너스 추가<br/>
+              익월 10일 정산
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
 
-mermaid.initialize({
-  startOnLoad: false,
-  theme: 'base',
-  themeVariables: {
-    primaryColor: '#f0f5ff',
-    primaryBorderColor: '#111111',
-    primaryTextColor: '#111111',
-    lineColor: '#333333',
-    edgeLabelBackground: '#ffffff',
-    fontSize: '18px'
-  },
-  flowchart: {
-    curve: 'linear',
-    padding: 24,
-    nodeSpacing: 60,
-    rankSpacing: 70,
-    useMaxWidth: false
-  }
-});
 
-/* ── 상태 ── */
-let activeStep = null;
-let renderedDiagrams = {};
-let stepsData = {};
+<!-- ── 수익 구조 ── -->
+<div class="sec" style="background:var(--bg2); border-bottom:1px solid var(--border);">
+  <div class="wrap">
+    <div class="label">수익 구조</div>
+    <div class="settle-grid">
+      <div class="settle-cell">
+        <div class="settle-label">크리에이터 수익 배분</div>
+        <div class="settle-num">70 <span class="settle-unit">%</span></div>
+        <div class="settle-note">앱마켓 수수료·운영비 공제 후 순수익 기준</div>
+      </div>
+      <div class="settle-cell">
+        <div class="settle-label">최소 정산 기준</div>
+        <div class="settle-num">5 <span class="settle-unit">만원</span></div>
+        <div class="settle-note">미달 시 다음 달 누적 이월<br/>크리에이터: 익월 말일 입금<br/>프로젝트: 익월 10일 입금</div>
+      </div>
+      <div class="settle-cell">
+        <div class="settle-label">원천징수</div>
+        <div class="settle-num">3.3 <span class="settle-unit">%</span></div>
+        <div class="settle-note">사업소득세<br/>연간 종합소득세 신고 필요</div>
+      </div>
+    </div>
+    <div style="border:1px solid var(--border); border-radius:12px; background:var(--bg); padding:20px 24px;">
+      <ul style="list-style:none;">
+        <li style="font-size:15px; color:var(--sub); padding:5px 0; display:flex; gap:10px;"><span style="color:var(--blue);">·</span>크리에이터 콘텐츠 일부(제목·요약·썸네일)는 플랫폼 마케팅에 활용될 수 있습니다.</li>
+        <li style="font-size:15px; color:var(--sub); padding:5px 0; display:flex; gap:10px;"><span style="color:var(--blue);">·</span>개발·마케팅 결과물의 지식재산권은 회사에 귀속됩니다. 기여자는 약정 수익 배분권을 보장받습니다.</li>
+        <li style="font-size:15px; color:var(--sub); padding:5px 0; display:flex; gap:10px;"><span style="color:var(--blue);">·</span>정산율·운영 정책 변경 시 30일 전 공지합니다.</li>
+      </ul>
+    </div>
+  </div>
+</div>
 
-/* ── Progress Bar 헬퍼 ── */
-function startProgress() {
-  const bar = document.getElementById('progress-bar');
-  bar.classList.remove('done');
-  // reflow를 강제해 애니메이션 재시작
-  void bar.offsetWidth;
-  bar.classList.add('active');
-}
-function endProgress() {
-  const bar = document.getElementById('progress-bar');
-  bar.classList.add('done');
-  setTimeout(() => {
-    bar.classList.remove('active', 'done');
-  }, 500);
-}
+<!-- ── 진행 순서 ── -->
+<div class="sec" style="border-bottom:1px solid var(--border);">
+  <div class="wrap">
+    <div class="label">진행 순서</div>
+    <div class="step-row">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-title">프로젝트 선택</div>
+        <div class="step-note">참여하고 싶은 프로젝트<br/>선택 혹은 제안</div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-title">지원서 제출</div>
+        <div class="step-note">중계·분석: 약관 동의<br/>개발·마케팅: 제안서 제출</div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-title">활동 시작</div>
+        <div class="step-note">중계·분석글 업로드<br/>또는 개발·기획 착수</div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-title">익월 말일 입금</div>
+        <div class="step-note">5만원 이상 누적 시<br/>지정 계좌 자동 입금</div>
+      </div>
+    </div>
+  </div>
+</div>
 
-/* ── 상세 페이지 스켈레톤 HTML ── */
-function detailSkeletonHTML() {
-  return `
-    <div class="sk-detail">
-      <div class="sk-detail-diagram"></div>
-      <div class="sk-detail-metrics">
-        <div class="sk-metric-card">
-          <span class="skeleton sk-line w-40"></span>
-          <span class="skeleton sk-line w-100" style="height:32px;margin-top:12px"></span>
-          <span class="skeleton sk-line w-80"></span>
+<!-- ── 산출물 프로토콜 ── -->
+<div class="sec" style="background:var(--bg2); border-bottom:1px solid var(--border);">
+  <div class="wrap">
+    <div class="label">산출물 제출 프로토콜 — 개발·마케팅 참여자</div>
+    <div style="background:var(--bg); border:1px solid var(--border); border-radius:14px; overflow:hidden;">
+      <div style="padding:20px 24px; border-bottom:1px solid var(--border); font-size:15px; color:var(--sub); line-height:1.8;">
+        산출물(코드·디자인·영상 등)의 형태는 무관합니다.<br/>
+        <strong style="color:var(--text);">진행 과정·방식·의사결정 내용은 MD 파일로 정리하여 함께 제출해야 합니다.</strong>
+      </div>
+      <div class="md-box" style="border-radius:0; border:none; border-top:1px solid var(--border);">
+        <div class="md-bar">
+          <span class="md-dot" style="background:#FF5F57;"></span>
+          <span class="md-dot" style="background:#FEBC2E;"></span>
+          <span class="md-dot" style="background:#28C840;"></span>
+          <span style="font-size:12px; color:var(--muted); margin-left:8px; font-family:inherit;">산출물_제출양식.md</span>
         </div>
-        <div class="sk-metric-card">
-          <span class="skeleton sk-line w-40"></span>
-          <span class="skeleton sk-line w-100" style="height:32px;margin-top:12px"></span>
-          <span class="skeleton sk-line w-80"></span>
-        </div>
-        <div class="sk-metric-card">
-          <span class="skeleton sk-line w-40"></span>
-          <span class="skeleton sk-line w-100" style="height:32px;margin-top:12px"></span>
-          <span class="skeleton sk-line w-80"></span>
+        <div class="md-content">
+          <span class="md-line"><span class="md-sep">---</span></span>
+          <span class="md-line"><span class="mk">프로젝트명</span>: <span class="mv">배당 탐색기</span></span>
+          <span class="md-line"><span class="mk">담당자</span>:    <span class="mv">홍길동</span></span>
+          <span class="md-line"><span class="mk">날짜</span>:      <span class="mv">2026-05-13</span></span>
+          <span class="md-line"><span class="mk">유형</span>:      <span class="mv">개발</span>  <span class="mc"># 개발 / 마케팅 / 기획</span></span>
+          <span class="md-line"><span class="mk">상태</span>:      <span class="mv">최종</span>  <span class="mc"># 작업중 / 최종</span></span>
+          <span class="md-line"><span class="md-sep">---</span></span>
+          <span class="md-line" style="margin-top:4px;"><span class="mh">## 작업 목적</span></span>
+          <span class="md-line"><span class="mh">## 작업 내용</span></span>
+          <span class="md-line"><span class="mh">## 산출물 목록</span></span>
+          <span class="md-line"><span class="mh">## 다음 단계</span></span>
         </div>
       </div>
-    </div>`;
-}
+    </div>
+  </div>
+</div>
 
-/* ── 프로젝트 목록 로드 ── */
-async function init() {
-  startProgress();
-  const { data, error } = await sb.from('projects').select('*').order('id');
-
-  const container = document.getElementById('projects-container');
-
-  if (error) {
-    endProgress();
-    container.innerHTML = `
-      <div class="state-box">
-        <div class="ico">⚠️</div>
-        <h2>연결 오류</h2>
-        <p>${error.message}</p>
-      </div>`;
-    return;
-  }
-
-  if (!data || data.length === 0) {
-    endProgress();
-    container.innerHTML = `
-      <div class="state-box">
-        <div class="ico">📭</div>
-        <h2>프로젝트가 없습니다</h2>
-        <p>
-          Supabase 대시보드 → <code>Table Editor</code> → <code>projects</code> 테이블에서<br>
-          데이터를 추가하면 여기에 자동으로 표시됩니다.
-        </p>
-      </div>`;
-    return;
-  }
-
-  // 카테고리별 분류 (category 컬럼 없을 경우 모두 collaboration으로 간주)
-  const collabProjects = data.filter(p => (p.category || 'collaboration') === 'collaboration');
-  const mainProjects   = data.filter(p => p.category === 'main');
-
-  // 메인 프로젝트의 점수 정보 미리 로드 (한 번의 쿼리로 일괄 조회)
-  let mainScores = {};
-  if (mainProjects.length > 0) {
-    const mainIds = mainProjects.map(p => p.id);
-    const { data: stepsData } = await sb
-      .from('steps')
-      .select('project_id, metrics')
-      .in('project_id', mainIds)
-      .eq('step_number', 1);
-    if (Array.isArray(stepsData)) {
-      stepsData.forEach(s => {
-        if (!Array.isArray(s.metrics)) return;
-        const scores = s.metrics
-          .filter(m => m.type !== 'summary' && m.type !== 'images' && m.type !== 'collaborators' && m.type !== 'collaborator_names')
-          .filter(m => m.label && m.score !== undefined && m.score !== null && m.score !== '-' && m.score !== '' && Number(m.score) > 0)
-          .map(m => ({ label: m.label, score: Number(m.score) }));
-        mainScores[s.project_id] = scores;
-      });
-    }
-  }
-
-  // 프로젝트 카드 렌더 함수
-  // isMain: 메인 프로젝트 여부 (스타일·점수 미니바 분기)
-  const renderCard = (p, i, hidePm = false, isMain = false) => {
-    const pmHTML = (p.pm_name && !hidePm)
-      ? `<div class="pc-pm">PM ${p.pm_name}</div>`
-      : '';
-    const keyContrib = esc(p.key_contribution || '');
-    const cardClass = isMain ? 'project-card main-card' : 'project-card collab-card';
-
-    // 메인 카드면 점수 칩 생성
-    let scoreChipsHTML = '';
-    if (isMain && Array.isArray(mainScores[p.id]) && mainScores[p.id].length > 0) {
-      const chips = mainScores[p.id].map(s => {
-        // "매출성과" → "매출" 축약
-        const shortLabel = String(s.label).replace(/성과$/, '').replace(/\s+/g, '');
-        return `<span class="pc-score-chip"><span class="chip-label">${esc(shortLabel)}</span>${s.score}</span>`;
-      }).join('');
-      scoreChipsHTML = `<div class="pc-score-chips">${chips}</div>`;
-    }
-
-    return `
-      <div class="${cardClass}" onclick="showSteps(${p.id},'${esc(p.name)}','${keyContrib}',${isMain ? 'true' : 'false'},'${esc(p.pm_name || '')}')">
-        <div class="pc-num">PROJECT ${String(i+1).padStart(2,'0')}</div>
-        <div class="pc-name">${p.name}</div>
-        ${pmHTML}
-        <div class="pc-desc">${p.description || ''}</div>
-        ${scoreChipsHTML}
-        <div class="pc-arrow">›</div>
-      </div>`;
-  };
-
-  // 메인 프로젝트의 PM을 대표로 추출 (모두 같은 경우 우측 헤더 블록에 표시)
-  const mainPMs = [...new Set(mainProjects.map(p => p.pm_name).filter(Boolean))];
-  const dashboardPM = (mainPMs.length === 1) ? mainPMs[0] : '';
-  const hidePmInMainCards = (mainPMs.length === 1);
-
-  // 우측 헤더 PM 블록 — 목록 화면에서 항상 표시
-  const hdrPm = document.getElementById('hdr-pm');
-  if (dashboardPM) {
-    hdrPm.innerHTML = `<div class="hdr-pm-label">PM</div><div class="hdr-pm-name">${esc(dashboardPM)}</div>`;
-    hdrPm.style.display = '';
-  } else {
-    hdrPm.innerHTML = '';
-    hdrPm.style.display = 'none';
-  }
-
-  // 기본 "PM 김재영" 서브라벨 제거 (우측 블록으로 대체)
-  const hdrSub = document.getElementById('hdr-sub');
-  hdrSub.innerHTML = '';
-  hdrSub.style.display = 'none';
-
-  // 메인 프로젝트 섹션 (먼저 배치 — 순서 변경)
-  const mainSection = mainProjects.length > 0
-    ? `
-      <p class="section-label main-label">메인 프로젝트 (${mainProjects.length})</p>
-      <div class="projects-grid main-grid">${mainProjects.map((p, i) => renderCard(p, i, hidePmInMainCards, true)).join('')}</div>`
-    : `
-      <p class="section-label main-label">메인 프로젝트 (0)</p>
-      <div class="empty-section">
-        <div class="empty-section-ico">🚧</div>
-        <div class="empty-section-msg">준비 중입니다</div>
-        <div class="empty-section-sub">곧 새로운 프로젝트가 추가될 예정입니다</div>
-      </div>`;
-
-  // 협업 프로젝트 섹션 (나중에 배치)
-  const collabSection = collabProjects.length > 0
-    ? `
-      <p class="section-label collab-label">협업 프로젝트 (${collabProjects.length})</p>
-      <div class="projects-grid collab-grid">${collabProjects.map((p, i) => renderCard(p, i, false, false)).join('')}</div>`
-    : `
-      <p class="section-label collab-label">협업 프로젝트 (0)</p>
-      <div class="empty-section">
-        <div class="empty-section-ico">🤝</div>
-        <div class="empty-section-msg">협업 프로젝트가 등록되어 있지 않습니다</div>
-      </div>`;
-
-  container.innerHTML = mainSection + collabSection;
-  endProgress();
-}
-
-/* ── 단계 목록 로드 ── */
-async function showSteps(projectId, name, keyContribution = '', isMain = false, pmName = '') {
-  // 프로그레스 바 시작
-  startProgress();
-
-  // 뷰 전환
-  document.getElementById('view-projects').style.display = 'none';
-  document.getElementById('view-steps').style.display = 'block';
-  document.getElementById('btn-back').style.display = 'flex';
-  document.getElementById('hdr-title').textContent = name;
-
-  // 우측 헤더 PM 블록 — 메인 프로젝트 상세에서만 표시
-  const hdrPm = document.getElementById('hdr-pm');
-  if (isMain && pmName) {
-    hdrPm.innerHTML = `<div class="hdr-pm-label">PM</div><div class="hdr-pm-name">${esc(pmName)}</div>`;
-    hdrPm.style.display = '';
-  } else {
-    hdrPm.innerHTML = '';
-    hdrPm.style.display = 'none';
-  }
-
-  // 핵심 기여 표시 (있으면 라벨 + 내용, 없으면 숨김)
-  const hdrSub = document.getElementById('hdr-sub');
-  if (keyContribution) {
-    hdrSub.innerHTML = `<span class="hdr-sub-label">핵심 기여 :</span> <span class="hdr-sub-content">${keyContribution}</span>`;
-    hdrSub.style.display = '';
-  } else {
-    hdrSub.innerHTML = '';
-    hdrSub.style.display = 'none';
-  }
-
-  // 헤더 협업자 명단 초기화 (steps 데이터 로드 후 채움)
-  const hdrCollab = document.getElementById('hdr-collab');
-  hdrCollab.innerHTML = '';
-  hdrCollab.style.display = 'none';
-
-  // 초기화 — 스켈레톤 UI 표시
-  activeStep = null;
-  renderedDiagrams = {};
-  stepsData = {};
-  document.getElementById('steps-row').innerHTML = '';
-  document.getElementById('panels-area').innerHTML = detailSkeletonHTML();
-
-  const { data, error } = await sb
-    .from('steps').select('*')
-    .eq('project_id', projectId)
-    .order('step_number');
-
-  if (error || !data || data.length === 0) {
-    endProgress();
-    document.getElementById('panels-area').innerHTML = '';
-    document.getElementById('steps-row').innerHTML = `
-      <div class="state-box">
-        <div class="ico">📋</div>
-        <h2>단계가 없습니다</h2>
-        <p>Supabase <code>steps</code> 테이블에서 이 프로젝트의 단계를 추가해주세요.</p>
-      </div>`;
-    return;
-  }
-
-  // 헤더 협업자 명단 채우기 — 첫 step의 metrics에서 type: "collaborator_names" 찾기
-  const firstStep = data[0];
-  if (firstStep && Array.isArray(firstStep.metrics)) {
-    const namesBlock = firstStep.metrics.find(m => m.type === 'collaborator_names' && Array.isArray(m.names) && m.names.length > 0);
-    if (namesBlock) {
-      hdrCollab.innerHTML = `<span class="hdr-collab-label">협업자 :</span> <span class="hdr-collab-names">${namesBlock.names.join(', ')}</span>`;
-      hdrCollab.style.display = '';
-    }
-  }
-
-  // Step 데이터 저장 및 카드 렌더
-  let cardsHTML = '';
-  data.forEach((step, i) => {
-    stepsData[step.id] = step;
-    cardsHTML += `
-      <div class="step-card" id="sc-${step.id}" onclick="toggleDiagram(${step.id})">
-        <div class="sc-num">STEP ${String(step.step_number).padStart(2,'0')}</div>
-        <div class="sc-title">${step.title}</div>
-        <div class="sc-sub">${step.subtitle || ''}</div>
-        <div class="sc-tap">▼ 상세보기</div>
-      </div>`;
-  });
-  document.getElementById('steps-row').innerHTML = cardsHTML;
-
-  // 단일 단계면 step-row 숨기기
-  if (data.length === 1) {
-    document.getElementById('steps-row').style.display = 'none';
-  } else {
-    document.getElementById('steps-row').style.display = 'flex';
-  }
-
-  // Diagram 패널 렌더
-  const isSingle = data.length === 1;
-  let panelsHTML = data.map(step => {
-    const metricsHTML = (step.metrics && Array.isArray(step.metrics))
-      ? renderMetrics(step.metrics) : '';
-    const imagesHTML = (step.metrics && Array.isArray(step.metrics))
-      ? renderImages(step.metrics) : '';
-    const collaboratorsHTML = (step.metrics && Array.isArray(step.metrics))
-      ? renderCollaborators(step.metrics) : '';
-    const hasMetrics = metricsHTML.trim().length > 0;
-    const diagramContent = step.mermaid_diagram
-      ? '<div class="loading-diag"><div class="spinner"></div><p>렌더링 중...</p></div>'
-      : '<div class="no-diagram">등록된 다이어그램이 없습니다</div>';
-    const innerContent = hasMetrics
-      ? `<div class="split-layout">
-           <div class="split-diagram">
-             <div id="diagram-${step.id}" class="mermaid-wrap">${diagramContent}</div>
-           </div>
-           <div class="split-metrics">${metricsHTML}</div>
-         </div>
-         ${imagesHTML}
-         ${collaboratorsHTML}`
-      : `<div id="diagram-${step.id}" class="mermaid-wrap">${diagramContent}</div>
-         ${imagesHTML}
-         ${collaboratorsHTML}`;
-
-    return `
-    <div id="panel-${step.id}" class="diagram-panel${isSingle ? ' flat' : ''}">
-      <div class="panel-inner">
-        <div class="panel-title">
-          <span class="panel-title-label">STEP ${String(step.step_number).padStart(2,'0')}</span> — ${step.title}
-          ${isSingle ? '' : `<button class="close-btn" onclick="closeDiagram(${step.id})">닫기</button>`}
-        </div>
-        ${innerContent}
-      </div>
-    </div>`;
-  }).join('');
-  document.getElementById('panels-area').innerHTML = panelsHTML;
-
-  // 단일 단계면 바로 다이어그램 표시
-  if (data.length === 1) {
-    toggleDiagram(data[0].id);
-  }
-
-  // 프로그레스 바 종료
-  endProgress();
-}
-
-/* ── 다이어그램 토글 ── */
-async function toggleDiagram(stepId) {
-  const step    = stepsData[stepId];
-  const diagram = step?.mermaid_diagram || '';
-  const panel   = document.getElementById('panel-' + stepId);
-  const card    = document.getElementById('sc-' + stepId);
-
-  if (activeStep === stepId) {
-    closeDiagram(stepId);
-    return;
-  }
-
-  // 이전 패널 닫기
-  if (activeStep) {
-    document.getElementById('panel-' + activeStep).style.display = 'none';
-    document.getElementById('sc-' + activeStep)?.classList.remove('open');
-  }
-
-  panel.style.display = 'block';
-  if (card) card.classList.add('open');
-  activeStep = stepId;
-
-  // 단일 단계(flat 모드)에서는 자동 스크롤하지 않음
-  // 이미 헤더 아래에 바로 표시되므로 스크롤 이동 시 헤더가 화면 밖으로 밀림
-  if (!panel.classList.contains('flat')) {
-    panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-  }
-
-  // 아직 렌더 안 됐으면 렌더
-  if (!renderedDiagrams[stepId] && diagram.trim()) {
-    try {
-      const id = 'mg' + stepId + '_' + Date.now();
-      const { svg } = await mermaid.render(id, diagram);
-      document.getElementById('diagram-' + stepId).innerHTML = svg;
-      renderedDiagrams[stepId] = true;
-    } catch (e) {
-      document.getElementById('diagram-' + stepId).innerHTML =
-        `<div class="no-diagram">렌더링 오류: ${e.message}</div>`;
-    }
-  }
-}
-
-function closeDiagram(stepId) {
-  document.getElementById('panel-' + stepId).style.display = 'none';
-  document.getElementById('sc-' + stepId)?.classList.remove('open');
-  activeStep = null;
-}
-
-/* ── 프로젝트 목록으로 복귀 ── */
-function showProjects() {
-  document.getElementById('view-steps').style.display = 'none';
-  document.getElementById('view-projects').style.display = 'block';
-  document.getElementById('btn-back').style.display = 'none';
-  document.getElementById('hdr-title').textContent = '2026년 시즌1 프로젝트';
-  // hdr-sub 숨김 (PM은 우측 블록으로 대체)
-  const hdrSub = document.getElementById('hdr-sub');
-  hdrSub.innerHTML = '';
-  hdrSub.style.display = 'none';
-  // 헤더 협업자 명단 초기화
-  const hdrCollab = document.getElementById('hdr-collab');
-  hdrCollab.innerHTML = '';
-  hdrCollab.style.display = 'none';
-  // 우측 헤더 PM 블록 — 목록 화면에서 "김재영" 표시
-  const hdrPm = document.getElementById('hdr-pm');
-  hdrPm.innerHTML = `<div class="hdr-pm-label">PM</div><div class="hdr-pm-name">김재영</div>`;
-  hdrPm.style.display = '';
-}
-
-/* ── 메트릭 렌더 ── */
-function renderMetrics(metrics) {
-  // summary 타입 요소는 별도로 분리해서 맨 위에 렌더
-  const summaryItems = metrics.filter(m => m.type === 'summary' && m.text);
-  const summaryHTML = summaryItems.map(s => `
-    <div class="metric-summary">
-      <div class="metric-summary-label">프로젝트 요약</div>
-      <div class="metric-summary-text">${s.text}</div>
-    </div>`).join('');
-
-  const scoreHTML = metrics
-    // summary/images/collaborators/collaborator_names 등 비-지표 타입 제외
-    .filter(m => m.type !== 'summary' && m.type !== 'images' && m.type !== 'collaborators' && m.type !== 'collaborator_names')
-    // 핵심 성과만 필터링: 점수가 '-', null, undefined, '', 0이면 제외
-    .filter(m => {
-      if (m.score === '-' || m.score === null || m.score === undefined || m.score === '') return false;
-      const n = Number(m.score);
-      if (isNaN(n) || n <= 0) return false;
-      return true;
-    })
-    .map(m => {
-      const score = Number(m.score);
-      const caption = m.caption || m.keyword || m.desc || '';
-      const captionHTML = caption
-        ? `<div class="metric-caption">${caption}</div>`
-        : '';
-      return `
-        <div class="metric-item">
-          <div class="metric-label">${m.label}</div>
-          <div class="metric-bar-wrap">
-            <div class="metric-bar" style="width:${score}%"></div>
+<!-- ── 참여 조건 ── -->
+<div class="sec" style="border-bottom:1px solid var(--border);">
+  <div class="wrap">
+    <div class="label">참여 조건</div>
+    <div style="background:var(--bg); border:1px solid var(--border); border-radius:14px; padding:4px 24px;">
+      <ul class="cond-list">
+        <li class="cond-item">
+          <span class="cond-icon">🏅</span>
+          <div>
+            <div class="cond-title">스포츠 정보 플랫폼 원칙 준수</div>
+            <div class="cond-desc">사설 토토·불법 베팅 관련 콘텐츠, 픽스터방 링크는 플랫폼 운영 원칙에 위배되며 계약이 즉시 해지됩니다.</div>
           </div>
-          <div class="metric-score">${score}<span>/ 100</span></div>
-          ${captionHTML}
-        </div>`;
-    }).join('');
+        </li>
+        <li class="cond-item">
+          <span class="cond-icon">✍️</span>
+          <div>
+            <div class="cond-title">정직한 분석 의견만 게시 가능</div>
+            <div class="cond-desc">분석글은 개인 의견 및 정보 제공을 목적으로 합니다. 확정적 수익 보장·적중 보장 표현은 허용되지 않습니다.</div>
+          </div>
+        </li>
+        <li class="cond-item">
+          <span class="cond-icon">🖊️</span>
+          <div>
+            <div class="cond-title">오리지널 콘텐츠만 등록 가능</div>
+            <div class="cond-desc">본인이 직접 작성한 콘텐츠만 등록할 수 있습니다. 타인의 글·방송·기사를 활용할 경우 반드시 출처를 명시해야 합니다.</div>
+          </div>
+        </li>
+        <li class="cond-item">
+          <span class="cond-icon">🤝</span>
+          <div>
+            <div class="cond-title">정직한 정산 참여</div>
+            <div class="cond-desc">정산은 실제 활동에서 발생한 수익을 기준으로 합니다. 비정상적인 결제 방식은 허용되지 않으며 계약이 해지됩니다.</div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
 
-  return summaryHTML + scoreHTML;
-}
+<!-- ── CONTACT ── -->
+<div class="contact-wrap">
+  <div class="wrap">
+    <div class="label" style="text-align:center;">지원</div>
+    <div style="margin-bottom:20px;">
+      <a href="mailto:xhermes2013@psynet.co.kr" class="contact-email">xhermes2013@psynet.co.kr</a>
+    </div>
+    <div class="contact-note">
+      제목 형식: [프로젝트명] 성함 &nbsp;·&nbsp; 예) [실시간 중계] 홍길동<br/>
+      검토 후 개별 연락드립니다.
+    </div>
+  </div>
+</div>
 
-/* ── 이미지 섹션 렌더 (다이어그램 하단 풀폭 영역) ── */
-function renderImages(metrics) {
-  if (!Array.isArray(metrics)) return '';
-  const imagesBlock = metrics.find(m => m.type === 'images' && Array.isArray(m.items) && m.items.length > 0);
-  if (!imagesBlock) return '';
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="logo" style="margin-bottom:8px;">LIVE SCORE · OPEN PLATFORM</div>
+  <p>주식회사 사이넷 (PSYNET Inc.)</p>
+  <p>본 공고는 예고 없이 변경되거나 조기 마감될 수 있습니다 · © 2026 PSYNET Inc.</p>
+</footer>
 
-  const itemsHTML = imagesBlock.items.map(item => {
-    const url = item.url || '';
-    const caption = item.caption || '';
-    const imgHTML = url
-      ? `<img src="${esc(url)}" alt="${esc(caption)}" loading="lazy" onclick="openLightbox('${esc(url)}','${esc(caption)}')" onerror="this.style.display='none';this.parentElement.innerHTML='<div class=&quot;image-item-img-placeholder&quot;>이미지를 불러올 수 없습니다</div>'">`
-      : `<div class="image-item-img-placeholder">이미지 URL이 없습니다</div>`;
-    const captionHTML = caption
-      ? `<div class="image-item-caption">${caption}</div>`
-      : '';
-    return `
-      <div class="image-item">
-        <div class="image-item-img-wrap">${imgHTML}</div>
-        ${captionHTML}
-      </div>`;
-  }).join('');
-
-  const label = imagesBlock.label || '참고 이미지';
-  const isSingle = imagesBlock.items.length === 1;
-  const gridClass = isSingle ? 'images-grid single' : 'images-grid';
-  return `
-    <div class="images-section">
-      <div class="images-section-label">${esc(label)}</div>
-      <div class="${gridClass}">${itemsHTML}</div>
-    </div>`;
-}
-
-/* ── 협업자 섹션 렌더 (다이어그램 하단 풀폭 영역) ── */
-function renderCollaborators(metrics) {
-  if (!Array.isArray(metrics)) return '';
-  const block = metrics.find(m => m.type === 'collaborators' && Array.isArray(m.items) && m.items.length > 0);
-  if (!block) return '';
-
-  // 단일 섹션 렌더 헬퍼
-  function renderSection(section) {
-    const items = Array.isArray(section.items) ? section.items : [];
-    const itemsHTML = items.map(it => `<li>${it}</li>`).join('');
-    const bgStyle = section.color
-      ? ` style="background:${section.color}"`
-      : '';
-    const boxedClass = section.color ? ' boxed' : '';
-    const labelHTML = section.label
-      ? `<div class="collab-section-label">${esc(section.label)}</div>`
-      : '';
-    return `
-      <div class="collab-section${boxedClass}"${bgStyle}>
-        ${labelHTML}
-        <ul class="collab-section-items">${itemsHTML}</ul>
-      </div>`;
-  }
-
-  const cardsHTML = block.items.map(person => {
-    const sections = Array.isArray(person.sections) ? person.sections : [];
-    // layout: "grid"이면 3열 그리드, 아니면 세로 스택
-    const bodyClass = person.layout === 'grid' ? 'collab-body-grid' : '';
-    const sectionsHTML = sections.map(renderSection).join('');
-    const footerHTML = person.footer
-      ? `<div class="collab-footer">
-           <div class="collab-footer-label">${esc(person.footerLabel || '유저 흐름')}</div>
-           <div>${person.footer}</div>
-         </div>`
-      : '';
-
-    return `
-      <div class="collaborator-card">
-        <div class="collaborator-header">
-          <div class="collaborator-name">${esc(person.name || '')}</div>
-          ${person.role ? `<div class="collaborator-role">${esc(person.role)}</div>` : ''}
-        </div>
-        <div class="collaborator-body">
-          ${bodyClass ? `<div class="${bodyClass}">${sectionsHTML}</div>` : sectionsHTML}
-          ${footerHTML}
-        </div>
-      </div>`;
-  }).join('');
-
-  const label = block.label || '협업자';
-  return `
-    <div class="collaborators-section">
-      <div class="collaborators-section-label">${esc(label)}</div>
-      <div class="collaborators-list">${cardsHTML}</div>
-    </div>`;
-}
-
-/* ── 유틸 ── */
-function esc(s) { return String(s || '').replace(/'/g,"&#39;").replace(/"/g,'&quot;'); }
-function escBt(s) { return String(s || '').replace(/`/g,'\\`').replace(/\$/g,'\\$'); }
-
-/* ── 이미지 라이트박스 ── */
-function openLightbox(url, caption) {
-  const lightbox = document.getElementById('lightbox');
-  const img = document.getElementById('lightbox-img');
-  const cap = document.getElementById('lightbox-caption');
-  img.src = url;
-  img.alt = caption || '';
-  cap.textContent = caption || '';
-  cap.style.display = caption ? 'block' : 'none';
-  lightbox.classList.add('active');
-  // 스크롤 잠금
-  document.body.style.overflow = 'hidden';
-}
-function closeLightbox(event) {
-  // 이미지나 caption 영역 클릭 시에는 닫지 않음
-  if (event && event.target && event.target.closest &&
-      event.target.closest('.lightbox-content') &&
-      !event.target.classList.contains('lightbox-close')) {
-    return;
-  }
-  const lightbox = document.getElementById('lightbox');
-  lightbox.classList.remove('active');
-  document.body.style.overflow = '';
-}
-// ESC 키로 닫기
-document.addEventListener('keydown', function(e) {
-  if (e.key === 'Escape') {
-    const lightbox = document.getElementById('lightbox');
-    if (lightbox && lightbox.classList.contains('active')) {
-      closeLightbox();
-    }
-  }
-});
-
-/* ── 시작 ── */
-init();
-</script>
 </body>
 </html>
