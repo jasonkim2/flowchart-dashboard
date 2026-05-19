@@ -190,7 +190,7 @@ const SRC_TEST = `flowchart TD
         D1["<b>야구 경기 데이터</b><br/>전처리 완료본"]
         D2["<b>응원글 데이터</b><br/>전처리 완료본"]
     end
-    ASS["<b>프롬프트 조립</b><br/>버튼 1개 = 질문 패턴 1개<br/>B1~B3 각각 독립 실행"]
+    ASS["<b>프롬프트 조립</b><br/>선택된 버튼의 질문 패턴 1개<br/>공통 데이터와 결합하여 독립 실행"]
     subgraph MODELS ["각 버튼마다 모든 LLM 모델에 동시 전송"]
         direction LR
         M1["<b>Gemini</b>"]
