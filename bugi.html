@@ -42,24 +42,15 @@
     .diagram-desc { font-size: 12px; color: #666; margin-bottom: 20px; line-height: 1.7; padding-left: 15px; }
     .mermaid { width: 100%; }
 
-    .change-summary {
-      display: flex; gap: 10px; margin-bottom: 28px; padding-left: 15px; flex-wrap: wrap;
-    }
-    .change-item {
-      font-size: 11px; font-weight: 600; padding: 4px 10px;
-      border-radius: 3px; display: flex; align-items: center; gap: 5px;
-    }
+    .change-summary { display: flex; gap: 10px; margin-bottom: 28px; padding-left: 15px; flex-wrap: wrap; }
+    .change-item { font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 3px; display: flex; align-items: center; gap: 5px; }
     .change-item.removed { background: #f5f5f5; color: #aaa; text-decoration: line-through; }
     .change-item.added   { background: #111; color: #fff; }
     .change-item.kept    { background: #eee; color: #555; }
 
     .mermaid .cluster-label span,
     .mermaid .cluster-label text { font-weight: 700 !important; }
-
-    .mermaid .nodeLabel {
-      padding: 10px 8px 8px !important;
-      line-height: 1.6 !important;
-    }
+    .mermaid .nodeLabel { padding: 10px 8px 8px !important; line-height: 1.6 !important; }
   </style>
 </head>
 <body>
@@ -83,10 +74,10 @@
     서비스 구조 순서도 <span class="tab-badge">현행</span>
   </div>
   <div class="tab" onclick="switchTab('test', this)">
-    테스트 순서도 <span class="tab-badge">완료</span>
+    테스트 순서도 <span class="tab-badge">업데이트</span>
   </div>
   <div class="tab" onclick="switchTab('improved', this)">
-    개선 방안 <span class="tab-badge new">NEW</span>
+    개선 방안 <span class="tab-badge new">업데이트</span>
   </div>
 </div>
 
@@ -109,9 +100,9 @@
   <div class="wrap">
     <div class="diagram-card">
       <div class="section-label">02 / 테스트 플로우</div>
-      <div class="diagram-title">개별 질문 독립 실행 × 멀티 모델 병렬 비교 및 기획자 채점</div>
+      <div class="diagram-title">버기 버튼 3개 × 멀티 모델 병렬 비교 및 기획자 채점</div>
       <div class="diagram-desc">
-        Q1~Qn은 각각 독립적으로 실행됨. 질문 1개당 공통 데이터와 함께 프롬프트를 조립하고, 모든 LLM 모델에 동시 전송하여 답변을 수집. 전체 결과를 매트릭스로 취합 후 기획자가 채점.
+        채팅형이 아닌 계산기형 UX. 배터들이 공통으로 필요로 하는 질문 패턴 3개를 버튼으로 정의. 버튼 하나 = 사전 정의된 질문 1개. 각 버튼은 독립적으로 모든 LLM 모델에 동시 전송되어 답변을 비교.
       </div>
       <div class="mermaid" id="diagram-test"></div>
     </div>
@@ -123,15 +114,15 @@
   <div class="wrap">
     <div class="diagram-card">
       <div class="section-label">03 / 개선 방안</div>
-      <div class="diagram-title">옵타 원본 피드를 LLM에 직접 연결 — 중간 처리 단계 제거</div>
+      <div class="diagram-title">옵타 직접 연결 + LLM 2트랙 전략</div>
       <div class="diagram-desc">
-        옵타 스키마 문서를 AI 해석 기준으로 사용. 원본 피드를 전처리 없이 LLM에 직접 입력. DB 적재 및 야구 데이터 전처리 단계 불필요. 응원글과 과거 집계 데이터는 DB에서 유지.
+        옵타 원본 피드를 LLM에 직접 연결. 1순위는 외부 LLM으로 퀄리티 우선 승부. 2순위는 오픈소스 기반 스포츠 배팅 특화 내부 LM 자체 개발. 처음부터 외부 → 내부 대체 가능한 구조로 설계.
       </div>
       <div class="change-summary">
         <div class="change-item removed">DB 적재 전처리</div>
         <div class="change-item removed">AI 입력 전처리 (야구)</div>
-        <div class="change-item added">+ 옵타 피드 → LLM 직접 연결</div>
-        <div class="change-item added">+ 스키마 문서 → 해석 기준</div>
+        <div class="change-item added">+ 옵타 피드 LLM 직접 연결</div>
+        <div class="change-item added">+ 외부 LLM → 내부 LM 2트랙</div>
         <div class="change-item kept">응원글 DB 유지</div>
       </div>
       <div class="mermaid" id="diagram-improved"></div>
@@ -188,20 +179,19 @@ const SRC_FLOW = `flowchart TD
     style PROMPT fill:#f8f8f8,stroke:#333333,color:#111111`;
 
 const SRC_TEST = `flowchart TD
-    subgraph INPUT ["개별 질문 입력 (Q1~Qn 각각 독립)"]
+    subgraph BUTTONS ["버기 버튼 입력 — 계산기형 UX"]
         direction LR
-        Q1["<b>Q1</b>"]
-        Q2["<b>Q2</b>"]
-        Q3["<b>Q3</b>"]
-        QN["<b>Qn</b>"]
+        B1["<b>버튼 1</b><br/>공통 질문 패턴 A"]
+        B2["<b>버튼 2</b><br/>공통 질문 패턴 B"]
+        B3["<b>버튼 3</b><br/>공통 질문 패턴 C"]
     end
-    subgraph DATA ["공통 데이터 (모든 질문에 동일 적용)"]
+    subgraph DATA ["공통 데이터 (모든 버튼에 동일 적용)"]
         direction LR
         D1["<b>야구 경기 데이터</b><br/>전처리 완료본"]
         D2["<b>응원글 데이터</b><br/>전처리 완료본"]
     end
-    ASS["<b>프롬프트 조립</b><br/>질문 1개 + 야구 데이터 + 응원글<br/>Q1~Qn 각각 독립적으로 실행"]
-    subgraph MODELS ["각 질문마다 모든 LLM 모델에 동시 전송"]
+    ASS["<b>프롬프트 조립</b><br/>버튼 1개 = 질문 패턴 1개<br/>B1~B3 각각 독립 실행"]
+    subgraph MODELS ["각 버튼마다 모든 LLM 모델에 동시 전송"]
         direction LR
         M1["<b>Gemini</b>"]
         M2["<b>GPT-4o</b>"]
@@ -209,22 +199,21 @@ const SRC_TEST = `flowchart TD
         M4["<b>DeepSeek</b>"]
         M5["<b>추가 모델</b>"]
     end
-    MATRIX["<b>결과 매트릭스 생성</b><br/>질문(행) x 모델(열) 답변 취합"]
+    MATRIX["<b>결과 매트릭스 생성</b><br/>버튼(행) x 모델(열) 답변 취합"]
     subgraph SCORING ["기획자 채점 및 평가"]
         direction LR
         R1["<b>모델별 답변 비교</b><br/>각 모델 응답 나란히 확인"]
-        R2["<b>품질 채점</b><br/>정확도 맥락 이해 완성도"]
-        R3["<b>최종 모델 선정</b><br/>서비스 적용 모델 결정"]
+        R2["<b>품질 채점</b><br/>배터가 실제 쓸 수준인지 판단"]
+        R3["<b>최종 모델 선정</b><br/>퀄리티 우선 / 가격 역설계"]
     end
-    INPUT -->|"질문 1개씩 개별 전달"| ASS
+    BUTTONS -->|"버튼별 개별 전달"| ASS
     DATA -->|"공통 적용"| ASS
-    ASS -->|"질문별 동시 전송"| MODELS
+    ASS -->|"버튼별 동시 전송"| MODELS
     MODELS -->|"모델별 답변 수집"| MATRIX
     MATRIX -->|"결과 매트릭스"| SCORING
-    style Q1 fill:#ffffff,stroke:#555555,color:#111111
-    style Q2 fill:#ffffff,stroke:#555555,color:#111111
-    style Q3 fill:#ffffff,stroke:#555555,color:#111111
-    style QN fill:#f8f8f8,stroke:#999999,color:#555555
+    style B1 fill:#ffffff,stroke:#555555,color:#111111
+    style B2 fill:#ffffff,stroke:#555555,color:#111111
+    style B3 fill:#ffffff,stroke:#555555,color:#111111
     style D1 fill:#ffffff,stroke:#555555,color:#111111
     style D2 fill:#ffffff,stroke:#555555,color:#111111
     style ASS fill:#ffffff,stroke:#222222,color:#111111
@@ -237,7 +226,7 @@ const SRC_TEST = `flowchart TD
     style R1 fill:#ffffff,stroke:#555555,color:#111111
     style R2 fill:#ffffff,stroke:#555555,color:#111111
     style R3 fill:#f0f0f0,stroke:#222222,color:#111111
-    style INPUT fill:#f8f8f8,stroke:#333333,color:#111111
+    style BUTTONS fill:#f8f8f8,stroke:#333333,color:#111111
     style DATA fill:#f8f8f8,stroke:#333333,color:#111111
     style MODELS fill:#f8f8f8,stroke:#333333,color:#111111
     style SCORING fill:#f8f8f8,stroke:#333333,color:#111111`;
@@ -249,20 +238,27 @@ const SRC_IMPROVED = `flowchart TD
         FEED["<b>옵타 원본 피드</b><br/>경기 데이터 그대로<br/>전처리 없이 직접 전달"]
     end
     DB[("<b>LIVE 스코어 DB</b><br/>응원글 / 과거 집계 데이터")]
-    Q(["<b>사용자 질문 입력</b>"])
-    LLM["<b>LLM</b><br/>옵타 스키마를 해석 기준으로<br/>원본 피드를 직접 읽고 분석<br/>응원글 / 질문 통합 처리"]
+    Q(["<b>사용자 질문 입력</b><br/>버기 버튼 선택"])
+    subgraph LLM_TRACK ["LLM 2트랙 — 처음부터 대체 가능한 구조로 설계"]
+        direction LR
+        T1["<b>1순위 : 외부 LLM (지금 당장)</b><br/>GPT / Claude / Gemini 등<br/>퀄리티 우선 / 토큰 비용 감수<br/>집단지성 프롬프트 엔지니어링"]
+        T2["<b>2순위 : 내부 경량 LM (장기)</b><br/>오픈소스 기반 자체 개발<br/>스포츠 배팅 언어 / 용어 특화<br/>외부 LLM 완전 대체 목표"]
+    end
     F["<b>답변 생성 및 화면 표시</b>"]
-    OPTA -->|"스키마 + 원본 피드 직접 입력"| LLM
-    DB -->|"응원글 조회"| LLM
-    Q -->|"질문 전달"| LLM
-    LLM --> F
+    OPTA -->|"스키마 + 원본 피드 직접 입력"| LLM_TRACK
+    DB -->|"응원글 조회"| LLM_TRACK
+    Q -->|"질문 전달"| LLM_TRACK
+    T1 --->|"장기적으로 대체"| T2
+    LLM_TRACK --> F
     style SCHEMA fill:#ffffff,stroke:#555555,color:#111111
     style FEED fill:#ffffff,stroke:#555555,color:#111111
     style DB fill:#ffffff,stroke:#222222,color:#111111
     style Q fill:#f0f0f0,stroke:#222222,color:#111111
-    style LLM fill:#f0f0f0,stroke:#111111,color:#111111,font-weight:bold
+    style T1 fill:#ffffff,stroke:#333333,color:#111111
+    style T2 fill:#f8f8f8,stroke:#333333,color:#555555
     style F fill:#f0f0f0,stroke:#222222,color:#111111
-    style OPTA fill:#f8f8f8,stroke:#111111,color:#111111`;
+    style OPTA fill:#f8f8f8,stroke:#111111,color:#111111
+    style LLM_TRACK fill:#f8f8f8,stroke:#111111,color:#111111`;
 
 mermaid.initialize({
   startOnLoad: false,
