@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>물음표 기능 순서도 문서</title>
+  <title>버기 기능 순서도 문서</title>
   <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -59,7 +59,7 @@
   <div class="header-left">
     <span class="badge">LIVE 스코어</span>
     <div>
-      <h1>물음표 기능 순서도 문서</h1>
+      <h1>버기 기능 순서도 문서</h1>
       <div class="subtitle">서비스 구조 · 테스트 플로우 · 개선 방안 통합 정리</div>
     </div>
   </div>
@@ -306,7 +306,7 @@ function exportSVG() {
   const svg = getActiveSVG(); if (!svg) return alert('현재 탭에 다이어그램이 없습니다.');
   const a = document.createElement('a');
   a.href = URL.createObjectURL(new Blob([svg.outerHTML], { type: 'image/svg+xml' }));
-  a.download = '물음표기능-순서도.svg'; a.click();
+  a.download = '버기기능-순서도.svg'; a.click();
 }
 function exportPNG() {
   const svg = getActiveSVG(); if (!svg) return alert('현재 탭에 다이어그램이 없습니다.');
@@ -320,7 +320,7 @@ function exportPNG() {
     ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, c.width, c.height);
     ctx.drawImage(img, 0, 0);
     const a = document.createElement('a');
-    a.download = '물음표기능-순서도.png';
+    a.download = '버기기능-순서도.png';
     a.href = c.toDataURL('image/png'); a.click();
   };
   img.src = 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(s)));
