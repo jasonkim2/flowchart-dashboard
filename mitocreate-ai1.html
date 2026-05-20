@@ -618,78 +618,93 @@
     <!-- 데이터 카드 그리드 -->
     <div style="margin-top:32px;" class="label">전체 데이터 구성</div>
     <div class="data-grid">
-      <div class="data-cell">
-        <div class="data-cell-title">⚡ xG · 기대지표</div>
-        <div class="data-cell-num">독점 보유</div>
-        <div class="data-tags">
-          <span class="data-tag">xG 기대득점</span><span class="data-tag">xA 기대도움</span><span class="data-tag">xGA 기대실점</span><span class="data-tag">xP 기대승점</span><span class="data-tag">xW 기대승률</span><span class="data-tag">실시간 xW 추이</span><span class="data-tag">슛맵</span><span class="data-tag">슛별 xG값</span>
-        </div>
-      </div>
-      <div class="data-cell">
-        <div class="data-cell-title">🎯 선수 세부 스탯</div>
-        <div class="data-cell-num">독점 보유</div>
-        <div class="data-tags">
-          <span class="data-tag">최근 출전 경기별 평점</span><span class="data-tag">경기별 슛맵·xG</span><span class="data-tag">시즌 전체 슛맵</span><span class="data-tag">최근 3경기 vs 시즌 평균 비교</span><span class="data-tag">팀내 기록순위</span><span class="data-tag">시즌 평균평점</span><span class="data-tag">등록선수 현황</span><span class="data-tag">팀 세부기록(슈팅·패스·카드)</span>
+      <div class="data-cell" style="grid-column: span 2;">
+        <div class="data-cell-title" style="font-size:18px; margin-bottom:16px;"><span style="background:#37607D; color:#fff; padding:2px 8px; margin-right:6px;">LIVE스코어</span><span style="color:#111; font-weight:900;">+ 45만 유저의 핵심 데이터</span></div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
+          <div>
+            <div style="font-size:13px; font-weight:700; color:#37607D; margin-bottom:8px; letter-spacing:0.5px;">⚡ xG 기대지표</div>
+            <div class="data-tags">
+              <span class="data-tag">xG 기대득점</span><span class="data-tag">xA 기대도움</span><span class="data-tag">xGA 기대실점</span><span class="data-tag">xP 기대승점</span><span class="data-tag">xW 기대승률</span><span class="data-tag">실시간 xW 추이</span><span class="data-tag">슛맵</span><span class="data-tag">슛별 xG값</span><span class="data-tag">전반·후반 xG 흐름</span><span class="data-tag">팀 누적 xG</span><span class="data-tag">경기별 xG 비교</span><span class="data-tag">시즌 xG 랭킹</span><span class="data-tag">유저 반응 연동 xG</span><span class="data-tag">응원 폭발 구간 xG</span>
+            </div>
+          </div>
+          <div>
+            <div style="font-size:13px; font-weight:700; color:#37607D; margin-bottom:8px; letter-spacing:0.5px;">🎯 선수 세부 스탯</div>
+            <div class="data-tags">
+              <span class="data-tag">경기별 평점</span><span class="data-tag">경기별 슛맵·xG</span><span class="data-tag">시즌 전체 슛맵</span><span class="data-tag">최근 3경기 vs 시즌 평균</span><span class="data-tag">팀내 기록순위</span><span class="data-tag">시즌 평균평점</span><span class="data-tag">등록선수 현황</span><span class="data-tag">슈팅·패스·카드</span><span class="data-tag">유저 관심 선수 순위</span><span class="data-tag">응원글 언급 빈도</span><span class="data-tag">선수별 팬 반응 지수</span><span class="data-tag">Form 그래프</span><span class="data-tag">직전경기 소화시간</span><span class="data-tag">시장가치</span>
+            </div>
+          </div>
         </div>
       </div>
       <div class="data-cell">
         <div class="data-cell-title">⚔️ 전력 비교</div>
         <div class="data-cell-num">1억 5천만+</div>
         <div class="data-tags">
-          <span class="data-tag">최근 흐름</span><span class="data-tag">상대 전적</span><span class="data-tag">키 플레이어 비교</span><span class="data-tag">선발투수 비교</span><span class="data-tag">부상·결장선수</span><span class="data-tag">팀 평균평점</span><span class="data-tag">xW 실시간 기대승률</span><span class="data-tag">결과확률 매트릭스</span><span class="data-tag">인사이트·매치픽</span>
+          <span class="data-tag">최근 흐름</span><span class="data-tag">상대 전적</span><span class="data-tag">키 플레이어 비교</span><span class="data-tag">선발투수 비교</span><span class="data-tag">부상·결장선수</span><span class="data-tag">팀 평균평점</span><span class="data-tag">xW 실시간 기대승률</span><span class="data-tag">결과확률 매트릭스</span><span class="data-tag">인사이트·매치픽</span><span class="data-tag">홈·원정 승률</span><span class="data-tag">최근 5경기 득실</span><span class="data-tag">팀 xG 비교</span><span class="data-tag">유효슈팅 비교</span><span class="data-tag">점유율 추이</span><span class="data-tag">세트피스 득점력</span>
         </div>
       </div>
       <div class="data-cell">
         <div class="data-cell-title">📋 라인업</div>
         <div class="data-cell-num">5천만+</div>
         <div class="data-tags">
-          <span class="data-tag">이전 라인업</span><span class="data-tag">예상 라인업</span><span class="data-tag">확정 라인업</span><span class="data-tag">선수별 시즌 기록</span><span class="data-tag">선수별 평균 평점</span><span class="data-tag">선수별 시장가치</span><span class="data-tag">직전경기 소화시간</span><span class="data-tag">Form 그래프</span>
+          <span class="data-tag">이전 라인업</span><span class="data-tag">예상 라인업</span><span class="data-tag">확정 라인업</span><span class="data-tag">선수별 시즌 기록</span><span class="data-tag">선수별 평균 평점</span><span class="data-tag">선수별 시장가치</span><span class="data-tag">직전경기 소화시간</span><span class="data-tag">시즌 스냅샷</span><span class="data-tag">포메이션</span><span class="data-tag">BetsAPI 라인업</span><span class="data-tag">Betradar 라인업</span><span class="data-tag">Sports2i 라인업</span><span class="data-tag">야구 선발투수</span><span class="data-tag">농구 스타터5</span><span class="data-tag">배구 스타팅 세터</span>
         </div>
       </div>
       <div class="data-cell">
         <div class="data-cell-title">📈 배당률</div>
         <div class="data-cell-num">3억 2천만+</div>
         <div class="data-tags">
-          <span class="data-tag">경기 전 배당</span><span class="data-tag">라이브 배당</span><span class="data-tag">핸디캡</span><span class="data-tag">오버/언더</span><span class="data-tag">초기→직전→LIVE 변동추이</span><span class="data-tag">동일배당 과거 승률</span><span class="data-tag">베트맨 구매현황</span><span class="data-tag">사용자 승부예측 투표</span>
+          <span class="data-tag">경기 전 배당</span><span class="data-tag">라이브 배당</span><span class="data-tag">핸디캡</span><span class="data-tag">오버/언더</span><span class="data-tag">초기→직전→LIVE 변동추이</span><span class="data-tag">동일배당 과거 승률</span><span class="data-tag">베트맨 구매현황</span><span class="data-tag">사용자 승부예측 투표</span><span class="data-tag">BetsAPI 배당</span><span class="data-tag">Betradar 배당</span><span class="data-tag">스포츠토토 연동</span><span class="data-tag">배당 급변 알림</span><span class="data-tag">종목별 배당 히스토리</span><span class="data-tag">베팅사별 비교</span>
         </div>
       </div>
       <div class="data-cell">
         <div class="data-cell-title">🤖 AI·분석</div>
         <div class="data-cell-num">1천만+</div>
         <div class="data-tags">
-          <span class="data-tag">픽 조합</span><span class="data-tag">분석가 승률</span><span class="data-tag">축구·야구·농구 예측</span>
+          <span class="data-tag">픽 조합</span><span class="data-tag">분석가 승률</span><span class="data-tag">축구 예측</span><span class="data-tag">야구 예측</span><span class="data-tag">농구 예측</span><span class="data-tag">분석가 픽 구매 로그</span><span class="data-tag">Sportguru 연동 분석</span><span class="data-tag">AI 학습 데이터셋</span><span class="data-tag">경기 학습 누적</span><span class="data-tag">분석가 팔로워 수</span><span class="data-tag">픽 판매 통계</span><span class="data-tag">적중률 랭킹</span>
         </div>
       </div>
       <div class="data-cell">
         <div class="data-cell-title">🏟️ 경기 기록</div>
         <div class="data-cell-num">4억 5천만+</div>
         <div class="data-tags">
-          <span class="data-tag">경기 결과</span><span class="data-tag">선수별 기록</span><span class="data-tag">교체 기록</span><span class="data-tag">리그 순위</span><span class="data-tag">중계 정보</span><span class="data-tag">득점·어시스트</span><span class="data-tag">타율·방어율</span><span class="data-tag">이닝별 득점</span><span class="data-tag">리바운드</span>
+          <span class="data-tag">경기 결과</span><span class="data-tag">선수별 기록</span><span class="data-tag">교체 기록</span><span class="data-tag">리그 순위</span><span class="data-tag">중계 정보</span><span class="data-tag">득점·어시스트</span><span class="data-tag">타율·방어율</span><span class="data-tag">이닝별 득점</span><span class="data-tag">리바운드·블록</span><span class="data-tag">세트별 득점</span><span class="data-tag">테니스 게임 스코어</span><span class="data-tag">아이스하키 피리어드</span><span class="data-tag">가상축구 결과</span><span class="data-tag">파워볼 데이터</span><span class="data-tag">실시간 경기 이벤트</span><span class="data-tag">VAR·판정 기록</span><span class="data-tag">코너킥·프리킥</span><span class="data-tag">경고·퇴장</span>
         </div>
       </div>
       <div class="data-cell">
         <div class="data-cell-title">💬 팬 반응</div>
         <div class="data-cell-num">3억 6천만+</div>
         <div class="data-tags">
-          <span class="data-tag">응원글</span><span class="data-tag">댓글·리플</span><span class="data-tag">게시판 글</span><span class="data-tag">핫뉴스</span><span class="data-tag">사진 공유</span><span class="data-tag">카툰·만화</span><span class="data-tag">유튜브</span><span class="data-tag">속보</span>
+          <span class="data-tag">응원글</span><span class="data-tag">댓글·리플</span><span class="data-tag">게시판 글</span><span class="data-tag">핫뉴스</span><span class="data-tag">사진 공유</span><span class="data-tag">카툰·만화</span><span class="data-tag">유튜브 영상</span><span class="data-tag">속보</span><span class="data-tag">이모티콘 반응</span><span class="data-tag">신고 로그</span><span class="data-tag">응원 퍼센트</span><span class="data-tag">경기별 응원 폭발량</span><span class="data-tag">팬게임 참여</span><span class="data-tag">그룹톡</span><span class="data-tag">아프리카TV 연동</span><span class="data-tag">태그별 반응</span><span class="data-tag">쪽지·메모</span>
         </div>
       </div>
       <div class="data-cell">
         <div class="data-cell-title">👥 사용자 관심</div>
         <div class="data-cell-num">4천 9백만+</div>
         <div class="data-tags">
-          <span class="data-tag">팀 관심</span><span class="data-tag">선수 관심</span><span class="data-tag">리그 관심</span><span class="data-tag">분석가 팔로우</span><span class="data-tag">태그 관심</span><span class="data-tag">접속 UV</span><span class="data-tag">경기별 비교</span>
+          <span class="data-tag">팀 관심</span><span class="data-tag">선수 관심</span><span class="data-tag">리그 관심</span><span class="data-tag">분석가 팔로우</span><span class="data-tag">태그 관심</span><span class="data-tag">접속 UV</span><span class="data-tag">경기별 비교</span><span class="data-tag">관심 경기 알리미</span><span class="data-tag">구독 사용자</span><span class="data-tag">베팅 관심사 랭킹</span><span class="data-tag">사용자 차단 관계</span><span class="data-tag">UV·PV 통계</span><span class="data-tag">GMT별 접속 분포</span><span class="data-tag">국가별 유저</span><span class="data-tag">올킬 이벤트 참여</span>
         </div>
       </div>
       <div class="data-cell">
         <div class="data-cell-title">📸 선수 공식 사진</div>
         <div class="data-cell-num" style="font-size:20px; margin-bottom:4px;">계약 제공</div>
         <div class="data-tags">
-          <span class="data-tag">오센(OSEN) · 국내</span><span class="data-tag">Getty Images · 해외</span><span class="data-tag">종목·리그·선수 검색</span>
+          <span class="data-tag">오센(OSEN) · 국내</span><span class="data-tag">Getty Images · 해외</span><span class="data-tag">종목·리그·선수 검색</span><span class="data-tag">경기 현장 사진</span><span class="data-tag">훈련·인터뷰 컷</span><span class="data-tag">팀 단체 사진</span><span class="data-tag">CDN 실시간 제공</span>
         </div>
       </div>
-      <div class="data-cell"></div>
-      <div class="data-cell"></div>
+      <div class="data-cell">
+        <div class="data-cell-title">🔔 알림·푸시</div>
+        <div class="data-cell-num">5백 8십만+</div>
+        <div class="data-tags">
+          <span class="data-tag">스코어 알림</span><span class="data-tag">베팅 알림</span><span class="data-tag">분석픽 알림</span><span class="data-tag">속보 푸시</span><span class="data-tag">유니버설 푸시</span><span class="data-tag">관심 경기 시작 알림</span><span class="data-tag">관심 선수 득점 알림</span><span class="data-tag">GCM·APNS 토큰</span><span class="data-tag">알리미 등록 1천 3백만+</span><span class="data-tag">SMS 인증</span>
+        </div>
+      </div>
+      <div class="data-cell">
+        <div class="data-cell-title">💰 결제·구독</div>
+        <div class="data-cell-num">5백만+</div>
+        <div class="data-tags">
+          <span class="data-tag">구글 인앱결제</span><span class="data-tag">정기결제 로그</span><span class="data-tag">구독 사용자</span><span class="data-tag">보너스 포인트</span><span class="data-tag">환불 요청</span><span class="data-tag">LSBall 충전</span><span class="data-tag">분석픽 구매</span><span class="data-tag">이모티콘 구매</span><span class="data-tag">환전 요청</span><span class="data-tag">비정상 결제 감지</span>
+        </div>
+      </div>
     </div>
     <div style="margin-top:12px; background:var(--text); padding:20px 28px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
       <div style="font-size:28px; font-weight:900; color:#fff; letter-spacing:-1px;">13억+ <span style="font-size:16px; color:rgba(255,255,255,0.85); font-weight:500;">건</span></div>
