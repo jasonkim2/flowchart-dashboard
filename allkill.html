@@ -8,7 +8,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap');
 * { margin:0; padding:0; box-sizing:border-box; }
 body { font-family:'Noto Sans KR',sans-serif; background:#F7F7F5; color:#111; padding:40px 24px; }
-.wrap { max-width:1000px; margin:0 auto; }
+.wrap { max-width:1020px; margin:0 auto; }
 
 .lbl { font-size:11px; font-weight:700; letter-spacing:0.15em; color:#888; margin-bottom:8px; }
 h1 { font-size:24px; font-weight:900; letter-spacing:-0.02em; margin-bottom:6px; }
@@ -32,56 +32,47 @@ h1 { font-size:24px; font-weight:900; letter-spacing:-0.02em; margin-bottom:6px;
 .ck { color:#555; }
 .cv { font-weight:700; }
 .blue { color:#1565C0; }
-.red { color:#C62828; }
+.red  { color:#C62828; }
 .gray { color:#888; }
 .stats-row { display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; margin-top:12px; }
 .stat { background:#F0F0F0; border-radius:4px; padding:10px; text-align:center; }
 .stat .sv { font-size:20px; font-weight:900; color:#1565C0; }
 .stat .sl { font-size:10px; color:#888; }
 
-/* 메인 테이블 */
+/* 테이블 */
 .tbl-wrap { background:#fff; border:1px solid #D8D8D4; border-radius:8px; overflow:hidden; margin-bottom:14px; }
 table { width:100%; border-collapse:collapse; font-size:12.5px; }
 thead tr.h1 { background:#111; color:#fff; }
-th { padding:13px 14px; font-size:11px; font-weight:700; letter-spacing:.04em; text-align:center; border-right:1px solid #2a2a2a; white-space:nowrap; }
+th { padding:12px 14px; font-size:11px; font-weight:700; letter-spacing:.04em; text-align:center; border-right:1px solid #2a2a2a; white-space:nowrap; }
 th:first-child { text-align:left; padding-left:18px; }
 th:last-child { border-right:none; }
+thead tr.h2 { background:#1a1a1a; color:#777; }
+thead tr.h2 th { padding:7px 14px; font-size:10px; font-weight:500; border-right:1px solid #2e2e2e; }
+thead tr.h2 th:last-child { border-right:none; }
+
 tbody tr { border-bottom:1px solid #F0F0EC; }
 tbody tr:last-child { border-bottom:none; }
 tbody tr:hover { background:#FAFAF8; }
-td { padding:15px 14px; text-align:center; vertical-align:middle; border-right:1px solid #F0F0EC; font-size:12.5px; }
+td { padding:14px; text-align:center; vertical-align:middle; border-right:1px solid #F0F0EC; font-size:12.5px; }
 td:first-child { text-align:left; padding-left:18px; font-weight:700; font-size:13px; border-right:2px solid #E8E8E4; }
 td:last-child { border-right:none; }
 .sep { border-left:2px solid #E8E8E4 !important; }
 .bold { font-weight:700; }
+.big  { font-size:15px; font-weight:700; }
+
 .bar-row { display:flex; align-items:center; gap:7px; }
-.bar-bg { flex:1; height:6px; background:#EBEBEB; border-radius:3px; overflow:hidden; }
-.bar-fill { height:6px; border-radius:3px; }
+.bar-bg  { flex:1; height:6px; background:#EBEBEB; border-radius:3px; overflow:hidden; }
+.bar-fill{ height:6px; border-radius:3px; }
 .bar-pct { font-size:12px; font-weight:700; min-width:40px; text-align:right; }
+
 tr.best { background:#EEF4FF; }
 tr.best td { border-right-color:#DAE8FF; }
 tr.ref { background:#FFFBF5; border-top:2px solid #E8C040; }
 tr.ref td { color:#777; font-size:11.5px; }
 tr.ref td:first-child { font-size:12px; }
+
 .badge { display:inline-block; font-size:9px; font-weight:700; border-radius:3px; padding:2px 5px; margin-left:5px; vertical-align:middle; }
 .badge-b { background:#1565C0; color:#fff; }
-
-/* 신청률 민감도 */
-.sensitivity { background:#fff; border:1px solid #D8D8D4; border-radius:8px; padding:20px; margin-bottom:14px; }
-.sens-title { font-size:13px; font-weight:700; margin-bottom:6px; }
-.sens-sub { font-size:11px; color:#888; margin-bottom:16px; line-height:1.6; }
-.sens-grid { display:grid; grid-template-columns:repeat(6,1fr); gap:8px; }
-.sens-card { border-radius:6px; padding:12px 10px; text-align:center; border:1px solid #E8E8E4; }
-.sens-card.current { border-color:#1565C0; background:#EEF4FF; }
-.sens-card.match  { border-color:#F0A830; background:#FFFBF0; }
-.sens-card.high   { border-color:#1D8A40; background:#F0FBF4; }
-.sc-rate { font-size:11px; font-weight:700; color:#888; margin-bottom:6px; }
-.sc-reward { font-size:18px; font-weight:900; margin-bottom:4px; }
-.sc-pay { font-size:11px; color:#555; }
-.sc-tag { font-size:9px; font-weight:700; border-radius:3px; padding:1px 5px; margin-top:5px; display:inline-block; }
-.tag-b { background:#1565C0; color:#fff; }
-.tag-y { background:#F0A830; color:#fff; }
-.tag-g { background:#1D8A40; color:#fff; }
 
 .fn { font-size:11px; color:#aaa; line-height:1.8; background:#F5F5F3; border-radius:4px; padding:10px 14px; }
 </style>
@@ -91,9 +82,8 @@ tr.ref td:first-child { font-size:12px; }
 
   <div class="lbl">올킬 이벤트 · 3경기 비용 예측</div>
   <h1>3경기 올킬 — 예상 실제 지급 비용</h1>
-  <div class="sub">매일 동일 유저 20,000명 · 월 30회 참여 · 신청률 51.9% (7경기 실측) 기준</div>
+  <div class="sub">매일 동일 유저 20,000명 · 월 30회 참여 · 신청률 51.9% (7경기 실측 기준)</div>
 
-  <!-- 전제 -->
   <div class="premise">
     <div class="pi"><div class="pl">참여자</div><div class="pv">20,000명/일</div><div class="pn">신규 45명 포함</div></div>
     <div class="pi"><div class="pl">월 참여횟수</div><div class="pv">30회/월</div><div class="pn">매일 동일 유저</div></div>
@@ -102,70 +92,29 @@ tr.ref td:first-child { font-size:12px; }
     <div class="pi"><div class="pl">월 당첨경험률</div><div class="pv" style="color:#1565C0">99.6%</div><div class="pn">→ 신청률 상승 가능성↑</div></div>
   </div>
 
-  <!-- 3경기 vs 7경기 비교 -->
+  <!-- 비교 카드 -->
   <div class="compare-grid">
     <div class="cg-l">
       <div class="cg-title">▸ 3경기 100만원 — 예상 (신청률 51.9%)</div>
       <div class="cr"><span class="ck">월 당첨경험률</span><span class="cv blue">99.6%</span></div>
       <div class="cr"><span class="ck">1천원 달성률</span><span class="cv blue">76.8%</span></div>
       <div class="cr"><span class="ck">달성 인원</span><span class="cv blue">15,368명</span></div>
-      <div class="cr"><span class="ck">보상경험률</span><span class="cv blue">39.9%</span></div>
+      <div class="cr"><span class="ck">보상경험률 (1천원 기준)</span><span class="cv blue">39.9%</span></div>
       <div class="cr"><span class="ck">예상 월 지급액</span><span class="cv blue">1,196만원</span></div>
       <div class="cr"><span class="ck">월 비용 (상금풀)</span><span class="cv">3,000만원</span></div>
     </div>
     <div class="cg-r">
-      <div class="cg-title">▸ 현재 7경기 100만원 — 실측 비교 (동일 비용)</div>
+      <div class="cg-title">▸ 현재 7경기 100만원 — 실측 (동일 비용)</div>
       <div class="cr"><span class="ck">월 당첨경험률</span><span class="cv red">3.4%</span></div>
       <div class="cr"><span class="ck">1천원 달성률</span><span class="cv red">3.4%</span></div>
       <div class="cr"><span class="ck">달성 인원</span><span class="cv red">680명</span></div>
-      <div class="cr"><span class="ck">보상경험률</span><span class="cv red">1.76%</span></div>
+      <div class="cr"><span class="ck">보상경험률 (1천원 기준)</span><span class="cv red">1.76%</span></div>
       <div class="cr"><span class="ck">실제 월 지급액</span><span class="cv red">1,518만원 (실측)</span></div>
       <div class="cr"><span class="ck">월 비용 (상금풀)</span><span class="cv gray">3,000만원</span></div>
       <div class="stats-row">
-        <div class="stat"><div class="sv">29배</div><div class="sl">당첨경험률 개선</div></div>
-        <div class="stat"><div class="sv">23배</div><div class="sl">보상경험률 개선</div></div>
-        <div class="stat"><div class="sv">↓322만</div><div class="sl">월 지급액 절감</div></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- 신청률 민감도 분석 -->
-  <div class="sensitivity">
-    <div class="sens-title">📊 100만원 — 신청률별 보상경험률 & 예상 월 지급액 (달성률 76.8% 고정)</div>
-    <div class="sens-sub">
-      99.6% 당첨경험률 → 당첨이 일상화 → 신청 인식 높아짐 → 51.9% 이상 가능성 있음<br>
-      신청률 <strong style="color:#F0A830">65%</strong>에서 예상 지급액이 현재 7경기(1,518만원)와 거의 동일
-    </div>
-    <div class="sens-grid">
-      <div class="sens-card current">
-        <div class="sc-rate">51.9% <span class="sc-tag tag-b">7경기 실측</span></div>
-        <div class="sc-reward blue">39.9%</div>
-        <div class="sc-pay">월 지급 1,196만원</div>
-      </div>
-      <div class="sens-card">
-        <div class="sc-rate">60%</div>
-        <div class="sc-reward blue">46.1%</div>
-        <div class="sc-pay">월 지급 1,383만원</div>
-      </div>
-      <div class="sens-card match">
-        <div class="sc-rate">65% <span class="sc-tag tag-y">≈ 7경기 동일</span></div>
-        <div class="sc-reward" style="color:#B07700">49.9%</div>
-        <div class="sc-pay">월 지급 <strong>1,498만원</strong></div>
-      </div>
-      <div class="sens-card">
-        <div class="sc-rate">70%</div>
-        <div class="sc-reward blue">53.8%</div>
-        <div class="sc-pay">월 지급 1,614만원</div>
-      </div>
-      <div class="sens-card high">
-        <div class="sc-rate">75% <span class="sc-tag tag-g">높은 시나리오</span></div>
-        <div class="sc-reward" style="color:#1D8A40">57.6%</div>
-        <div class="sc-pay">월 지급 1,729만원</div>
-      </div>
-      <div class="sens-card">
-        <div class="sc-rate">80%</div>
-        <div class="sc-reward blue">61.5%</div>
-        <div class="sc-pay">월 지급 1,844만원</div>
+        <div class="stat"><div class="sv">29배</div><div class="sl">당첨경험률</div></div>
+        <div class="stat"><div class="sv">23배</div><div class="sl">보상경험률</div></div>
+        <div class="stat"><div class="sv">↓322만</div><div class="sl">월 지급 절감</div></div>
       </div>
     </div>
   </div>
@@ -175,70 +124,76 @@ tr.ref td:first-child { font-size:12px; }
     <table>
       <thead>
         <tr class="h1">
-          <th>하루 상금풀</th>
-          <th>1회 상금</th>
-          <th>1천원 필요</th>
-          <th>달성률</th>
-          <th>달성 인원</th>
-          <th class="sep">신청률</th>
-          <th>보상경험률</th>
-          <th class="sep">월 총 상금풀</th>
-          <th>예상 월 지급액</th>
-          <th>미지급 소멸</th>
+          <th rowspan="2">당일상금</th>
+          <th rowspan="2">1회 상금</th>
+          <th rowspan="2">달성 인원</th>
+          <th rowspan="2" style="border-left:2px solid #333;">월 총 상금풀</th>
+          <th colspan="2" style="border-left:2px solid #333;">최소 지급 기준 1,000원</th>
+          <th colspan="2" style="border-left:2px solid #333;">최소 지급 기준 2,000원</th>
+          <th colspan="2" style="border-left:2px solid #333;">최소 지급 기준 3,000원</th>
+        </tr>
+        <tr class="h2">
+          <th style="border-left:2px solid #2e2e2e;">보상경험률</th><th>예상 월 지급액</th>
+          <th style="border-left:2px solid #2e2e2e;">보상경험률</th><th>예상 월 지급액</th>
+          <th style="border-left:2px solid #2e2e2e;">보상경험률</th><th>예상 월 지급액</th>
         </tr>
       </thead>
       <tbody>
 
+        <!-- 100만원 -->
         <tr class="best">
           <td>100만원 <span class="badge badge-b">✓</span></td>
           <td class="red">297원</td>
-          <td class="red">4회</td>
-          <td><div class="bar-row"><div class="bar-bg"><div class="bar-fill" style="width:76.8%;background:#1565C0;"></div></div><div class="bar-pct blue">76.8%</div></div></td>
           <td class="blue bold">15,368명</td>
-          <td class="sep">51.9%</td>
-          <td class="blue bold">39.9%</td>
           <td class="sep">3,000만원</td>
+          <td class="blue bold sep">39.9%<br><small class="gray">4회 필요</small></td>
           <td class="blue bold">1,196만원</td>
-          <td>1,804만원</td>
+          <td class="sep">12.0%<br><small class="gray">7회 필요</small></td>
+          <td>361만원</td>
+          <td class="red sep">0.4%<br><small class="gray">11회 필요</small></td>
+          <td class="red">11만원</td>
         </tr>
 
+        <!-- 200만원 -->
         <tr>
           <td>200만원</td>
           <td style="color:#333">593원</td>
-          <td class="blue bold">2회</td>
-          <td><div class="bar-row"><div class="bar-bg"><div class="bar-fill" style="width:97.2%;background:#1565C0;"></div></div><div class="bar-pct blue">97.2%</div></div></td>
           <td class="bold">19,442명</td>
-          <td class="sep">51.9%</td>
-          <td class="blue bold">50.5%</td>
           <td class="sep">6,000만원</td>
+          <td class="blue bold sep">50.5%<br><small class="gray">2회 필요</small></td>
           <td class="blue bold">3,027만원</td>
-          <td>2,973만원</td>
+          <td class="blue bold sep">39.9%<br><small class="gray">4회 필요</small></td>
+          <td class="blue bold">2,393만원</td>
+          <td class="sep">20.5%<br><small class="gray">6회 필요</small></td>
+          <td>1,227만원</td>
         </tr>
 
+        <!-- 300만원 -->
         <tr>
           <td>300만원</td>
           <td style="color:#333">890원</td>
-          <td class="blue bold">2회</td>
-          <td><div class="bar-row"><div class="bar-bg"><div class="bar-fill" style="width:97.2%;background:#1565C0;"></div></div><div class="bar-pct blue">97.2%</div></div></td>
           <td class="bold">19,442명</td>
-          <td class="sep">51.9%</td>
-          <td class="blue bold">50.5%</td>
           <td class="sep">9,000만원</td>
+          <td class="blue bold sep">50.5%<br><small class="gray">2회 필요</small></td>
           <td class="blue bold">4,541만원</td>
-          <td>4,459만원</td>
+          <td class="blue bold sep">46.8%<br><small class="gray">3회 필요</small></td>
+          <td class="blue bold">4,212만원</td>
+          <td class="blue bold sep">39.9%<br><small class="gray">4회 필요</small></td>
+          <td class="blue bold">3,589만원</td>
         </tr>
 
+        <!-- 7경기 참고 -->
         <tr class="ref">
           <td>── 현재 7경기 100만원 (실측)</td>
           <td>15,385원</td>
-          <td>1회</td>
-          <td><div class="bar-row"><div class="bar-bg"><div class="bar-fill" style="width:3.4%;background:#C62828;"></div></div><div class="bar-pct red">3.4%</div></div></td>
           <td class="red">680명</td>
-          <td class="sep red">51.9%</td>
-          <td class="red">1.76%</td>
           <td class="sep">3,000만원</td>
-          <td class="red">1,518만원<small style="color:#ccc"> 실측</small></td>
-          <td>1,482만원</td>
+          <td class="red sep">1.76%<br><small style="color:#ccc">1회 즉시</small></td>
+          <td class="red">1,518만원<br><small style="color:#ccc">실측</small></td>
+          <td class="red sep">1.76%</td>
+          <td class="red">1,518만원</td>
+          <td class="red sep">1.76%</td>
+          <td class="red">1,518만원</td>
         </tr>
 
       </tbody>
@@ -246,9 +201,9 @@ tr.ref td:first-child { font-size:12px; }
   </div>
 
   <div class="fn">
-    ※ 신청률 51.9% = 7경기 실측 (1천원+ 달성자 중 실제 신청 비율) — 최솟값으로 적용<br>
-    ※ 99.6% 당첨경험률 → 당첨이 일상화 → 신청 인식·경험 누적 → 실제 신청률은 65~75% 이상 가능<br>
-    ※ 신청률 65%: 예상 월 지급액 1,498만원 → 현 7경기(1,518만원)와 거의 동일 / 70%: 1,614만원으로 초과
+    ※ 1회 상금 = 당일상금 ÷ 일평균 당첨자(3,370명) / 보상경험률 = P(≥필요횟수, n=30, p=16.85%) × 신청률 51.9%<br>
+    ※ 신청률 51.9% = 7경기 실측 최솟값 / 99.6% 당첨경험률 환경에서는 65~70% 이상 가능 → 실제 지급액 더 높아질 수 있음<br>
+    ※ 예상 월 지급액은 1,000원 기준 적용값 / 7경기 보상경험률은 1회 즉시 달성이므로 기준과 무관하게 동일
   </div>
 
 </div>
