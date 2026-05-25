@@ -322,6 +322,104 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Apple SD Gothic 
   </div>
 </div>
 
+<div class="section-title">💸 실제 지급완료 금액 — 상금풀 효율 분석</div>
+
+<div class="notice red">
+  <h3>⚠ 역설적 구조 발견</h3>
+  <p>• <span class="hl">5경기</span>: 당첨경험률 높지만 상금풀의 평균 <span class="hl">80.7% 소멸</span> (월 2,459만원 미지급)</p>
+  <p>• <span class="hl">7경기</span>: 당첨경험률 낮지만 상금풀의 <span class="hl">49.4% 소멸</span> (월 1,481만원 미지급)</p>
+  <p>• 당첨자가 적을수록 1인당 금액이 커져 1천원 기준을 초과 → <span class="hl">상금 효율은 역설적으로 높아짐</span></p>
+</div>
+
+<div class="kpi-grid">
+  <div class="kpi">
+    <div class="k-label">5경기 평균 실제 지급률</div>
+    <div class="k-val blue">19.3%</div>
+    <div class="k-sub">월 상금풀 대비 실제 지급완료</div>
+  </div>
+  <div class="kpi">
+    <div class="k-label">4경기 평균 실제 지급률</div>
+    <div class="k-val blue">20.8%</div>
+    <div class="k-sub">월 상금풀 대비 실제 지급완료</div>
+  </div>
+  <div class="kpi">
+    <div class="k-label">7경기 실제 지급률</div>
+    <div class="k-val yellow">50.6%</div>
+    <div class="k-sub">5경기 대비 2.6배 효율</div>
+  </div>
+  <div class="kpi">
+    <div class="k-label">5경기 월평균 미지급 소멸</div>
+    <div class="k-val red">2,459만원</div>
+    <div class="k-sub">소액 당첨 → 1천원 미달 소멸</div>
+  </div>
+  <div class="kpi">
+    <div class="k-label">7경기 월평균 미지급 소멸</div>
+    <div class="k-val yellow">1,481만원</div>
+    <div class="k-sub">당첨자 없는 날 이월 or 소멸</div>
+  </div>
+  <div class="kpi">
+    <div class="k-label">4월 최대 지급완료</div>
+    <div class="k-val yellow">1,519만원</div>
+    <div class="k-sub">7경기 전환 후 최고치</div>
+  </div>
+</div>
+
+<div class="table-box">
+  <h3>📊 월별 실제 지급완료 vs 총 상금풀</h3>
+  <div class="t-sub">총 상금풀 = 일 100만원 × 운영일수 / 지급률 = 지급완료 / 총 상금풀</div>
+  <div style="overflow-x:auto">
+  <table>
+    <thead>
+      <tr>
+        <th>월</th><th>구조</th><th>총 상금풀</th>
+        <th>실제 지급완료</th><th>지급률</th><th>미지급 소멸</th><th>비고</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>25.9월</strong></td><td><span class="badge g">5경기</span></td><td>3,000만원</td><td>245만원</td><td style="color:#C62828;font-weight:700">8.2%</td><td style="color:#C62828">2,754만원</td><td style="font-size:11px;color:#888">소액 당첨 대부분 미달 소멸</td></tr>
+      <tr><td><strong>25.10월</strong></td><td><span class="badge g">5경기</span></td><td>3,100만원</td><td>553만원</td><td style="color:#C62828;font-weight:700">17.9%</td><td style="color:#C62828">2,547만원</td><td style="font-size:11px;color:#888"></td></tr>
+      <tr><td><strong>25.11월</strong></td><td><span class="badge g">5경기</span></td><td>3,000만원</td><td>653만원</td><td style="color:#555;font-weight:700">21.8%</td><td style="color:#C62828">2,347만원</td><td style="font-size:11px;color:#888"></td></tr>
+      <tr class="best"><td><strong>25.12월</strong></td><td><span class="badge g">5경기</span></td><td>3,100만원</td><td>911만원</td><td style="color:#1565C0;font-weight:700">29.4%</td><td>2,189만원</td><td style="font-size:11px;color:#888">5경기 기간 최고</td></tr>
+      <tr><td><strong>26.1월</strong></td><td><span class="badge r">4경기</span></td><td>3,100만원</td><td>564만원</td><td style="color:#555;font-weight:700">18.2%</td><td style="color:#C62828">2,536만원</td><td style="font-size:11px;color:#888"></td></tr>
+      <tr><td><strong>26.2월</strong></td><td><span class="badge r">4경기</span></td><td>2,800만원</td><td>657만원</td><td style="color:#555;font-weight:700">23.5%</td><td style="color:#C62828">2,143만원</td><td style="font-size:11px;color:#888"></td></tr>
+      <tr class="warn"><td><strong>26.3월</strong></td><td><span class="badge y">전환기</span></td><td>3,100만원</td><td>1,460만원</td><td style="color:#1565C0;font-weight:700">47.1%</td><td>1,640만원</td><td style="font-size:11px;color:#888">7경기 전환 + 이월제 도입</td></tr>
+      <tr class="alert"><td><strong>26.4월</strong></td><td><span class="badge p">7경기</span></td><td>3,000만원</td><td>1,519만원</td><td style="color:#1565C0;font-weight:700">50.6%</td><td>1,481만원</td><td style="font-size:11px;color:#888">전기간 최고 지급률</td></tr>
+    </tbody>
+  </table>
+  </div>
+</div>
+
+<div class="chart-box">
+  <h3>💰 월별 지급완료 vs 미지급 소멸 (상금풀 구성)</h3>
+  <div class="ch-sub">5경기: 상금의 80%가 소멸 — 소액 당첨자가 1천원 미달로 신청 못함 / 7경기: 소멸 49%로 개선되나 당첨자 자체가 희박</div>
+  <div class="chart-container" style="height:300px"><canvas id="payoutChart"></canvas></div>
+</div>
+
+<div class="split-2" style="margin-bottom:24px;">
+  <div style="border:1px solid #C62828;border-radius:6px;padding:20px;background:#FFF8F8;">
+    <div style="font-size:13px;font-weight:700;color:#C62828;margin-bottom:10px;">5경기 상금 소멸의 원인</div>
+    <div style="font-size:12px;color:#333;line-height:1.9;">
+      일일 당첨경험률 5% → 1인당 상금 1,081원<br>
+      → 1회 당첨으로 즉시 신청 가능<br>
+      <strong>BUT</strong> 대부분의 당첨자는 누적 합산 시<br>
+      <strong>1천원 미만에서 월이 종료 → 소멸</strong><br><br>
+      9월 기준: 38,200명 당첨 중 8,699명만 1천원 달성<br>
+      → 29,501명분 상금 소멸 (77.2%)
+    </div>
+  </div>
+  <div style="border:1px solid #1565C0;border-radius:6px;padding:20px;background:#EEF4FF;">
+    <div style="font-size:13px;font-weight:700;color:#1565C0;margin-bottom:10px;">설계 시사점</div>
+    <div style="font-size:12px;color:#333;line-height:1.9;">
+      <strong>경기수 ↓ → 1인 상금 ↑ → 지급률 ↑</strong><br>
+      BUT 동시에 당첨경험률 ↓ → 보상경험률 ↓<br><br>
+      <strong>5경기가 균형점인 이유:</strong><br>
+      1회 상금 1,081원 = 1천원 기준 초과<br>
+      → 지급률과 보상경험률 모두 적정 수준 유지<br>
+      → 3경기(100만원)는 330원으로 여전히 미달
+    </div>
+  </div>
+</div>
+
 <div class="section-title">⚡ 구조 변경 전후 비교</div>
 <div class="split-2">
   <div class="struct-card before">
@@ -1296,7 +1394,42 @@ new Chart(document.getElementById('rateChart'), {
   }
 });
 
-/* ── SECTION 2: 시뮬레이션 차트 데이터 ── */
+/* ── 실제 지급완료 차트 ── */
+const PAYOUT_MONTHS = ['25.9월','25.10월','25.11월','25.12월','26.1월','26.2월','26.3월','26.4월'];
+const PAID_AMT   = [2455290,5533510,6526790,9114500,5636250,6567210,14597830,15193630];
+const LOST_AMT   = [27544710,25466490,23473210,21885500,25363750,21432790,16402170,14806370];
+const PAID_RATE  = [8.2,17.9,21.8,29.4,18.2,23.5,47.1,50.6];
+const IS_7G = [false,false,false,false,false,false,false,true];
+
+new Chart(document.getElementById('payoutChart'), {
+  type:'bar',
+  data:{
+    labels: PAYOUT_MONTHS,
+    datasets:[
+      { label:'실제 지급완료', data:PAID_AMT.map(v=>Math.round(v/10000)),
+        backgroundColor: IS_7G.map(v=>v?'rgba(21,101,192,0.7)':'rgba(21,101,192,0.4)'),
+        borderColor:'#1565C0', borderWidth:2, borderRadius:4, stack:'pool' },
+      { label:'미지급 소멸', data:LOST_AMT.map(v=>Math.round(v/10000)),
+        backgroundColor: IS_7G.map(v=>v?'rgba(198,40,40,0.25)':'rgba(198,40,40,0.15)'),
+        borderColor:'#C62828', borderWidth:1, borderRadius:0, stack:'pool' }
+    ]
+  },
+  options:{
+    responsive:true, maintainAspectRatio:false,
+    plugins:{
+      legend:{labels:{color:'#333',font:{size:12},padding:14}},
+      tooltip:{backgroundColor:'rgba(255,255,255,0.97)',titleColor:'#111',bodyColor:'#333',borderColor:'#CCC',borderWidth:1,
+        callbacks:{label:ctx=>ctx.dataset.label+': '+ctx.parsed.y.toLocaleString()+'만원'}}
+    },
+    scales:{
+      y:{stacked:true, beginAtZero:true, grid:{color:'#EEEEEE'},
+        ticks:{color:'#555',callback:v=>v.toLocaleString()+'만'}},
+      x:{stacked:true, grid:{display:false}, ticks:{color:'#555',font:{size:11}}}
+    }
+  }
+});
+
+
 Chart.defaults.color = '#555';
 Chart.defaults.borderColor = '#E8E8E8';
 
