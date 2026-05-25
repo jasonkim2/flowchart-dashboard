@@ -192,19 +192,19 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Apple SD Gothic 
 <div class="notice red">
   <h3>🔄 4월 구조 변경 핵심 요약</h3>
   <p>• 5경기(25.8~12): <span class="hl">5경기 올킬</span> — 일평균 당첨자 1,179명, 당첨경험률 5.19%</p>
-  <p>• 4경기(26.1~3.11): <span class="hl">4경기 올킬</span> — 일평균 당첨자 2,328명, 당첨경험률 11.35%, 월당첨경험률 66.4%</p>
-  <p>• 7경기(3.12~): <span class="hl">7경기 올킬 + 이월제</span> — 일평균 당첨자 82명, 당첨경험률 0.42%, 월당첨경험률 3.9%<br>보상경험률 <span class="hl">약 0.2%</span> — 4경기 대비 97% 감소</p>
+  <p>• 4경기(26.1~3.11): <span class="hl">4경기 올킬</span> — 일평균 당첨자 2,328명, 당첨경험률 11.35%</p>
+  <p>• 7경기(3.12~): <span class="hl">7경기 올킬 + 이월제</span> — 일평균 당첨자 82명, 당첨경험률 0.42%<br>보상경험률 <span class="hl">약 0.2%</span> — 4경기 대비 97% 감소</p>
 </div>
 
 <div class="section-title">📊 전체 기간 핵심 지표</div>
 <div class="kpi-grid">
   <div class="kpi">
-    <div class="k-label">4경기 실제 월당첨경험률</div>
+    <div class="k-label">4경기 1천원 달성률</div>
     <div class="k-val blue">66.4%</div>
     <div class="k-sub">26.1~3.11 실측</div>
   </div>
   <div class="kpi">
-    <div class="k-label">5경기 실제 월당첨경험률</div>
+    <div class="k-label">5경기 1천원 달성률</div>
     <div class="k-val blue">39.2%</div>
     <div class="k-sub">25.8~12 실측</div>
   </div>
@@ -239,7 +239,7 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Apple SD Gothic 
       <tr>
         <th>월</th><th>구조</th><th>일평균 참여자</th><th>일평균 당첨자</th>
         <th>당첨경험률</th><th>1인 평균상금</th><th>0당첨일 (이월/소멸)</th>
-        <th>자격획득률 (추정)</th><th>보상경험률 (추정)</th><th>전월 대비</th>
+        <th>보상경험률 (추정)</th><th>전월 대비</th>
       </tr>
     </thead>
     <tbody id="monthTable"></tbody>
@@ -331,8 +331,7 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Apple SD Gothic 
     <div class="metric-r"><span class="ml">4경기 일평균 당첨자</span><span class="mv blue">2,328명/일</span></div>
     <div class="metric-r"><span class="ml">당첨경험률</span><span class="mv blue">5경기 5.19% / 4경기 11.35%</span></div>
     <div class="metric-r"><span class="ml">1인 상금 범위</span><span class="mv">400 ~ 17,500원</span></div>
-    <div class="metric-r"><span class="ml">1회 당첨으로 1천원 자격?</span><span class="mv green">✓ 대부분 가능</span></div>
-    <div class="metric-r"><span class="ml">월간 자격 획득률 (추정)</span><span class="mv green">26 ~ 72%</span></div>
+    <div class="metric-r"><span class="ml">1회 당첨으로 1천원 달성?</span><span class="mv green">✓ 대부분 가능</span></div>
     <div class="metric-r"><span class="ml">보상경험률 범위</span><span class="mv green">1.83 ~ 4.88%</span></div>
     <div class="metric-r"><span class="ml">0당첨 시</span><span class="mv red">상금 소멸 (이월 없음)</span></div>
   </div>
@@ -342,8 +341,7 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Apple SD Gothic 
     <div class="metric-r"><span class="ml">일평균 당첨자</span><span class="mv red">55 ~ 84명/일</span></div>
     <div class="metric-r"><span class="ml">당첨경험률</span><span class="mv red">0.31 ~ 0.40%</span></div>
     <div class="metric-r"><span class="ml">1인 상금 범위</span><span class="mv purple">1,460 ~ 1,000,000원</span></div>
-    <div class="metric-r"><span class="ml">1회 당첨으로 1천원 자격?</span><span class="mv green">✓ 항상 가능</span></div>
-    <div class="metric-r"><span class="ml">월간 자격 획득률 (추정)</span><span class="mv red">2.89 ~ 3.80%</span></div>
+    <div class="metric-r"><span class="ml">1회 당첨으로 1천원 달성?</span><span class="mv green">✓ 항상 가능</span></div>
     <div class="metric-r"><span class="ml">보상경험률 범위</span><span class="mv red">0.20 ~ 0.26%</span></div>
     <div class="metric-r"><span class="ml">이월 발생</span><span class="mv yellow">4~5월 합산 5회 (4월2+5월3)</span></div>
   </div>
@@ -387,7 +385,7 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Apple SD Gothic 
 <div class="notice green">
   <h3>💡 분석 결론 및 시사점</h3>
   <p>• <span class="hl">7경기 전환은 보상경험률을 90% 이상 감소</span>시켰다. 상금은 커졌지만 당첨 자체가 어려워 사용자가 혜택을 실제로 경험하는 비율이 급락.</p>
-  <p>• 1인당 상금 1만원+ 이므로 <span class="hl">1회 당첨으로 즉시 1천원 자격 초과</span> — 지급 기준은 문제없음. 문제는 당첨 자체가 희박하다는 것.</p>
+  <p>• 1인당 상금 1만원+ 이므로 <span class="hl">1회 당첨으로 즉시 1천원 달성</span> — 지급 기준은 문제없음. 문제는 당첨 자체가 희박하다는 것.</p>
   <p>• 참여자도 감소 추세 (피크 33,674명 → 현재 17,859명). <span class="hl">보상 경험이 줄면서 재참여 동기도 약화</span>되는 악순환 가능성.</p>
   <p>• 이월제는 단독 당첨(1명이 100만원)이나 소수 당첨(10명이 20만원씩)을 만들지만 전체 보상경험률에는 큰 기여 없음.</p>
   <p>• <span class="hl">핵심 질문:</span> 7경기를 유지할 경우, 현재 보상경험률 0.2%에서 참여자 감소를 막으려면 신청 허들 개선만으로는 한계. 경기수 재검토 또는 별도 부스팅 메커니즘 필요.</p>
@@ -489,9 +487,7 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Apple SD Gothic 
       <th>일 평균<br>당첨자</th>
       <th>1회 당첨<br>상금</th>
       <th>1천원까지<br>필요 당첨 횟수</th>
-      <th>월 당첨경험률<br>(1회 이상)</th>
-      <th>월 자격획득률<br>(1천원 이상)</th>
-      <th>보상경험률<br>(추정)</th>
+      <th>1천원 달성률</th>
       <th>1천원<br>도달 기대 기간</th>
     </tr>
   </thead>
@@ -512,7 +508,7 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Apple SD Gothic 
       <td>11.75%</td><td>2,400명</td><td>417원</td>
       <td><span style="color:#C62828;font-weight:700">3회</span></td>
       <td>69.9%</td>
-      <td>26.8%</td>
+      
       <td>1.82%</td>
       <td>1.9개월</td>
     </tr>
@@ -532,7 +528,7 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Apple SD Gothic 
       <td>2.84%</td><td>511명</td><td>1,957원</td>
       <td>1회</td>
       <td>23.9%</td>
-      <td>23.9%</td>
+      
       <td>1.62%</td>
       <td>1.9개월</td>
     </tr>
@@ -544,7 +540,6 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Apple SD Gothic 
       <td>15,385원</td>
       <td>1회</td>
       <td><span style="font-weight:700">3.4%</span></td>
-      <td>3.4%</td>
       <td>0.23%</td>
       <td>1.9개월</td>
     </tr>
@@ -562,8 +557,8 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Apple SD Gothic 
     <div class="chart-h"><canvas id="rewardChart"></canvas></div>
   </div>
   <div class="sim-chart-box">
-    <h3>당첨경험률 vs 보상경험률</h3>
-    <p>당첨경험률은 경기수 줄수록 높아지지만 보상경험률은 5경기가 정점</p>
+    <h3>1천원 달성률 vs 보상경험률</h3>
+    <p>1천원 달성 가능자는 경기수 줄수록 늘지만 보상경험률은 5경기가 정점</p>
     <div class="chart-h"><canvas id="dualChart"></canvas></div>
   </div>
   <div class="sim-chart-box">
@@ -572,7 +567,7 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Apple SD Gothic 
     <div class="chart-h"><canvas id="simPrizeChart"></canvas></div>
   </div>
   <div class="sim-chart-box">
-    <h3>월 자격획득률 비교</h3>
+    <h3>보상경험률 비교 (경기수별)</h3>
     <p>당첨 후 1천원 기준을 넘어 신청 자격을 얻는 비율</p>
     <div class="chart-h"><canvas id="qualChart"></canvas></div>
   </div>
@@ -677,7 +672,7 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Apple SD Gothic 
 <div class="insight-box">
   <h3>왜 3경기 전환이 보상경험률을 오히려 낮추는가</h3>
   <div class="insight-row"><span class="ir-icon">🔑</span><div class="ir-text"><strong>기댓값(EV)은 동일하다.</strong> 상금풀 100만원 / 참여자 18,000명 = 1인당 일 기대 수령액 55.6원. 경기수가 몇 개든 월 기대 누적액은 <span class="blue">약 533원</span>으로 같다. 1.9개월이면 1천원이라는 것도 동일.</div></div>
-  <div class="insight-row"><span class="ir-icon">⚡</span><div class="ir-text"><strong>차이는 분산(Variance)에서 온다.</strong> 3경기는 330원짜리 당첨이 자주 일어나 <span class="blue">당첨경험률(80%)은 높지만</span>, 4번 당첨해야 1천원 → <span class="red">자격획득률 8.1%로 급락.</span> 5경기는 1,081원짜리 당첨 1회로 즉시 기준 초과 → 자격획득률 = 당첨경험률(38.9%)과 동일.</div></div>
+  <div class="insight-row"><span class="ir-icon">⚡</span><div class="ir-text"><strong>차이는 분산(Variance)에서 온다.</strong> 3경기는 330원짜리 당첨이 자주 일어나 <span class="blue">당첨경험률(80%)은 높지만</span>, 4번 당첨해야 1천원 → <span class="red">보상경험률 8.1%로 급락.</span> 5경기는 1,081원짜리 당첨 1회로 즉시 기준 초과 → 보상경험률 = 당첨경험률(38.9%)과 동일.</div></div>
   <div class="insight-row"><span class="ir-icon">📌</span><div class="ir-text"><strong>1천원 기준선이 핵심 허들이다.</strong> 1회 당첨 상금 ≥ 1천원이 되는 구간은 <span class="blue">5경기(1,081원)부터</span>. 3~4경기는 한 번 당첨돼도 기준 미달이라 보상 체험까지 긴 여정이 필요. 유저가 포기하는 구간.</div></div>
   <div class="insight-row"><span class="ir-icon">📊</span><div class="ir-text"><strong>7경기 → 3경기 전환 시 변화.</strong> 당첨경험률 <span class="blue">3.4% → 80.2%</span> (23배 증가). 그러나 보상경험률은 <span class="red">0.23% → 0.55%</span>로 개선되지만 5경기(2.65%) 대비 여전히 79% 낮음.</div></div>
   <div class="insight-row"><span class="ir-icon">✅</span><div class="ir-text"><strong>결론.</strong> 3경기 전환은 "당첨은 자주, 보상은 여전히 희박"한 구조. 보상경험률을 높이려면 <span class="blue">5경기 복귀</span>가 최선. 단, 당첨경험률(유저 체감 재미)를 최우선으로 설계한다면 3~4경기도 유효 — 단 1천원 기준을 낮추거나(예: 500원) 당첨금을 별도로 보전하는 방안 필요.</div></div>
@@ -804,7 +799,7 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Apple SD Gothic 
 <table>
   <thead>
     <tr style="background:#111;color:#fff;">
-      <th>경기수</th><th>당첨경험률</th><th>7일 내 1회 이상 당첨</th>
+      <th>경기수</th><th>당첨경험률</th><th>7일 내 1천원 달성 확률</th>
       <th>미당첨 이탈 위험군</th><th>1회 상금</th><th>1회로 1천원?</th><th>첫인상</th>
     </tr>
   </thead>
@@ -945,43 +940,6 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Apple SD Gothic 
 <p style="font-size:11px;color:#999;margin-bottom:28px;">* 경기수 이력: 5경기(25.8~25.12 실측 5.19%) → 4경기(26.1~3.11 실측 11.35%) → 7경기(3.12~ 실측 0.42%)
 * 7경기는 이론 대비 실제 당첨률이 약 27% 수준으로 관측. 게임 선정 난이도 영향.</p>
 
-<div style="font-size:16px;font-weight:700;border-bottom:2px solid #222;padding-bottom:8px;margin:0 0 18px;">대표님 제안별 검토 결과</div>
-<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:28px;">
-  <div style="border:1px solid #E0E0E0;border-radius:6px;padding:20px;background:#FAFAFA;">
-    <div style="font-size:10px;font-weight:700;letter-spacing:0.1em;color:#888;margin-bottom:8px;">제안 ①</div>
-    <div style="font-size:14px;font-weight:700;margin-bottom:12px;">"3경기 당첨 자주, 푼돈 누적"</div>
-    <div style="font-size:13px;color:#333;line-height:1.8;margin-bottom:14px;">직관적으로는 맞다. 하지만 <strong>100만원 상금풀 유지 시</strong> 1회 당첨금이 330원에 불과해 1천원까지 4번 당첨 필요 → 보상경험률 0.55%로 오히려 최악.</div>
-    <div style="background:#FFF8F8;border-left:3px solid #C62828;padding:12px;font-size:12px;color:#333;border-radius:4px;margin-bottom:10px;">
-      <strong style="color:#C62828">⚠ 100만원 유지 시</strong><br>당첨 80%는 경험하지만<br>1천원 달성은 8.1%뿐 → 보상경험률 0.55%
-    </div>
-    <div style="background:#EEF4FF;border-left:3px solid #1565C0;padding:12px;font-size:12px;color:#333;border-radius:4px;">
-      <strong style="color:#1565C0">✓ 200만원으로 올리면</strong><br>1회 660원 → 2회로 1천원 달성<br>보상경험률 3.27% (5경기 대비 +23%)<br>단, 월 비용 2배 (6,000만원)
-    </div>
-  </div>
-  <div style="border:1px solid #E0E0E0;border-radius:6px;padding:20px;background:#FAFAFA;">
-    <div style="font-size:10px;font-weight:700;letter-spacing:0.1em;color:#888;margin-bottom:8px;">제안 ②</div>
-    <div style="font-size:14px;font-weight:700;margin-bottom:12px;">"상금풀 200~300만원으로 증액"</div>
-    <div style="font-size:13px;color:#333;line-height:1.8;margin-bottom:14px;"><strong>5경기 기준</strong>으로는 상금만 올려도 보상경험률이 유지된다 — 1회 당첨 상금이 이미 기준을 초과하기 때문. 단, 기준도 같이 올리지 않으면 비용만 증가.</div>
-    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;text-align:center;">
-      <div style="background:#F0F0F0;border-radius:4px;padding:10px;"><div style="font-size:10px;color:#666;">5경기 100만</div><div style="font-size:16px;font-weight:700;color:#1565C0;">2.65%</div><div style="font-size:10px;color:#888;">기준 1천원</div></div>
-      <div style="background:#F0F0F0;border-radius:4px;padding:10px;"><div style="font-size:10px;color:#666;">5경기 200만</div><div style="font-size:16px;font-weight:700;color:#1565C0;">2.65%</div><div style="font-size:10px;color:#888;">기준 2천원도 동일</div></div>
-      <div style="background:#F0F0F0;border-radius:4px;padding:10px;"><div style="font-size:10px;color:#666;">5경기 300만</div><div style="font-size:16px;font-weight:700;color:#1565C0;">2.65%</div><div style="font-size:10px;color:#888;">기준 3천원도 동일</div></div>
-    </div>
-    <div style="margin-top:10px;font-size:12px;color:#C62828;font-weight:600;">→ 5경기는 상금 올려도 보상경험률이 그대로. 비용 증가 대비 효과 없음.</div>
-  </div>
-  <div style="border:1px solid #E0E0E0;border-radius:6px;padding:20px;background:#FAFAFA;">
-    <div style="font-size:10px;font-weight:700;letter-spacing:0.1em;color:#888;margin-bottom:8px;">제안 ③</div>
-    <div style="font-size:14px;font-weight:700;margin-bottom:12px;">"최소 기준 2천원~3천원 상향"</div>
-    <div style="font-size:13px;color:#333;line-height:1.8;margin-bottom:14px;"><strong>5경기 + 100만원 유지 시</strong> 기준만 올리면 보상경험률이 급락한다. 상금도 함께 올려야 의미가 있음.</div>
-    <div style="display:flex;flex-direction:column;gap:8px;">
-      <div style="display:flex;justify-content:space-between;align-items:center;padding:8px;background:#F0F0F0;border-radius:4px;"><span style="font-size:12px;">5경기 + 100만 + 1천원</span><span style="font-size:14px;font-weight:700;color:#1565C0;">2.65%</span></div>
-      <div style="display:flex;justify-content:space-between;align-items:center;padding:8px;background:#FFF8F8;border-radius:4px;"><span style="font-size:12px;">5경기 + 100만 + 2천원</span><span style="font-size:14px;font-weight:700;color:#C62828;">0.60% ↓77%</span></div>
-      <div style="display:flex;justify-content:space-between;align-items:center;padding:8px;background:#FFF8F8;border-radius:4px;"><span style="font-size:12px;">5경기 + 100만 + 3천원</span><span style="font-size:14px;font-weight:700;color:#C62828;">0.09% ↓97%</span></div>
-      <div style="display:flex;justify-content:space-between;align-items:center;padding:8px;background:#EEF4FF;border-radius:4px;border:1px solid #1565C0;"><span style="font-size:12px;">5경기 + 300만 + 3천원</span><span style="font-size:14px;font-weight:700;color:#1565C0;">2.65% ✓</span></div>
-    </div>
-    <div style="margin-top:10px;font-size:12px;color:#888;">→ 3천원 기준 유지하려면 상금풀을 300만원으로 올려야 동일 보상경험률 가능. 비용 3배.</div>
-  </div>
-</div>
 
 <div style="border:1px solid #E0E0E0;border-radius:6px;padding:24px;background:#F8F8F8;margin-bottom:28px;">
   <div style="font-size:15px;font-weight:700;margin-bottom:16px;border-bottom:1px solid #E0E0E0;padding-bottom:10px;">종합 판단</div>
@@ -1122,11 +1080,23 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Apple SD Gothic 
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px;">
   <div style="border:1px solid #E0E0E0;border-radius:6px;padding:20px;background:#FAFAFA;">
     <div style="font-size:13px;font-weight:700;margin-bottom:12px;">원칙 ① — 당첨 경험은 월 1회 이상이어야 한다</div>
-    <div style="font-size:12px;color:#333;line-height:1.8;margin-bottom:10px;">미국 국립보건원 연구에서 일일 18%(= 월 약 80%) 당첨률이 행동 지속성 최고. 최소 기준은 <strong>월 1회 이상 당첨 경험</strong>. 월 1회도 못 받으면 유저는 이벤트 자체를 잊고 이탈. 미국 국립보건원 연구 최적점은 <strong>일일 18%(월 80% 수준)</strong>이며, 3경기(16.85%)가 이 기준에 가장 근접.</div>
+    <div style="font-size:12px;color:#333;line-height:1.8;margin-bottom:10px;">미국 국립보건원 연구: 일일 당첨경험률 <strong>18%</strong>가 행동 지속성 최고. 월 1회도 당첨 경험이 없으면 유저는 이벤트 자체를 잊고 이탈.</div>
     <div style="background:#F8F8F8;border-radius:4px;padding:10px;font-size:11px;">
-      <div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid #EEE;"><span>7경기 현재</span><span style="color:#C62828;font-weight:700">월 당첨경험률 3.4% → 기준 미달</span></div>
-      <div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid #EEE;"><span>5경기</span><span style="color:#1565C0;font-weight:700">월 38.9% → 적정</span></div>
-      <div style="display:flex;justify-content:space-between;padding:3px 0;"><span>3경기</span><span style="color:#1565C0;font-weight:700">월 80.2% → 미국 국립보건원 최적점(18%) 가장 근접 ✓</span></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid #EEE;">
+        <span style="color:#C62828;font-weight:700;">7경기 현재</span>
+        <span>당첨경험률 <strong style="color:#C62828;">0.36%/일</strong> — 기준 미달</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid #EEE;">
+        <span style="color:#555;font-weight:700;">5경기</span>
+        <span>당첨경험률 <strong style="color:#555;">5.14%/일</strong> — 적정</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:5px 0;">
+        <span style="color:#1565C0;font-weight:700;">3경기</span>
+        <span>당첨경험률 <strong style="color:#1565C0;">16.85%/일</strong> — 연구 최적점(18%) 근접 ✓</span>
+      </div>
+    </div>
+    <div style="margin-top:10px;padding:8px 10px;background:#FFF8F8;border-radius:4px;font-size:11px;color:#C62828;">
+      ※ 단, 3경기는 당첨경험률은 높지만 1회 상금 330원 → 보상경험률은 0.55%로 최저. 상금풀 증액 없이 경기수만 줄이면 역효과.
     </div>
   </div>
   <div style="border:1px solid #E0E0E0;border-radius:6px;padding:20px;background:#FAFAFA;">
@@ -1256,7 +1226,6 @@ MONTHS.forEach((m,i) => {
     <td>${WIN_RATE[i]}%</td>
     <td>${TYPICAL_PRIZE[i].toLocaleString()}원</td>
     <td>${IS_7GAME[i] ? '<span style="color:#F5C518">'+ZERO_DAYS[i]+'일 이월</span>' : ZERO_DAYS[i]>0 ? '<span style="color:#888">'+ZERO_DAYS[i]+'일 소멸</span>' : '0일'}</td>
-    <td>${QUAL_RATE[i]}%</td>
     <td style="font-weight:700">${REWARD_EXP[i]}%</td>
     <td style="color:${i===0?'#888':diffColor}">${diff}</td>
   </tr>`;
@@ -1349,7 +1318,7 @@ new Chart(document.getElementById('rewardChart'), {
 new Chart(document.getElementById('dualChart'), {
   type:'bar',
   data:{ labels:SIM_LABELS, datasets:[
-    { label:'당첨경험률(%)', data:WIN_EXP, backgroundColor:'rgba(80,80,80,0.2)', borderColor:'#888', borderWidth:2, borderRadius:4 },
+    { label:'1천원 달성률(%)', data:WIN_EXP, backgroundColor:'rgba(80,80,80,0.2)', borderColor:'#888', borderWidth:2, borderRadius:4 },
     { label:'보상경험률(%)', data:REWARD, backgroundColor:SIM_COLORS.map(c=>c+'44'), borderColor:SIM_COLORS, borderWidth:2, borderRadius:4 }
   ]},
   options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{labels:{color:'#333',font:{size:11},padding:12}}, tooltip:{...TOPTS} }, scales:{ y:{beginAtZero:true,grid:{color:'#EEEEEE'},ticks:{color:'#555',callback:v=>v+'%'}}, x:{grid:{display:false},ticks:{color:'#444',font:{size:11}}} } }
@@ -1363,7 +1332,7 @@ new Chart(document.getElementById('simPrizeChart'), {
 
 new Chart(document.getElementById('qualChart'), {
   type:'bar',
-  data:{ labels:SIM_LABELS, datasets:[{ label:'자격획득률(%)', data:SIM_QUAL, backgroundColor:SIM_COLORS.map(c=>c+'33'), borderColor:SIM_COLORS, borderWidth:2, borderRadius:4 }] },
+  data:{ labels:SIM_LABELS, datasets:[{ label:'보상경험률(%)', data:SIM_QUAL, backgroundColor:SIM_COLORS.map(c=>c+'33'), borderColor:SIM_COLORS, borderWidth:2, borderRadius:4 }] },
   options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{labels:{color:'#333',font:{size:11},padding:12}}, tooltip:{...TOPTS, callbacks:{label:ctx=>ctx.parsed.y+'%'}} }, scales:{ y:{beginAtZero:true,grid:{color:'#EEEEEE'},ticks:{color:'#555',callback:v=>v+'%'}}, x:{grid:{display:false},ticks:{color:'#444',font:{size:11}}} } }
 });
 
