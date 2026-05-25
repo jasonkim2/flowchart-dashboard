@@ -206,6 +206,94 @@ tr.ref td:first-child { font-size:12px; }
     ※ 예상 월 지급액은 1,000원 기준 적용값 / 7경기 보상경험률은 1회 즉시 달성이므로 기준과 무관하게 동일
   </div>
 
+  <!-- 두 번째 테이블: 100% 신청 기준 -->
+  <div style="margin-top:32px;">
+    <div class="lbl">시나리오 B</div>
+    <div style="font-size:16px;font-weight:700;margin-bottom:4px;">1천원 달성자 전원 신청 시</div>
+    <div style="font-size:12px;color:#666;margin-bottom:16px;">기준점 없는 경우 — 달성률 = 보상경험률 (신청률 100% 가정)</div>
+  </div>
+
+  <div class="tbl-wrap">
+    <table>
+      <thead>
+        <tr class="h1">
+          <th rowspan="2">당일상금</th>
+          <th rowspan="2">1회 상금</th>
+          <th rowspan="2">달성 인원<br>(1천원 기준)</th>
+          <th rowspan="2" style="border-left:2px solid #333;">월 총 상금풀</th>
+          <th colspan="2" style="border-left:2px solid #333;">최소 지급 기준 1,000원</th>
+          <th colspan="2" style="border-left:2px solid #333;">최소 지급 기준 2,000원</th>
+          <th colspan="2" style="border-left:2px solid #333;">최소 지급 기준 3,000원</th>
+        </tr>
+        <tr class="h2">
+          <th style="border-left:2px solid #2e2e2e;">달성률</th><th>예상 월 지급액</th>
+          <th style="border-left:2px solid #2e2e2e;">달성률</th><th>예상 월 지급액</th>
+          <th style="border-left:2px solid #2e2e2e;">달성률</th><th>예상 월 지급액</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <tr class="best">
+          <td>100만원 <span class="badge badge-b">✓</span></td>
+          <td class="red">297원</td>
+          <td class="blue bold">15,368명</td>
+          <td class="sep">3,000만원</td>
+          <td class="blue bold sep">76.8%<br><small class="gray">4회 필요</small></td>
+          <td class="blue bold">2,305만원</td>
+          <td class="sep">23.2%<br><small class="gray">7회 필요</small></td>
+          <td>696만원</td>
+          <td class="red sep">0.7%<br><small class="gray">11회 필요</small></td>
+          <td class="red">22만원</td>
+        </tr>
+
+        <tr>
+          <td>200만원</td>
+          <td style="color:#333">593원</td>
+          <td class="bold">19,442명</td>
+          <td class="sep">6,000만원</td>
+          <td class="blue bold sep">97.2%<br><small class="gray">2회 필요</small></td>
+          <td class="blue bold">5,833만원</td>
+          <td class="blue bold sep">76.8%<br><small class="gray">4회 필요</small></td>
+          <td class="blue bold">4,610만원</td>
+          <td class="sep">39.4%<br><small class="gray">6회 필요</small></td>
+          <td>2,365만원</td>
+        </tr>
+
+        <tr>
+          <td>300만원</td>
+          <td style="color:#333">890원</td>
+          <td class="bold">19,442명</td>
+          <td class="sep">9,000만원</td>
+          <td class="blue bold sep">97.2%<br><small class="gray">2회 필요</small></td>
+          <td class="blue bold">8,749만원</td>
+          <td class="blue bold sep">90.2%<br><small class="gray">3회 필요</small></td>
+          <td class="blue bold">8,115만원</td>
+          <td class="blue bold sep">76.8%<br><small class="gray">4회 필요</small></td>
+          <td class="blue bold">6,916만원</td>
+        </tr>
+
+        <tr class="ref">
+          <td>── 현재 7경기 100만원 (실측)</td>
+          <td>15,385원</td>
+          <td class="red">680명</td>
+          <td class="sep">3,000만원</td>
+          <td class="red sep">3.4%<br><small style="color:#ccc">1회 즉시</small></td>
+          <td class="red">1,518만원<br><small style="color:#ccc">실측</small></td>
+          <td class="red sep">3.4%</td>
+          <td class="red">1,518만원</td>
+          <td class="red sep">3.4%</td>
+          <td class="red">1,518만원</td>
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
+
+  <div class="fn">
+    ※ 달성률 = P(≥필요횟수, n=30, p=16.85%) / 신청률 100% 가정 — 달성 즉시 전원 신청하는 상한 시나리오<br>
+    ※ 예상 월 지급액 = 월 총 상금풀 × 달성률 / 7경기는 달성자(3.4%) 전원 신청 기준으로 동일값 적용
+  </div>
+
 </div>
 </body>
 </html>
