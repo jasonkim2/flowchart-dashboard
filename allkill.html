@@ -3,53 +3,128 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>세븐올킬 경기수별 시뮬레이션</title>
+<title>올킬 이벤트 — 통합 보고서</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <style>
 * { margin:0; padding:0; box-sizing:border-box; }
-body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Apple SD Gothic Neo',sans-serif;
-       background:#fff; color:#111; padding:32px; line-height:1.7; font-size:14px; }
-.wrap { max-width:1280px; margin:0 auto; }
+body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Apple SD Gothic Neo',sans-serif; background:#FFFFFF; color:#111111; padding:24px; line-height:1.6; }
+.wrap { max-width:1400px; margin:0 auto; }
 
-/* HEADER */
-.header { padding:32px; background:#F8F8F8; border:1px solid #E0E0E0; border-radius:8px; margin-bottom:28px; }
-.header h1 { font-size:20px; font-weight:700; margin-bottom:6px; }
+/* ── 섹션 구분선 ── */
+.section-divider {
+  display:flex; align-items:center; gap:16px;
+  margin:48px 0;
+}
+.section-divider::before, .section-divider::after {
+  content:''; flex:1; height:2px; background:#111;
+}
+.section-divider span {
+  font-size:12px; font-weight:700; letter-spacing:0.12em;
+  color:#fff; background:#111; padding:6px 16px; border-radius:20px;
+  white-space:nowrap;
+}
+
+/* ── UPDATED: 공통 ── */
+.header { text-align:center; padding:36px 20px; background:#F5F5F5; border-radius:8px; border:1px solid #E0E0E0; margin-bottom:24px; }
+.header h1 { font-size:22px; font-weight:700; margin-bottom:8px; color:#111; }
 .header p { font-size:13px; color:#666; }
 
-/* PREMISE */
+.notice { border-radius:6px; padding:18px 22px; margin-bottom:20px; border:1px solid #E0E0E0; }
+.notice.blue { border-left:4px solid #1565C0; background:#F8FBFF; }
+.notice.green { border-left:4px solid #1565C0; background:#F8FBFF; }
+.notice.red { border-left:4px solid #C62828; background:#FFF8F8; }
+.notice h3 { font-size:14px; font-weight:700; margin-bottom:8px; color:#111; }
+.notice p { font-size:13px; color:#333; line-height:1.8; margin-bottom:4px; }
+.notice .hl { font-weight:700; }
+.notice.blue .hl, .notice.green .hl { color:#1565C0; }
+.notice.red .hl { color:#C62828; }
+
+.kpi-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:12px; margin-bottom:24px; }
+.kpi { background:#FAFAFA; border-radius:6px; padding:20px 18px; border:1px solid #E0E0E0; }
+.kpi .k-label { font-size:11px; color:#666; margin-bottom:6px; font-weight:600; letter-spacing:0.03em; }
+.kpi .k-val { font-size:26px; font-weight:700; color:#111; }
+.kpi .k-sub { font-size:11px; color:#888; margin-top:4px; }
+.kpi .k-val.red { color:#C62828; }
+.kpi .k-val.blue { color:#1565C0; }
+.kpi .k-val.green { color:#1565C0; }
+.kpi .k-val.yellow { color:#555; }
+.kpi .k-val.muted { color:#555; }
+
+.chart-box { background:#FAFAFA; border-radius:6px; padding:22px; margin-bottom:20px; border:1px solid #E0E0E0; }
+.chart-box h3 { font-size:14px; font-weight:700; margin-bottom:4px; color:#111; }
+.chart-box .ch-sub { font-size:11px; color:#888; margin-bottom:16px; }
+.chart-container { position:relative; }
+
+.table-box { background:#FAFAFA; border-radius:6px; padding:22px; margin-bottom:20px; border:1px solid #E0E0E0; }
+.table-box h3 { font-size:14px; font-weight:700; margin-bottom:4px; color:#111; }
+.table-box .t-sub { font-size:11px; color:#888; margin-bottom:14px; }
+
+/* ── 테이블: updated 섹션 ── */
+.sec-updated table { width:100%; border-collapse:collapse; font-size:12px; }
+.sec-updated thead { background:#F0F0F0; }
+.sec-updated th { padding:10px 9px; text-align:center; font-size:10px; font-weight:700; border-bottom:2px solid #CCCCCC; letter-spacing:0.05em; color:#333; }
+.sec-updated td { padding:11px 9px; text-align:center; border-bottom:1px solid #EBEBEB; color:#222; }
+.sec-updated tbody tr:hover { background:#F9F9F9; }
+.sec-updated tr.best td { color:#1565C0; font-weight:700; background:#F0F5FF; }
+.sec-updated tr.warn td { color:#555; }
+.sec-updated tr.bad td { color:#AAAAAA; }
+.sec-updated tr.alert td { color:#C62828; font-weight:700; background:#FFF5F5; }
+.sec-updated .rollover-highlight td { color:#C62828; background:#FFF8F8; }
+
+.split-2 { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:20px; }
+.struct-card { border-radius:6px; padding:22px; border:1px solid #E0E0E0; background:#FAFAFA; }
+.struct-card .s-tag { font-size:10px; letter-spacing:0.12em; font-weight:700; margin-bottom:10px; text-transform:uppercase; color:#666; }
+.struct-card h3 { font-size:16px; font-weight:700; margin-bottom:14px; color:#111; }
+.metric-r { display:flex; justify-content:space-between; align-items:baseline; padding:8px 0; border-bottom:1px solid #EBEBEB; font-size:12px; }
+.metric-r:last-child { border-bottom:none; }
+.metric-r .ml { color:#666; }
+.metric-r .mv { font-weight:700; color:#111; }
+.mv.red { color:#C62828; }
+.mv.blue, .mv.green { color:#1565C0; }
+.mv.purple { color:#C62828; }
+.mv.yellow, .mv.muted { color:#555; }
+
+.badge { display:inline-block; padding:1px 5px; border-radius:3px; font-size:9px; font-weight:700; letter-spacing:0.04em; margin-left:4px; vertical-align:middle; border:1px solid; }
+.badge.g { border-color:#1565C0; color:#1565C0; }
+.badge.r { border-color:#C62828; color:#C62828; }
+.badge.y { border-color:#888; color:#666; }
+.badge.p { border-color:#C62828; color:#C62828; }
+
+.divider { height:1px; background:#E0E0E0; margin:28px 0; }
+.section-title { font-size:17px; font-weight:700; margin-bottom:18px; padding-bottom:10px; border-bottom:2px solid #CCCCCC; color:#111; }
+
+/* ── SIMULATION 섹션 ── */
+.sec-sim { font-size:14px; }
+
 .premise { background:#F8F8F8; border:1px solid #E0E0E0; border-radius:6px; padding:18px 22px; margin-bottom:24px; }
 .premise h3 { font-size:13px; font-weight:700; margin-bottom:10px; color:#333; letter-spacing:0.05em; }
 .premise-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:8px; }
 .premise-item { font-size:12px; color:#444; }
 .premise-item strong { color:#111; }
 
-/* SECTION */
 .sec-title { font-size:16px; font-weight:700; border-bottom:2px solid #222; padding-bottom:8px; margin:32px 0 18px; }
 
-/* MAIN TABLE */
 .tbl-wrap { overflow-x:auto; margin-bottom:28px; }
-table { width:100%; border-collapse:collapse; font-size:12px; }
-thead tr { background:#111; color:#fff; }
-th { padding:12px 10px; text-align:center; font-size:11px; font-weight:700; letter-spacing:0.05em; white-space:nowrap; }
-td { padding:12px 10px; text-align:center; border-bottom:1px solid #E8E8E8; color:#222; white-space:nowrap; }
-tbody tr:hover { background:#FAFAFA; }
-tr.row-best td { background:#EEF4FF; color:#1565C0; font-weight:700; }
-tr.row-warn td { color:#888; }
-tr.row-actual { border-top:2px solid #CCC; }
-tr.row-actual td { color:#C62828; background:#FFF8F8; font-weight:600; }
+.sec-sim table { width:100%; border-collapse:collapse; font-size:12px; }
+.sec-sim thead tr { background:#111; color:#fff; }
+.sec-sim th { padding:12px 10px; text-align:center; font-size:11px; font-weight:700; letter-spacing:0.05em; white-space:nowrap; }
+.sec-sim td { padding:12px 10px; text-align:center; border-bottom:1px solid #E8E8E8; color:#222; white-space:nowrap; }
+.sec-sim tbody tr:hover { background:#FAFAFA; }
+.sec-sim tr.row-best td { background:#EEF4FF; color:#1565C0; font-weight:700; }
+.sec-sim tr.row-warn td { color:#888; }
+.sec-sim tr.row-actual { border-top:2px solid #CCC; }
+.sec-sim tr.row-actual td { color:#C62828; background:#FFF8F8; font-weight:600; }
 .tag { display:inline-block; font-size:9px; font-weight:700; border:1px solid; border-radius:2px; padding:1px 4px; margin-left:4px; vertical-align:middle; }
 .tag-blue { border-color:#1565C0; color:#1565C0; }
 .tag-red  { border-color:#C62828; color:#C62828; }
 .tag-gray { border-color:#888; color:#888; }
 
-/* CHARTS */
 .chart-grid { display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-bottom:28px; }
-.chart-box { border:1px solid #E0E0E0; border-radius:6px; padding:20px; background:#FAFAFA; }
-.chart-box h3 { font-size:13px; font-weight:700; margin-bottom:4px; }
-.chart-box p  { font-size:11px; color:#888; margin-bottom:14px; }
+.sim-chart-box { border:1px solid #E0E0E0; border-radius:6px; padding:20px; background:#FAFAFA; }
+.sim-chart-box h3 { font-size:13px; font-weight:700; margin-bottom:4px; }
+.sim-chart-box p  { font-size:11px; color:#888; margin-bottom:14px; }
 .chart-h { height:260px; position:relative; }
 
-/* USER FEEL */
 .feel-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:12px; margin-bottom:28px; }
 .feel-card { border:1px solid #E0E0E0; border-radius:6px; padding:18px 14px; background:#FAFAFA; }
 .feel-card.best { border-color:#1565C0; background:#EEF4FF; }
@@ -64,7 +139,6 @@ tr.row-actual td { color:#C62828; background:#FFF8F8; font-weight:600; }
 .feel-card.best .fi-val { color:#1565C0; }
 .feel-card.current .fi-val { color:#C62828; }
 
-/* ACCUMULATION */
 .accum-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-bottom:28px; }
 .accum-box { border:1px solid #E0E0E0; border-radius:6px; padding:18px; background:#FAFAFA; }
 .accum-box h4 { font-size:13px; font-weight:700; margin-bottom:12px; color:#111; }
@@ -76,7 +150,6 @@ tr.row-actual td { color:#C62828; background:#FFF8F8; font-weight:600; }
 .accum-bar.warn { background:#C62828; }
 .accum-val { font-weight:700; font-size:12px; min-width:50px; text-align:right; }
 
-/* INSIGHT */
 .insight-box { border:1px solid #E0E0E0; border-radius:6px; padding:22px; background:#F8F8F8; margin-bottom:20px; }
 .insight-box h3 { font-size:14px; font-weight:700; margin-bottom:12px; }
 .insight-row { display:flex; gap:10px; padding:8px 0; border-bottom:1px solid #EBEBEB; font-size:13px; }
@@ -87,41 +160,274 @@ tr.row-actual td { color:#C62828; background:#FFF8F8; font-weight:600; }
 .ir-text .blue { color:#1565C0; font-weight:700; }
 .ir-text .red  { color:#C62828; font-weight:700; }
 
-/* NOTE */
 .note { font-size:11px; color:#999; margin-top:8px; }
+.sim-header { padding:32px; background:#F8F8F8; border:1px solid #E0E0E0; border-radius:8px; margin-bottom:28px; }
+.sim-header h1 { font-size:20px; font-weight:700; margin-bottom:6px; }
+.sim-header p { font-size:13px; color:#666; }
 
 @media(max-width:900px){
   .chart-grid { grid-template-columns:1fr; }
   .feel-grid  { grid-template-columns:1fr 1fr; }
   .accum-grid { grid-template-columns:1fr; }
 }
+@media(max-width:768px){
+  .kpi-grid { grid-template-columns:1fr 1fr; }
+  .split-2 { grid-template-columns:1fr; }
+}
 </style>
 </head>
 <body>
 <div class="wrap">
 
-<!-- HEADER -->
+<!-- ════════════════════════════════════════
+     SECTION 1: 통합 현황 보고서 (updated)
+════════════════════════════════════════ -->
+<div class="sec-updated">
+
 <div class="header">
+  <h1>올킬 이벤트 통합 현황 — 데이터 업데이트 보고서</h1>
+  <p>2025년 8월 ~ 2026년 5월 21일 · 5경기(~25.12) → 4경기(26.1~3.11) → 7경기+이월(3.12~) 구조 변경 반영</p>
+</div>
+
+<div class="notice red">
+  <h3>🔄 4월 구조 변경 핵심 요약</h3>
+  <p>• 5경기(25.8~12): <span class="hl">5경기 올킬</span> — 일평균 당첨자 1,179명, 일일 당첨률 5.19%</p>
+  <p>• 4경기(26.1~3.11): <span class="hl">4경기 올킬</span> — 일평균 당첨자 2,328명, 일일 당첨률 11.35%, 월당첨경험률 66.4%</p>
+  <p>• 7경기(3.12~): <span class="hl">7경기 올킬 + 이월제</span> — 일평균 당첨자 82명, 일일 당첨률 0.42%, 월당첨경험률 3.9%<br>보상경험률 <span class="hl">약 0.2%</span> — 4경기 대비 97% 감소</p>
+</div>
+
+<div class="section-title">📊 전체 기간 핵심 지표</div>
+<div class="kpi-grid">
+  <div class="kpi">
+    <div class="k-label">4경기 실제 월당첨경험률</div>
+    <div class="k-val blue">66.4%</div>
+    <div class="k-sub">26.1~3.11 실측</div>
+  </div>
+  <div class="kpi">
+    <div class="k-label">5경기 실제 월당첨경험률</div>
+    <div class="k-val blue">39.2%</div>
+    <div class="k-sub">25.8~12 실측</div>
+  </div>
+  <div class="kpi">
+    <div class="k-label">7경기 현재 보상경험률</div>
+    <div class="k-val red">0.20%</div>
+    <div class="k-sub">2026년 5월 (1~20일)</div>
+  </div>
+  <div class="kpi">
+    <div class="k-label">4월 이후 감소율</div>
+    <div class="k-val red">-92%</div>
+    <div class="k-sub">vs 5경기 평균 대비</div>
+  </div>
+  <div class="kpi">
+    <div class="k-label">5월 일평균 참여자</div>
+    <div class="k-val yellow">17,859명</div>
+    <div class="k-sub">↓ 전체 기간 최저</div>
+  </div>
+  <div class="kpi">
+    <div class="k-label">5월 이월 발생 (1~21일)</div>
+    <div class="k-val yellow">3회</div>
+    <div class="k-sub">5/17, 5/20, 5/21 당첨자 0</div>
+  </div>
+</div>
+
+<div class="table-box">
+  <h3>📅 월별 상세 데이터 (2025년 8월 ~ 2026년 5월)</h3>
+  <div class="t-sub">* 8월은 21~31일 (11일), 5월은 1~21일 데이터 / 보상경험률은 신청률 6.8% 적용 이론 추정치</div>
+  <div style="overflow-x:auto">
+  <table>
+    <thead>
+      <tr>
+        <th>월</th><th>구조</th><th>일평균 참여자</th><th>일평균 당첨자</th>
+        <th>일일 당첨률</th><th>1인 평균상금</th><th>0당첨일 (이월/소멸)</th>
+        <th>자격획득률 (추정)</th><th>보상경험률 (추정)</th><th>전월 대비</th>
+      </tr>
+    </thead>
+    <tbody id="monthTable"></tbody>
+  </table>
+  </div>
+</div>
+
+<div class="chart-box">
+  <h3>📈 일평균 참여자 & 당첨자 추이</h3>
+  <div class="ch-sub">참여자 감소 추세 지속 · 4월 이후 당첨자 급감</div>
+  <div class="chart-container" style="height:300px"><canvas id="partChart"></canvas></div>
+</div>
+
+<div class="chart-box">
+  <h3>💰 1인당 평균 상금 추이</h3>
+  <div class="ch-sub">7경기 전환 후 1인 상금 급등 — 단, 당첨 자체가 희박해짐</div>
+  <div class="chart-container" style="height:280px"><canvas id="prizeChart"></canvas></div>
+</div>
+
+<div class="chart-box">
+  <h3>🎯 보상경험률 추이 (이론 추정)</h3>
+  <div class="ch-sub">4월 구조 변경 이후 보상경험률 90% 이상 감소</div>
+  <div class="chart-container" style="height:280px"><canvas id="expChart"></canvas></div>
+</div>
+
+<!-- 실측 데이터 검증 -->
+<div class="section-title">📋 실측 데이터 검증 — 이론 추정 vs 실제 당첨 경험자</div>
+
+<div class="notice blue">
+  <h3>📌 데이터 해석 기준</h3>
+  <p>• <span class="hl">월 당첨 경험자</span>: 해당 월 내 1회 이상 당첨된 고유 유저 수 (실측값)</p>
+  <p>• <span class="hl">1천원+ 수령 가능자</span>: 당첨 경험자 중 누적 상금 1천원 이상 — 실제 보상 신청 가능한 유저</p>
+  <p>• 26.5월은 21일까지 데이터 (미완료 월)</p>
+</div>
+
+<div class="table-box">
+  <h3>📊 월별 실측 당첨 경험자 & 보상 도달 현황</h3>
+  <div class="t-sub">이론 추정치(신청률 6.8% 적용)와 실측 비교 가능</div>
+  <div style="overflow-x:auto">
+  <table>
+    <thead>
+      <tr>
+        <th>월</th><th>구조</th>
+        <th>월 당첨 경험자<br>(실측)</th>
+        <th>1천원+ 수령 가능자<br>(실측)</th>
+        <th>당첨자 중<br>1천원+ 비율</th>
+        <th>월 지급 총액</th>
+        <th>특이사항</th>
+      </tr>
+    </thead>
+    <tbody id="realDataTable"></tbody>
+  </table>
+  </div>
+</div>
+
+<div class="chart-box">
+  <h3>📉 월 당첨 경험자 실측 추이 — 7경기 전환 후 88% 급감</h3>
+  <div class="ch-sub">이론 추정이 아닌 실제 당첨을 경험한 고유 유저 수</div>
+  <div class="chart-container" style="height:300px"><canvas id="realWinnerChart"></canvas></div>
+</div>
+
+<div class="split-2" style="margin-bottom:24px;">
+  <div style="background:#EEF4FF;border:1px solid #1565C0;border-radius:6px;padding:20px;">
+    <div style="font-size:12px;font-weight:700;color:#1565C0;margin-bottom:10px;">5경기 · 4경기 평균 (실측)</div>
+    <div style="font-size:28px;font-weight:700;color:#1565C0;margin-bottom:4px;">24,770명</div>
+    <div style="font-size:12px;color:#333;">월 당첨 경험자 평균</div>
+    <div style="margin-top:12px;font-size:12px;color:#555;line-height:1.8;">
+      1천원+ 도달: 평균 <strong>7,913명</strong><br>
+      당첨자 중 1천원+ 비율: <strong>약 29%</strong>
+    </div>
+  </div>
+  <div style="background:#FFF8F8;border:1px solid #C62828;border-radius:6px;padding:20px;">
+    <div style="font-size:12px;font-weight:700;color:#C62828;margin-bottom:10px;">7경기 4월 (실측)</div>
+    <div style="font-size:28px;font-weight:700;color:#C62828;margin-bottom:4px;">2,421명</div>
+    <div style="font-size:12px;color:#333;">월 당첨 경험자 — 전기간 대비 <strong>88% 감소</strong></div>
+    <div style="margin-top:12px;font-size:12px;color:#555;line-height:1.8;">
+      1천원+ 도달: <strong>2,421명 (100%)</strong><br>
+      당첨되면 즉시 기준 초과 — 하지만 당첨자가 없음
+    </div>
+  </div>
+</div>
+
+<div class="section-title">⚡ 구조 변경 전후 비교</div>
+<div class="split-2">
+  <div class="struct-card before">
+    <div class="s-tag">▶ 5경기 (25.8~25.12) · 4경기 (26.1~3.11)</div>
+    <h3>높은 확률, 낮은 상금</h3>
+    <div class="metric-r"><span class="ml">5경기 일평균 당첨자</span><span class="mv blue">1,179명/일</span></div>
+    <div class="metric-r"><span class="ml">4경기 일평균 당첨자</span><span class="mv blue">2,328명/일</span></div>
+    <div class="metric-r"><span class="ml">일일 당첨률</span><span class="mv blue">5경기 5.19% / 4경기 11.35%</span></div>
+    <div class="metric-r"><span class="ml">1인 상금 범위</span><span class="mv">400 ~ 17,500원</span></div>
+    <div class="metric-r"><span class="ml">1회 당첨으로 1천원 자격?</span><span class="mv green">✓ 대부분 가능</span></div>
+    <div class="metric-r"><span class="ml">월간 자격 획득률 (추정)</span><span class="mv green">26 ~ 72%</span></div>
+    <div class="metric-r"><span class="ml">보상경험률 범위</span><span class="mv green">1.83 ~ 4.88%</span></div>
+    <div class="metric-r"><span class="ml">0당첨 시</span><span class="mv red">상금 소멸 (이월 없음)</span></div>
+  </div>
+  <div class="struct-card after">
+    <div class="s-tag">▶ 변경 후 · 7경기 올킬 + 이월 (2026년 4월~)</div>
+    <h3>낮은 확률, 높은 상금</h3>
+    <div class="metric-r"><span class="ml">일평균 당첨자</span><span class="mv red">55 ~ 84명/일</span></div>
+    <div class="metric-r"><span class="ml">일일 당첨률</span><span class="mv red">0.31 ~ 0.40%</span></div>
+    <div class="metric-r"><span class="ml">1인 상금 범위</span><span class="mv purple">1,460 ~ 1,000,000원</span></div>
+    <div class="metric-r"><span class="ml">1회 당첨으로 1천원 자격?</span><span class="mv green">✓ 항상 가능</span></div>
+    <div class="metric-r"><span class="ml">월간 자격 획득률 (추정)</span><span class="mv red">2.89 ~ 3.80%</span></div>
+    <div class="metric-r"><span class="ml">보상경험률 범위</span><span class="mv red">0.20 ~ 0.26%</span></div>
+    <div class="metric-r"><span class="ml">이월 발생</span><span class="mv yellow">4~5월 합산 5회 (4월2+5월3)</span></div>
+  </div>
+</div>
+
+<div class="table-box">
+  <h3>🔄 이월 발생 상세 (4월~5월) — 3월 이전은 0당첨 시 상금 소멸</h3>
+  <div class="t-sub">0당첨 다음날 상금풀 2배 지급 · 이월 극단: 5/21 현재도 이월 누적 중</div>
+  <div style="overflow-x:auto">
+  <table>
+    <thead>
+      <tr><th>날짜</th><th>당첨자</th><th>1인 상금</th><th>총 지급액</th><th>비고</th></tr>
+    </thead>
+    <tbody>
+      <tr class="bad"><td>4월 9일</td><td>0명</td><td>—</td><td>0원</td><td>이월 → 다음날</td></tr>
+      <tr class="rollover-highlight"><td>4월 10일</td><td>96명</td><td>20,840원</td><td>2,000,640원</td><td>⚡ 이월 2M 지급</td></tr>
+      <tr class="bad"><td>4월 17일</td><td>0명</td><td>—</td><td>0원</td><td>이월 → 다음날</td></tr>
+      <tr class="rollover-highlight"><td>4월 18일</td><td>14명</td><td>142,860원</td><td>2,000,040원</td><td>⚡ 이월 2M 지급</td></tr>
+      <tr><td>4월 26일</td><td>1명</td><td>1,000,000원</td><td>1,000,000원</td><td>🏆 단독 당첨</td></tr>
+      <tr class="bad"><td>5월 17일</td><td>0명</td><td>—</td><td>0원</td><td>이월 → 다음날</td></tr>
+      <tr class="rollover-highlight"><td>5월 18일</td><td>10명</td><td>200,000원</td><td>2,000,000원</td><td>⚡ 이월 2M 지급</td></tr>
+      <tr class="bad"><td>5월 20일</td><td>0명</td><td>—</td><td>0원</td><td>이월 누적 중 →</td></tr>
+      <tr class="alert"><td>5월 21일</td><td>0명</td><td>—</td><td>0원</td><td>🔄 2일 누적 → 2M 이월 대기</td></tr>
+      <tr style="border-top:2px solid #CCC">
+        <td colspan="5" style="text-align:left;color:#888;font-size:11px;padding:8px 10px">
+          ※ 3/26(0당첨), 3/31(0당첨)은 이월 기능 없음 → 상금 소멸 / 3/27의 2,000,080원은 별도 사유 (이월 아님)
+        </td>
+      </tr>
+      <tr><td>5월 5일</td><td>1명</td><td>1,000,000원</td><td>1,000,000원</td><td>🏆 단독 당첨</td></tr>
+    </tbody>
+  </table>
+  </div>
+</div>
+
+<div class="chart-box">
+  <h3>📉 일일 당첨률 변화 — 5경기 vs 7경기</h3>
+  <div class="ch-sub">4월부터 당첨률 10분의 1 이하로 급락 · 7경기 난이도 영향</div>
+  <div class="chart-container" style="height:280px"><canvas id="rateChart"></canvas></div>
+</div>
+
+<div class="notice green">
+  <h3>💡 분석 결론 및 시사점</h3>
+  <p>• <span class="hl">7경기 전환은 보상경험률을 90% 이상 감소</span>시켰다. 상금은 커졌지만 당첨 자체가 어려워 사용자가 혜택을 실제로 경험하는 비율이 급락.</p>
+  <p>• 1인당 상금 1만원+ 이므로 <span class="hl">1회 당첨으로 즉시 1천원 자격 초과</span> — 지급 기준은 문제없음. 문제는 당첨 자체가 희박하다는 것.</p>
+  <p>• 참여자도 감소 추세 (피크 33,674명 → 현재 17,859명). <span class="hl">보상 경험이 줄면서 재참여 동기도 약화</span>되는 악순환 가능성.</p>
+  <p>• 이월제는 단독 당첨(1명이 100만원)이나 소수 당첨(10명이 20만원씩)을 만들지만 전체 보상경험률에는 큰 기여 없음.</p>
+  <p>• <span class="hl">핵심 질문:</span> 7경기를 유지할 경우, 현재 보상경험률 0.2%에서 참여자 감소를 막으려면 신청 허들 개선만으로는 한계. 경기수 재검토 또는 별도 부스팅 메커니즘 필요.</p>
+</div>
+
+</div><!-- /sec-updated -->
+
+
+<!-- ════════════════════════════════════════
+     SECTION DIVIDER
+════════════════════════════════════════ -->
+<div class="section-divider">
+  <span>경기수별 시뮬레이션 & 대표님 제안 분석</span>
+</div>
+
+
+<!-- ════════════════════════════════════════
+     SECTION 2: 시뮬레이션 & 제안 분석
+════════════════════════════════════════ -->
+<div class="sec-sim">
+
+<div class="sim-header">
   <h1>경기수 변경 시나리오 시뮬레이션 — 당첨경험률 · 보상경험률</h1>
   <p>3 / 4 / 5 / 6 / 7경기 올킬 구조 비교 · 실제 데이터 기반 · 2025.05.25</p>
 </div>
 
-<!-- PREMISE -->
 <div class="premise">
   <h3>분석 전제</h3>
   <div class="premise-grid">
-    <div class="premise-item">📅 <strong>실제 전환일</strong>: 5경기(~3/11) → 7경기(3/12~)</div>
+    <div class="premise-item">📅 <strong>실제 경기수 이력</strong>: 5경기(25.8~25.12) → 4경기(26.1~3.11) → 7경기(3.12~)</div>
     <div class="premise-item">👥 <strong>일평균 참여자</strong>: 18,000명 (현재 기준)</div>
     <div class="premise-item">💰 <strong>일 상금풀</strong>: 100만원 고정 / 당첨자 균등 분배</div>
     <div class="premise-item">📆 <strong>월 평균 참여</strong>: 1인당 9.6회/월</div>
     <div class="premise-item">📝 <strong>지급 신청률</strong>: 6.8% (신분증 제출 허들)</div>
     <div class="premise-item">💵 <strong>최소 지급 기준</strong>: 1,000원 누적</div>
-    <div class="premise-item">📐 <strong>경기당 확률</strong>: 55.2% (5경기 실측치 역산)</div>
+    <div class="premise-item">📐 <strong>경기당 확률</strong>: 55.3% (5경기 실측) / 58.0% (4경기 실측) / 평균 56.7%</div>
     <div class="premise-item">⚠️ <strong>7경기 실제</strong>: 이론 대비 4배 어려움 (난이도 반영)</div>
   </div>
 </div>
 
-<!-- MAIN TABLE -->
 <div class="sec-title">핵심 지표 비교</div>
 <div class="tbl-wrap">
 <table>
@@ -162,7 +468,7 @@ tr.row-actual td { color:#C62828; background:#FFF8F8; font-weight:600; }
     </tr>
     <tr class="row-best">
       <td><strong>5경기</strong><span class="tag tag-blue">최적</span></td>
-      <td>25.8~26.3.11</td>
+      <td>25.8~25.12</td>
       <td>5.14%</td><td>925명</td><td>1,081원</td>
       <td><span style="color:#1565C0;font-weight:700">1회</span></td>
       <td>38.9%</td>
@@ -198,35 +504,32 @@ tr.row-actual td { color:#C62828; background:#FFF8F8; font-weight:600; }
 <p class="note">* 기대 월수 1.9개월: 기댓값(EV) 기준 — 실제 체감은 시나리오별 분산(확률 분포)에 따라 크게 차이남.</p>
 </div>
 
-<!-- CHARTS -->
 <div class="sec-title">시각적 비교</div>
 <div class="chart-grid">
-  <div class="chart-box">
+  <div class="sim-chart-box">
     <h3>보상경험률 비교</h3>
     <p>5경기가 유일한 최적점 — 1회 당첨으로 바로 1천원 초과</p>
     <div class="chart-h"><canvas id="rewardChart"></canvas></div>
   </div>
-  <div class="chart-box">
+  <div class="sim-chart-box">
     <h3>당첨경험률 vs 보상경험률</h3>
     <p>당첨경험률은 경기수 줄수록 높아지지만 보상경험률은 5경기가 정점</p>
     <div class="chart-h"><canvas id="dualChart"></canvas></div>
   </div>
-  <div class="chart-box">
+  <div class="sim-chart-box">
     <h3>1인당 상금 vs 1천원 기준선</h3>
     <p>빨간선(1천원) 아래면 여러 번 당첨해야 신청 가능</p>
-    <div class="chart-h"><canvas id="prizeChart"></canvas></div>
+    <div class="chart-h"><canvas id="simPrizeChart"></canvas></div>
   </div>
-  <div class="chart-box">
+  <div class="sim-chart-box">
     <h3>월 자격획득률 비교</h3>
     <p>당첨 후 1천원 기준을 넘어 신청 자격을 얻는 비율</p>
     <div class="chart-h"><canvas id="qualChart"></canvas></div>
   </div>
 </div>
 
-<!-- USER FEEL -->
 <div class="sec-title">경기수별 유저 체감 시나리오</div>
 <div class="feel-grid">
-
   <div class="feel-card">
     <div class="fc-n">3</div>
     <div class="fc-label">경기 올킬</div>
@@ -237,10 +540,9 @@ tr.row-actual td { color:#C62828; background:#FFF8F8; font-weight:600; }
     <div class="feel-item"><span>실제 자격획득률</span><span class="fi-val">8.1%</span></div>
     <div class="feel-item"><span>보상경험률</span><span class="fi-val">0.55%</span></div>
     <div style="margin-top:12px;font-size:11px;color:#555;line-height:1.7;">
-      NIH 연구 최적 당첨률(18%)에 가장 근접한 구조. 당첨 경험은 충분하나 100만원 상금풀 유지 시 1회 330원으로 1천원까지 4회 필요. <strong>상금풀 200만원으로 올리면 보상경험률도 3.27%로 최고</strong>.
+      미국 국립보건원 연구 최적 당첨률(18%)에 가장 근접한 구조. 당첨 경험은 충분하나 100만원 상금풀 유지 시 1회 330원으로 1천원까지 4회 필요. <strong>상금풀 200만원으로 올리면 보상경험률도 3.27%로 최고</strong>.
     </div>
   </div>
-
   <div class="feel-card">
     <div class="fc-n">4</div>
     <div class="fc-label">경기 올킬</div>
@@ -254,7 +556,6 @@ tr.row-actual td { color:#C62828; background:#FFF8F8; font-weight:600; }
       적당히 자주 당첨되나 1회 상금이 기준 미달. 2회 연속 당첨이 필요해 이월이 생기고 누적이 느림.
     </div>
   </div>
-
   <div class="feel-card best">
     <div class="fc-n">5</div>
     <div class="fc-label">경기 올킬 ★ 최적</div>
@@ -268,7 +569,6 @@ tr.row-actual td { color:#C62828; background:#FFF8F8; font-weight:600; }
       당첨 한 번이면 바로 신청 가능. 적절한 난이도 + 즉각 보상 구조. 전 경기수 중 보상경험률 최고.
     </div>
   </div>
-
   <div class="feel-card">
     <div class="fc-n">6</div>
     <div class="fc-label">경기 올킬</div>
@@ -282,7 +582,6 @@ tr.row-actual td { color:#C62828; background:#FFF8F8; font-weight:600; }
       1회로 기준 초과하지만 당첨 자체가 드물어 대다수 유저가 월내 당첨 경험 없음.
     </div>
   </div>
-
   <div class="feel-card current">
     <div class="fc-n">7</div>
     <div class="fc-label">경기 올킬 (현재)</div>
@@ -296,219 +595,215 @@ tr.row-actual td { color:#C62828; background:#FFF8F8; font-weight:600; }
       300명 중 1명 수준. 대부분의 유저가 달 내내 당첨 한 번도 없음. 이벤트 존재 자체를 잊음.
     </div>
   </div>
-
 </div>
 
-<!-- ACCUMULATION -->
 <div class="sec-title">누적 보상 도달 시뮬레이션 — 몇 번 참여해야 N원?</div>
 <div class="accum-grid">
-
   <div class="accum-box">
     <h4>1,000원 도달 (신청 가능 기준)</h4>
-    <div class="accum-row">
-      <span class="accum-n">3경기</span>
-      <div class="accum-bar-wrap"><div class="accum-bar warn" style="width:8%"></div></div>
-      <span class="accum-val" style="color:#C62828">8.1%</span>
-    </div>
-    <div class="accum-row">
-      <span class="accum-n">4경기</span>
-      <div class="accum-bar-wrap"><div class="accum-bar" style="width:22%"></div></div>
-      <span class="accum-val">22.5%</span>
-    </div>
-    <div class="accum-row" style="background:#EEF4FF;border-radius:4px;padding:7px 4px;">
-      <span class="accum-n" style="color:#1565C0;font-weight:700">5경기 ★</span>
-      <div class="accum-bar-wrap"><div class="accum-bar" style="width:100%"></div></div>
-      <span class="accum-val" style="color:#1565C0">38.9%</span>
-    </div>
-    <div class="accum-row">
-      <span class="accum-n">6경기</span>
-      <div class="accum-bar-wrap"><div class="accum-bar" style="width:61%"></div></div>
-      <span class="accum-val">23.9%</span>
-    </div>
-    <div class="accum-row">
-      <span class="accum-n">7경기</span>
-      <div class="accum-bar-wrap"><div class="accum-bar warn" style="width:9%"></div></div>
-      <span class="accum-val" style="color:#C62828">3.4%</span>
-    </div>
+    <div class="accum-row"><span class="accum-n">3경기</span><div class="accum-bar-wrap"><div class="accum-bar warn" style="width:8%"></div></div><span class="accum-val" style="color:#C62828">8.1%</span></div>
+    <div class="accum-row"><span class="accum-n">4경기</span><div class="accum-bar-wrap"><div class="accum-bar" style="width:22%"></div></div><span class="accum-val">22.5%</span></div>
+    <div class="accum-row" style="background:#EEF4FF;border-radius:4px;padding:7px 4px;"><span class="accum-n" style="color:#1565C0;font-weight:700">5경기 ★</span><div class="accum-bar-wrap"><div class="accum-bar" style="width:100%"></div></div><span class="accum-val" style="color:#1565C0">38.9%</span></div>
+    <div class="accum-row"><span class="accum-n">6경기</span><div class="accum-bar-wrap"><div class="accum-bar" style="width:61%"></div></div><span class="accum-val">23.9%</span></div>
+    <div class="accum-row"><span class="accum-n">7경기</span><div class="accum-bar-wrap"><div class="accum-bar warn" style="width:9%"></div></div><span class="accum-val" style="color:#C62828">3.4%</span></div>
     <p class="note" style="margin-top:10px">월내(9.6회 참여 기준) 1천원 달성 확률</p>
   </div>
-
   <div class="accum-box">
     <h4>2,000원 도달</h4>
-    <div class="accum-row">
-      <span class="accum-n">3경기</span>
-      <div class="accum-bar-wrap"><div class="accum-bar warn" style="width:0.5%"></div></div>
-      <span class="accum-val" style="color:#C62828">0.1%</span>
-    </div>
-    <div class="accum-row">
-      <span class="accum-n">4경기</span>
-      <div class="accum-bar-wrap"><div class="accum-bar" style="width:13%"></div></div>
-      <span class="accum-val">1.3%</span>
-    </div>
-    <div class="accum-row" style="background:#EEF4FF;border-radius:4px;padding:7px 4px;">
-      <span class="accum-n" style="color:#1565C0;font-weight:700">5경기 ★</span>
-      <div class="accum-bar-wrap"><div class="accum-bar" style="width:100%"></div></div>
-      <span class="accum-val" style="color:#1565C0">8.8%</span>
-    </div>
-    <div class="accum-row">
-      <span class="accum-n">6경기</span>
-      <div class="accum-bar-wrap"><div class="accum-bar" style="width:35%"></div></div>
-      <span class="accum-val">3.1%</span>
-    </div>
-    <div class="accum-row">
-      <span class="accum-n">7경기</span>
-      <div class="accum-bar-wrap"><div class="accum-bar warn" style="width:39%"></div></div>
-      <span class="accum-val">3.4%</span>
-    </div>
+    <div class="accum-row"><span class="accum-n">3경기</span><div class="accum-bar-wrap"><div class="accum-bar warn" style="width:0.5%"></div></div><span class="accum-val" style="color:#C62828">0.1%</span></div>
+    <div class="accum-row"><span class="accum-n">4경기</span><div class="accum-bar-wrap"><div class="accum-bar" style="width:13%"></div></div><span class="accum-val">1.3%</span></div>
+    <div class="accum-row" style="background:#EEF4FF;border-radius:4px;padding:7px 4px;"><span class="accum-n" style="color:#1565C0;font-weight:700">5경기 ★</span><div class="accum-bar-wrap"><div class="accum-bar" style="width:100%"></div></div><span class="accum-val" style="color:#1565C0">8.8%</span></div>
+    <div class="accum-row"><span class="accum-n">6경기</span><div class="accum-bar-wrap"><div class="accum-bar" style="width:35%"></div></div><span class="accum-val">3.1%</span></div>
+    <div class="accum-row"><span class="accum-n">7경기</span><div class="accum-bar-wrap"><div class="accum-bar warn" style="width:39%"></div></div><span class="accum-val">3.4%</span></div>
     <p class="note" style="margin-top:10px">월내 2천원 달성 확률 (7경기는 1회=15,385원이라 1천원과 동일)</p>
   </div>
-
   <div class="accum-box">
     <h4>3,000원 도달</h4>
-    <div class="accum-row">
-      <span class="accum-n">3경기</span>
-      <div class="accum-bar-wrap"><div class="accum-bar warn" style="width:0%"></div></div>
-      <span class="accum-val" style="color:#C62828">≈ 0%</span>
-    </div>
-    <div class="accum-row">
-      <span class="accum-n">4경기</span>
-      <div class="accum-bar-wrap"><div class="accum-bar warn" style="width:0%"></div></div>
-      <span class="accum-val" style="color:#C62828">≈ 0%</span>
-    </div>
-    <div class="accum-row" style="background:#EEF4FF;border-radius:4px;padding:7px 4px;">
-      <span class="accum-n" style="color:#1565C0;font-weight:700">5경기 ★</span>
-      <div class="accum-bar-wrap"><div class="accum-bar" style="width:100%"></div></div>
-      <span class="accum-val" style="color:#1565C0">1.4%</span>
-    </div>
-    <div class="accum-row">
-      <span class="accum-n">6경기</span>
-      <div class="accum-bar-wrap"><div class="accum-bar" style="width:100%"></div></div>
-      <span class="accum-val">3.1%</span>
-    </div>
-    <div class="accum-row">
-      <span class="accum-n">7경기</span>
-      <div class="accum-bar-wrap"><div class="accum-bar warn" style="width:100%"></div></div>
-      <span class="accum-val" style="color:#C62828">3.4%</span>
-    </div>
+    <div class="accum-row"><span class="accum-n">3경기</span><div class="accum-bar-wrap"><div class="accum-bar warn" style="width:0%"></div></div><span class="accum-val" style="color:#C62828">≈ 0%</span></div>
+    <div class="accum-row"><span class="accum-n">4경기</span><div class="accum-bar-wrap"><div class="accum-bar warn" style="width:0%"></div></div><span class="accum-val" style="color:#C62828">≈ 0%</span></div>
+    <div class="accum-row" style="background:#EEF4FF;border-radius:4px;padding:7px 4px;"><span class="accum-n" style="color:#1565C0;font-weight:700">5경기 ★</span><div class="accum-bar-wrap"><div class="accum-bar" style="width:100%"></div></div><span class="accum-val" style="color:#1565C0">1.4%</span></div>
+    <div class="accum-row"><span class="accum-n">6경기</span><div class="accum-bar-wrap"><div class="accum-bar" style="width:100%"></div></div><span class="accum-val">3.1%</span></div>
+    <div class="accum-row"><span class="accum-n">7경기</span><div class="accum-bar-wrap"><div class="accum-bar warn" style="width:100%"></div></div><span class="accum-val" style="color:#C62828">3.4%</span></div>
     <p class="note" style="margin-top:10px">월내 3천원 달성 확률 (6~7경기는 고액 1회 당첨이라 동일)</p>
   </div>
-
 </div>
 
-<!-- INSIGHT -->
 <div class="sec-title">핵심 인사이트</div>
 <div class="insight-box">
   <h3>왜 3경기 전환이 보상경험률을 오히려 낮추는가</h3>
-  <div class="insight-row">
-    <span class="ir-icon">🔑</span>
-    <div class="ir-text">
-      <strong>기댓값(EV)은 동일하다.</strong> 상금풀 100만원 / 참여자 18,000명 = 1인당 일 기대 수령액 55.6원. 경기수가 몇 개든 월 기대 누적액은 <span class="blue">약 533원</span>으로 같다. 1.9개월이면 1천원이라는 것도 동일.
+  <div class="insight-row"><span class="ir-icon">🔑</span><div class="ir-text"><strong>기댓값(EV)은 동일하다.</strong> 상금풀 100만원 / 참여자 18,000명 = 1인당 일 기대 수령액 55.6원. 경기수가 몇 개든 월 기대 누적액은 <span class="blue">약 533원</span>으로 같다. 1.9개월이면 1천원이라는 것도 동일.</div></div>
+  <div class="insight-row"><span class="ir-icon">⚡</span><div class="ir-text"><strong>차이는 분산(Variance)에서 온다.</strong> 3경기는 330원짜리 당첨이 자주 일어나 <span class="blue">당첨경험률(80%)은 높지만</span>, 4번 당첨해야 1천원 → <span class="red">자격획득률 8.1%로 급락.</span> 5경기는 1,081원짜리 당첨 1회로 즉시 기준 초과 → 자격획득률 = 당첨경험률(38.9%)과 동일.</div></div>
+  <div class="insight-row"><span class="ir-icon">📌</span><div class="ir-text"><strong>1천원 기준선이 핵심 허들이다.</strong> 1회 당첨 상금 ≥ 1천원이 되는 구간은 <span class="blue">5경기(1,081원)부터</span>. 3~4경기는 한 번 당첨돼도 기준 미달이라 보상 체험까지 긴 여정이 필요. 유저가 포기하는 구간.</div></div>
+  <div class="insight-row"><span class="ir-icon">📊</span><div class="ir-text"><strong>7경기 → 3경기 전환 시 변화.</strong> 당첨경험률 <span class="blue">3.4% → 80.2%</span> (23배 증가). 그러나 보상경험률은 <span class="red">0.23% → 0.55%</span>로 개선되지만 5경기(2.65%) 대비 여전히 79% 낮음.</div></div>
+  <div class="insight-row"><span class="ir-icon">✅</span><div class="ir-text"><strong>결론.</strong> 3경기 전환은 "당첨은 자주, 보상은 여전히 희박"한 구조. 보상경험률을 높이려면 <span class="blue">5경기 복귀</span>가 최선. 단, 당첨경험률(유저 체감 재미)를 최우선으로 설계한다면 3~4경기도 유효 — 단 1천원 기준을 낮추거나(예: 500원) 당첨금을 별도로 보전하는 방안 필요.</div></div>
+</div>
+
+<!-- 신규 유저 유입 실측 데이터 분석 -->
+<div style="height:2px;background:#111;margin:48px 0 36px;"></div>
+
+<div style="font-size:20px;font-weight:700;margin-bottom:6px;">신규참여자 실측 데이터 — 예상과 다른 반전 결과</div>
+<div style="font-size:13px;color:#666;margin-bottom:20px;">기본 데이터 CSV 실측값 기반 · 신규참여자 = 올킬 이벤트 첫 참여 고유 유저</div>
+
+<!-- 핵심 반전 발견 -->
+<div style="border:2px solid #C62828;border-radius:6px;padding:20px 24px;background:#FFF8F8;margin-bottom:24px;">
+  <div style="font-size:14px;font-weight:700;color:#C62828;margin-bottom:12px;">⚠ 기존 가설과 다른 실측 결과</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;">
+    <div style="background:#fff;border-radius:4px;padding:14px;border:1px solid #FFCCCC;">
+      <div style="font-size:11px;color:#666;margin-bottom:6px;">5경기 일평균 신규참여자</div>
+      <div style="font-size:22px;font-weight:700;color:#555;">25.0명</div>
+      <div style="font-size:11px;color:#888;margin-top:4px;">참여자 대비 0.11%</div>
+    </div>
+    <div style="background:#fff;border-radius:4px;padding:14px;border:1px solid #FFCCCC;">
+      <div style="font-size:11px;color:#666;margin-bottom:6px;">4경기 일평균 신규참여자</div>
+      <div style="font-size:22px;font-weight:700;color:#555;">27.9명</div>
+      <div style="font-size:11px;color:#888;margin-top:4px;">참여자 대비 0.14%</div>
+    </div>
+    <div style="background:#fff;border-radius:4px;padding:14px;border:2px solid #C62828;">
+      <div style="font-size:11px;color:#C62828;font-weight:700;margin-bottom:6px;">7경기 일평균 신규참여자</div>
+      <div style="font-size:22px;font-weight:700;color:#C62828;">45.8명 ↑</div>
+      <div style="font-size:11px;color:#C62828;margin-top:4px;">참여자 대비 0.23% — 오히려 증가</div>
     </div>
   </div>
-  <div class="insight-row">
-    <span class="ir-icon">⚡</span>
-    <div class="ir-text">
-      <strong>차이는 분산(Variance)에서 온다.</strong> 3경기는 330원짜리 당첨이 자주 일어나 <span class="blue">당첨경험률(80%)은 높지만</span>, 4번 당첨해야 1천원 → <span class="red">자격획득률 8.1%로 급락.</span> 5경기는 1,081원짜리 당첨 1회로 즉시 기준 초과 → 자격획득률 = 당첨경험률(38.9%)과 동일.
+  <div style="margin-top:16px;font-size:13px;color:#333;line-height:1.8;padding:12px;background:#fff;border-radius:4px;">
+    <strong>반전:</strong> 7경기 전환 후 신규참여자는 오히려 <strong>증가(+84%)</strong>했다. 총 참여자가 감소하는 동안 신규 유입은 늘었다는 것은 → <strong style="color:#C62828">문제의 본질은 신규 유입이 아니라 기존 유저 이탈</strong>
+  </div>
+</div>
+
+<!-- 실측 추세 차트 -->
+<div class="sim-chart-box" style="margin-bottom:24px;">
+  <h3>신규참여자 vs 총 참여자 추이 (실측)</h3>
+  <p>신규는 늘었는데 총 참여자가 줄었다 — 기존 유저가 빠져나가는 속도가 더 빠름</p>
+  <div class="chart-h"><canvas id="newUserChart"></canvas></div>
+</div>
+
+<!-- 진짜 문제: 전환율 -->
+<div style="font-size:15px;font-weight:700;border-bottom:2px solid #222;padding-bottom:8px;margin:0 0 18px;">진짜 문제 — 신규 회원가입 → 올킬 참여 전환율 1.5%</div>
+
+<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px;">
+  <div style="border:1px solid #E0E0E0;border-radius:6px;padding:16px;text-align:center;background:#FAFAFA;">
+    <div style="font-size:11px;color:#666;margin-bottom:6px;">일평균 신규 회원가입</div>
+    <div style="font-size:24px;font-weight:700;color:#111;">3,100명</div>
+    <div style="font-size:10px;color:#888;">5경기 기간 평균</div>
+  </div>
+  <div style="border:1px solid #E0E0E0;border-radius:6px;padding:16px;text-align:center;background:#FAFAFA;">
+    <div style="font-size:11px;color:#666;margin-bottom:6px;">그 중 올킬 신규참여</div>
+    <div style="font-size:24px;font-weight:700;color:#555;">25명</div>
+    <div style="font-size:10px;color:#888;">실측 일평균</div>
+  </div>
+  <div style="border:2px solid #C62828;border-radius:6px;padding:16px;text-align:center;background:#FFF8F8;">
+    <div style="font-size:11px;color:#C62828;font-weight:700;margin-bottom:6px;">전환율</div>
+    <div style="font-size:24px;font-weight:700;color:#C62828;">0.8%</div>
+    <div style="font-size:10px;color:#C62828;">신규 가입 → 올킬 참여</div>
+  </div>
+  <div style="border:1px solid #E0E0E0;border-radius:6px;padding:16px;text-align:center;background:#FAFAFA;">
+    <div style="font-size:11px;color:#666;margin-bottom:6px;">올킬 참여자 중 신규 비중</div>
+    <div style="font-size:24px;font-weight:700;color:#555;">0.1%</div>
+    <div style="font-size:10px;color:#888;">매일 99.9%는 재참여</div>
+  </div>
+</div>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:28px;">
+  <div style="border:1px solid #E0E0E0;border-radius:6px;padding:20px;background:#FAFAFA;">
+    <div style="font-size:13px;font-weight:700;margin-bottom:12px;color:#C62828;">❌ 기존에 잘못 설정한 문제</div>
+    <div style="font-size:12px;color:#333;line-height:1.9;">
+      "7경기가 신규 유저 유입을 막는다"<br>
+      → <strong>실측: 신규참여자는 오히려 늘었음</strong><br><br>
+      "신규 유입을 늘리면 참여자가 회복된다"<br>
+      → <strong>실측: 신규는 전체의 0.1% — 영향 미미</strong>
     </div>
   </div>
-  <div class="insight-row">
-    <span class="ir-icon">📌</span>
-    <div class="ir-text">
-      <strong>1천원 기준선이 핵심 허들이다.</strong> 1회 당첨 상금 ≥ 1천원이 되는 구간은 <span class="blue">5경기(1,081원)부터</span>. 3~4경기는 한 번 당첨돼도 기준 미달이라 보상 체험까지 긴 여정이 필요. 유저가 포기하는 구간.
-    </div>
-  </div>
-  <div class="insight-row">
-    <span class="ir-icon">📊</span>
-    <div class="ir-text">
-      <strong>7경기 → 3경기 전환 시 변화.</strong> 당첨경험률 <span class="blue">3.4% → 80.2%</span> (23배 증가). 그러나 보상경험률은 <span class="red">0.23% → 0.55%</span>로 개선되지만 5경기(2.65%) 대비 여전히 79% 낮음.
-    </div>
-  </div>
-  <div class="insight-row">
-    <span class="ir-icon">✅</span>
-    <div class="ir-text">
-      <strong>결론.</strong> 3경기 전환은 "당첨은 자주, 보상은 여전히 희박"한 구조. 보상경험률을 높이려면 <span class="blue">5경기 복귀</span>가 최선. 단, 당첨경험률(유저 체감 재미)를 최우선으로 설계한다면 3~4경기도 유효 — 단 1천원 기준을 낮추거나(예: 500원) 당첨금을 별도로 보전하는 방안 필요.
+  <div style="border:1px solid #1565C0;border-radius:6px;padding:20px;background:#EEF4FF;">
+    <div style="font-size:13px;font-weight:700;margin-bottom:12px;color:#1565C0;">✓ 실측 데이터가 말하는 진짜 문제</div>
+    <div style="font-size:12px;color:#333;line-height:1.9;">
+      <strong>기존 참여자 이탈 방어</strong>가 핵심<br>
+      → 매일 참여하던 유저가 7경기 후 조용히 이탈<br><br>
+      <strong>기존 가입자 → 올킬 전환율(0.8%) 개선</strong><br>
+      → 3,100명 중 25명 → 50명만 돼도 참여자 2배
     </div>
   </div>
 </div>
 
-</div><!-- /wrap -->
-<script>
-Chart.defaults.color = '#555';
-Chart.defaults.borderColor = '#E8E8E8';
+<!-- 악순환 구조 (실측 기반) -->
+<div style="border:1px solid #E0E0E0;border-radius:6px;padding:22px;background:#FAFAFA;margin-bottom:28px;">
+  <div style="font-size:14px;font-weight:700;margin-bottom:14px;border-bottom:1px solid #EBEBEB;padding-bottom:8px;">참여자 감소 실측 — 악순환 구조 (실측 기반)</div>
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px;">
+    <div style="text-align:center;">
+      <div style="font-size:11px;color:#666;margin-bottom:4px;">피크 (25.8월)</div>
+      <div style="font-size:20px;font-weight:700;color:#1565C0;">33,674명</div>
+      <div style="font-size:10px;color:#888;">월 당첨경험자 38,200명</div>
+    </div>
+    <div style="text-align:center;">
+      <div style="font-size:11px;color:#666;margin-bottom:4px;">4경기 (26.2월)</div>
+      <div style="font-size:20px;font-weight:700;color:#555;">20,000명</div>
+      <div style="font-size:10px;color:#888;">월 당첨경험자 29,819명</div>
+    </div>
+    <div style="text-align:center;">
+      <div style="font-size:11px;color:#666;margin-bottom:4px;">7경기 전환 (26.4월)</div>
+      <div style="font-size:20px;font-weight:700;color:#C62828;">20,738명</div>
+      <div style="font-size:10px;color:#C62828;">월 당첨경험자 <strong>2,421명</strong></div>
+    </div>
+    <div style="text-align:center;">
+      <div style="font-size:11px;color:#666;margin-bottom:4px;">현재 (26.5월)</div>
+      <div style="font-size:20px;font-weight:700;color:#C62828;">17,859명</div>
+      <div style="font-size:10px;color:#C62828;">월 당첨경험자 <strong>1,123명↓</strong></div>
+    </div>
+  </div>
+  <div style="background:#FFF8F8;border-left:4px solid #C62828;padding:12px 16px;font-size:12px;color:#333;line-height:1.8;border-radius:0 4px 4px 0;">
+    <strong>실측 기반 악순환:</strong> 7경기 → 월 당첨경험자 38,200명 → 2,421명 (94% 감소) → 당첨 경험 없는 기존 유저 이탈 → 신규 45명/일 유입으로는 보완 불가 → 총 참여자 지속 감소
+  </div>
+</div>
 
-const LABELS = ['3경기', '4경기', '5경기★', '6경기', '7경기(실제)'];
-const COLORS = ['#AAAAAA','#AAAAAA','#1565C0','#AAAAAA','#C62828'];
-const BORDERS = ['#888','#888','#1565C0','#888','#C62828'];
+<!-- 경기수별 첫 7일 시뮬레이션 유지 -->
+<div style="font-size:15px;font-weight:700;border-bottom:2px solid #222;padding-bottom:8px;margin:0 0 18px;">경기수별 — 신규 유저 첫 7일 당첨 경험 확률 (시뮬레이션)</div>
+<div style="overflow-x:auto;margin-bottom:8px;">
+<table>
+  <thead>
+    <tr style="background:#111;color:#fff;">
+      <th>경기수</th><th>일일 당첨률</th><th>7일 내 1회 이상 당첨</th>
+      <th>미당첨 이탈 위험군</th><th>1회 상금</th><th>1회로 1천원?</th><th>첫인상</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style="background:#FFF8F8;">
+      <td><strong>7경기</strong><span class="tag tag-red">현재</span></td>
+      <td style="color:#C62828;font-weight:700;">0.36%</td>
+      <td style="color:#C62828;font-weight:700;">2.5%</td>
+      <td style="color:#C62828;font-weight:700;">97.5%</td>
+      <td>15,385원</td><td style="color:#1565C0;font-weight:700;">✓</td>
+      <td style="color:#C62828;font-size:11px;">"당첨이 안 된다" → 이탈</td>
+    </tr>
+    <tr>
+      <td><strong>6경기</strong><span class="tag tag-gray">가상</span></td>
+      <td>2.84%</td><td>18.2%</td><td style="color:#C62828;">81.8%</td>
+      <td>1,957원</td><td style="color:#1565C0;font-weight:700;">✓</td>
+      <td style="font-size:11px;color:#888;">"운 좋으면 된다"</td>
+    </tr>
+    <tr style="background:#EEF4FF;">
+      <td><strong>5경기</strong><span class="tag tag-blue">권장</span></td>
+      <td style="color:#1565C0;font-weight:700;">5.14%</td>
+      <td style="color:#1565C0;font-weight:700;">30.3%</td><td>69.7%</td>
+      <td style="color:#1565C0;font-weight:700;">1,081원</td>
+      <td style="color:#1565C0;font-weight:700;">✓</td>
+      <td style="color:#1565C0;font-size:11px;font-weight:700;">"가끔 되고 즉시 신청" → 재방문</td>
+    </tr>
+    <tr>
+      <td><strong>4경기</strong><span class="tag tag-gray">가상</span></td>
+      <td>9.31%</td><td style="color:#1565C0;">48.1%</td><td>51.9%</td>
+      <td>597원</td><td style="color:#C62828;">✗ 2회 필요</td>
+      <td style="font-size:11px;color:#555;">"자주 되는데 돈이 안 모임"</td>
+    </tr>
+    <tr>
+      <td><strong>3경기</strong><span class="tag tag-gray">예정</span></td>
+      <td>16.85%</td><td style="color:#1565C0;font-weight:700;">69.2%</td><td>30.8%</td>
+      <td style="color:#C62828;">330원</td><td style="color:#C62828;">✗ 4회 필요</td>
+      <td style="font-size:11px;color:#C62828;">"자주 당첨되는데 신청이 안 됨" → 혼란</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p style="font-size:11px;color:#999;margin-bottom:28px;">* 7일 내 당첨 확률 = 1-(1-일일당첨률)^7 / 기존 유저 이탈 방어가 1차 과제, 신규 전환이 2차 과제</p>
 
-const WIN_EXP   = [80.2, 59.1, 38.9, 23.9, 3.4];
-const QUAL_RATE = [8.1,  22.5, 38.9, 23.9, 3.4];
-const REWARD    = [0.55, 1.53, 2.65, 1.62, 0.23];
-const PRIZE     = [330,  597,  1081, 1957, 15385];
-
-const TOPTS = { backgroundColor:'rgba(255,255,255,0.97)', titleColor:'#111', bodyColor:'#333', borderColor:'#CCC', borderWidth:1 };
-
-// 1. Reward
-new Chart(document.getElementById('rewardChart'), {
-  type:'bar',
-  data:{ labels:LABELS, datasets:[{ label:'보상경험률(%)', data:REWARD,
-    backgroundColor:COLORS.map(c=>c+'33'), borderColor:COLORS, borderWidth:2, borderRadius:4 }] },
-  options:{ responsive:true, maintainAspectRatio:false,
-    plugins:{ legend:{labels:{color:'#333',font:{size:11},padding:12}}, tooltip:{...TOPTS, callbacks:{label:ctx=>ctx.parsed.y+'%'}} },
-    scales:{ y:{beginAtZero:true,grid:{color:'#EEEEEE'},ticks:{color:'#555',callback:v=>v+'%'}}, x:{grid:{display:false},ticks:{color:'#444',font:{size:11}}} }
-  }
-});
-
-// 2. Dual
-new Chart(document.getElementById('dualChart'), {
-  type:'bar',
-  data:{ labels:LABELS, datasets:[
-    { label:'당첨경험률(%)', data:WIN_EXP, backgroundColor:'rgba(80,80,80,0.2)', borderColor:'#888', borderWidth:2, borderRadius:4 },
-    { label:'보상경험률(%)', data:REWARD, backgroundColor:COLORS.map(c=>c+'44'), borderColor:COLORS, borderWidth:2, borderRadius:4 }
-  ]},
-  options:{ responsive:true, maintainAspectRatio:false,
-    plugins:{ legend:{labels:{color:'#333',font:{size:11},padding:12}}, tooltip:{...TOPTS} },
-    scales:{ y:{beginAtZero:true,grid:{color:'#EEEEEE'},ticks:{color:'#555',callback:v=>v+'%'}}, x:{grid:{display:false},ticks:{color:'#444',font:{size:11}}} }
-  }
-});
-
-// 3. Prize with 1000 threshold line
-new Chart(document.getElementById('prizeChart'), {
-  type:'bar',
-  data:{ labels:LABELS, datasets:[
-    { label:'1회 당첨 상금(원)', data:PRIZE,
-      backgroundColor:PRIZE.map(p=>p>=1000?'rgba(21,101,192,0.2)':'rgba(198,40,40,0.15)'),
-      borderColor:PRIZE.map(p=>p>=1000?'#1565C0':'#C62828'), borderWidth:2, borderRadius:4 }
-  ]},
-  options:{ responsive:true, maintainAspectRatio:false,
-    plugins:{
-      legend:{labels:{color:'#333',font:{size:11},padding:12}},
-      tooltip:{...TOPTS, callbacks:{label:ctx=>ctx.parsed.y.toLocaleString()+'원'}},
-      annotation: {}
-    },
-    scales:{
-      y:{ beginAtZero:true, max:4000, grid:{color:'#EEEEEE'}, ticks:{color:'#555',callback:v=>v.toLocaleString()+'원'} },
-      x:{ grid:{display:false}, ticks:{color:'#444',font:{size:11}} }
-    }
-  }
-});
-
-// 4. Qual rate
-new Chart(document.getElementById('qualChart'), {
-  type:'bar',
-  data:{ labels:LABELS, datasets:[{ label:'자격획득률(%)', data:QUAL_RATE,
-    backgroundColor:COLORS.map(c=>c+'33'), borderColor:COLORS, borderWidth:2, borderRadius:4 }] },
-  options:{ responsive:true, maintainAspectRatio:false,
-    plugins:{ legend:{labels:{color:'#333',font:{size:11},padding:12}}, tooltip:{...TOPTS, callbacks:{label:ctx=>ctx.parsed.y+'%'}} },
-    scales:{ y:{beginAtZero:true,grid:{color:'#EEEEEE'},ticks:{color:'#555',callback:v=>v+'%'}}, x:{grid:{display:false},ticks:{color:'#444',font:{size:11}}} }
-  }
-});
-</script>
-</body>
-</html>
-
-<!-- ══════════════════════════════════════
-  대표님 제안 분석 섹션
-══════════════════════════════════════ -->
+<!-- 대표님 제안 분석 -->
 <div style="height:2px;background:#111;margin:48px 0 36px;"></div>
 
 <div style="padding:20px 24px;background:#F8F8F8;border:1px solid #E0E0E0;border-radius:6px;margin-bottom:28px;">
@@ -520,9 +815,7 @@ new Chart(document.getElementById('qualChart'), {
   </div>
 </div>
 
-<!-- MATRIX TABLE -->
 <div style="font-size:16px;font-weight:700;border-bottom:2px solid #222;padding-bottom:8px;margin:0 0 18px;">상금풀 × 최소기준 × 경기수 — 전체 매트릭스</div>
-
 <div style="overflow-x:auto;margin-bottom:12px;">
 <table>
   <thead>
@@ -540,7 +833,6 @@ new Chart(document.getElementById('qualChart'), {
     </tr>
   </thead>
   <tbody>
-    <!-- 3경기 -->
     <tr><td rowspan="3" style="font-weight:700;background:#F8F8F8;font-size:15px;">3경기</td>
       <td>100만원</td><td style="color:#C62828;">330원</td>
       <td style="color:#C62828;">0.55%<br><small style="color:#aaa">4회 필요</small></td>
@@ -562,8 +854,6 @@ new Chart(document.getElementById('qualChart'), {
       <td style="color:#C62828;">0.55%<br><small style="color:#aaa">4회 필요</small></td>
       <td><strong>9,000만원</strong></td>
     </tr>
-
-    <!-- 5경기 -->
     <tr style="background:#EEF4FF;">
       <td rowspan="3" style="font-weight:700;background:#E0ECFF;font-size:15px;color:#1565C0;">5경기<br>★최적</td>
       <td>100만원</td><td style="color:#1565C0;font-weight:700;">1,081원</td>
@@ -586,8 +876,6 @@ new Chart(document.getElementById('qualChart'), {
       <td style="color:#1565C0;font-weight:700;">2.65%<br><small style="color:#1565C0">1회로 가능</small></td>
       <td>9,000만원</td>
     </tr>
-
-    <!-- 7경기 -->
     <tr>
       <td rowspan="3" style="font-weight:700;background:#FFF8F8;font-size:15px;color:#C62828;">7경기<br>(현재)</td>
       <td>100만원</td><td>3,544원<br><small style="color:#aaa">실제 15,385원</small></td>
@@ -609,94 +897,49 @@ new Chart(document.getElementById('qualChart'), {
   </tbody>
 </table>
 </div>
-<p style="font-size:11px;color:#999;margin-bottom:28px;">* 7경기 이론치 기준. 실제 데이터상 당첨률이 이론의 약 23% 수준으로 관측되어 실제 보상경험률은 더 낮음.</p>
+<p style="font-size:11px;color:#999;margin-bottom:28px;">* 경기수 이력: 5경기(25.8~25.12 실측 5.19%) → 4경기(26.1~3.11 실측 11.35%) → 7경기(3.12~ 실측 0.42%)
+* 7경기는 이론 대비 실제 당첨률이 약 27% 수준으로 관측. 게임 선정 난이도 영향.</p>
 
-<!-- THREE KEY FINDINGS -->
 <div style="font-size:16px;font-weight:700;border-bottom:2px solid #222;padding-bottom:8px;margin:0 0 18px;">대표님 제안별 검토 결과</div>
-
 <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:28px;">
-
-  <!-- 제안 1: 3경기 누적 -->
   <div style="border:1px solid #E0E0E0;border-radius:6px;padding:20px;background:#FAFAFA;">
     <div style="font-size:10px;font-weight:700;letter-spacing:0.1em;color:#888;margin-bottom:8px;">제안 ①</div>
     <div style="font-size:14px;font-weight:700;margin-bottom:12px;">"3경기 당첨 자주, 푼돈 누적"</div>
-    <div style="font-size:13px;color:#333;line-height:1.8;margin-bottom:14px;">
-      직관적으로는 맞다. 하지만 <strong>100만원 상금풀 유지 시</strong> 1회 당첨금이 330원에 불과해 1천원까지 4번 당첨 필요 → 보상경험률 0.55%로 오히려 최악.
-    </div>
+    <div style="font-size:13px;color:#333;line-height:1.8;margin-bottom:14px;">직관적으로는 맞다. 하지만 <strong>100만원 상금풀 유지 시</strong> 1회 당첨금이 330원에 불과해 1천원까지 4번 당첨 필요 → 보상경험률 0.55%로 오히려 최악.</div>
     <div style="background:#FFF8F8;border-left:3px solid #C62828;padding:12px;font-size:12px;color:#333;border-radius:4px;margin-bottom:10px;">
-      <strong style="color:#C62828">⚠ 100만원 유지 시</strong><br>
-      당첨 80%는 경험하지만<br>
-      1천원 달성은 8.1%뿐 → 보상경험률 0.55%
+      <strong style="color:#C62828">⚠ 100만원 유지 시</strong><br>당첨 80%는 경험하지만<br>1천원 달성은 8.1%뿐 → 보상경험률 0.55%
     </div>
     <div style="background:#EEF4FF;border-left:3px solid #1565C0;padding:12px;font-size:12px;color:#333;border-radius:4px;">
-      <strong style="color:#1565C0">✓ 200만원으로 올리면</strong><br>
-      1회 660원 → 2회로 1천원 달성<br>
-      보상경험률 3.27% (5경기 대비 +23%)<br>
-      단, 월 비용 2배 (6,000만원)
+      <strong style="color:#1565C0">✓ 200만원으로 올리면</strong><br>1회 660원 → 2회로 1천원 달성<br>보상경험률 3.27% (5경기 대비 +23%)<br>단, 월 비용 2배 (6,000만원)
     </div>
   </div>
-
-  <!-- 제안 2: 상금 증액 -->
   <div style="border:1px solid #E0E0E0;border-radius:6px;padding:20px;background:#FAFAFA;">
     <div style="font-size:10px;font-weight:700;letter-spacing:0.1em;color:#888;margin-bottom:8px;">제안 ②</div>
     <div style="font-size:14px;font-weight:700;margin-bottom:12px;">"상금풀 200~300만원으로 증액"</div>
-    <div style="font-size:13px;color:#333;line-height:1.8;margin-bottom:14px;">
-      <strong>5경기 기준</strong>으로는 상금만 올려도 보상경험률이 유지된다 — 1회 당첨 상금이 이미 기준을 초과하기 때문. 단, 기준도 같이 올리지 않으면 비용만 증가.
-    </div>
+    <div style="font-size:13px;color:#333;line-height:1.8;margin-bottom:14px;"><strong>5경기 기준</strong>으로는 상금만 올려도 보상경험률이 유지된다 — 1회 당첨 상금이 이미 기준을 초과하기 때문. 단, 기준도 같이 올리지 않으면 비용만 증가.</div>
     <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;text-align:center;">
-      <div style="background:#F0F0F0;border-radius:4px;padding:10px;">
-        <div style="font-size:10px;color:#666;">5경기 100만</div>
-        <div style="font-size:16px;font-weight:700;color:#1565C0;">2.65%</div>
-        <div style="font-size:10px;color:#888;">기준 1천원</div>
-      </div>
-      <div style="background:#F0F0F0;border-radius:4px;padding:10px;">
-        <div style="font-size:10px;color:#666;">5경기 200만</div>
-        <div style="font-size:16px;font-weight:700;color:#1565C0;">2.65%</div>
-        <div style="font-size:10px;color:#888;">기준 2천원도 동일</div>
-      </div>
-      <div style="background:#F0F0F0;border-radius:4px;padding:10px;">
-        <div style="font-size:10px;color:#666;">5경기 300만</div>
-        <div style="font-size:16px;font-weight:700;color:#1565C0;">2.65%</div>
-        <div style="font-size:10px;color:#888;">기준 3천원도 동일</div>
-      </div>
+      <div style="background:#F0F0F0;border-radius:4px;padding:10px;"><div style="font-size:10px;color:#666;">5경기 100만</div><div style="font-size:16px;font-weight:700;color:#1565C0;">2.65%</div><div style="font-size:10px;color:#888;">기준 1천원</div></div>
+      <div style="background:#F0F0F0;border-radius:4px;padding:10px;"><div style="font-size:10px;color:#666;">5경기 200만</div><div style="font-size:16px;font-weight:700;color:#1565C0;">2.65%</div><div style="font-size:10px;color:#888;">기준 2천원도 동일</div></div>
+      <div style="background:#F0F0F0;border-radius:4px;padding:10px;"><div style="font-size:10px;color:#666;">5경기 300만</div><div style="font-size:16px;font-weight:700;color:#1565C0;">2.65%</div><div style="font-size:10px;color:#888;">기준 3천원도 동일</div></div>
     </div>
     <div style="margin-top:10px;font-size:12px;color:#C62828;font-weight:600;">→ 5경기는 상금 올려도 보상경험률이 그대로. 비용 증가 대비 효과 없음.</div>
   </div>
-
-  <!-- 제안 3: 기준 상향 -->
   <div style="border:1px solid #E0E0E0;border-radius:6px;padding:20px;background:#FAFAFA;">
     <div style="font-size:10px;font-weight:700;letter-spacing:0.1em;color:#888;margin-bottom:8px;">제안 ③</div>
     <div style="font-size:14px;font-weight:700;margin-bottom:12px;">"최소 기준 2천원~3천원 상향"</div>
-    <div style="font-size:13px;color:#333;line-height:1.8;margin-bottom:14px;">
-      <strong>5경기 + 100만원 유지 시</strong> 기준만 올리면 보상경험률이 급락한다. 상금도 함께 올려야 의미가 있음.
-    </div>
+    <div style="font-size:13px;color:#333;line-height:1.8;margin-bottom:14px;"><strong>5경기 + 100만원 유지 시</strong> 기준만 올리면 보상경험률이 급락한다. 상금도 함께 올려야 의미가 있음.</div>
     <div style="display:flex;flex-direction:column;gap:8px;">
-      <div style="display:flex;justify-content:space-between;align-items:center;padding:8px;background:#F0F0F0;border-radius:4px;">
-        <span style="font-size:12px;">5경기 + 100만 + 1천원</span>
-        <span style="font-size:14px;font-weight:700;color:#1565C0;">2.65%</span>
-      </div>
-      <div style="display:flex;justify-content:space-between;align-items:center;padding:8px;background:#FFF8F8;border-radius:4px;">
-        <span style="font-size:12px;">5경기 + 100만 + 2천원</span>
-        <span style="font-size:14px;font-weight:700;color:#C62828;">0.60% ↓77%</span>
-      </div>
-      <div style="display:flex;justify-content:space-between;align-items:center;padding:8px;background:#FFF8F8;border-radius:4px;">
-        <span style="font-size:12px;">5경기 + 100만 + 3천원</span>
-        <span style="font-size:14px;font-weight:700;color:#C62828;">0.09% ↓97%</span>
-      </div>
-      <div style="display:flex;justify-content:space-between;align-items:center;padding:8px;background:#EEF4FF;border-radius:4px;border:1px solid #1565C0;">
-        <span style="font-size:12px;">5경기 + 300만 + 3천원</span>
-        <span style="font-size:14px;font-weight:700;color:#1565C0;">2.65% ✓</span>
-      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:8px;background:#F0F0F0;border-radius:4px;"><span style="font-size:12px;">5경기 + 100만 + 1천원</span><span style="font-size:14px;font-weight:700;color:#1565C0;">2.65%</span></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:8px;background:#FFF8F8;border-radius:4px;"><span style="font-size:12px;">5경기 + 100만 + 2천원</span><span style="font-size:14px;font-weight:700;color:#C62828;">0.60% ↓77%</span></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:8px;background:#FFF8F8;border-radius:4px;"><span style="font-size:12px;">5경기 + 100만 + 3천원</span><span style="font-size:14px;font-weight:700;color:#C62828;">0.09% ↓97%</span></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:8px;background:#EEF4FF;border-radius:4px;border:1px solid #1565C0;"><span style="font-size:12px;">5경기 + 300만 + 3천원</span><span style="font-size:14px;font-weight:700;color:#1565C0;">2.65% ✓</span></div>
     </div>
     <div style="margin-top:10px;font-size:12px;color:#888;">→ 3천원 기준 유지하려면 상금풀을 300만원으로 올려야 동일 보상경험률 가능. 비용 3배.</div>
   </div>
-
 </div>
 
-<!-- FINAL INSIGHT -->
-<div style="border:1px solid #E0E0E0;border-radius:6px;padding:24px;background:#F8F8F8;margin-bottom:8px;">
+<div style="border:1px solid #E0E0E0;border-radius:6px;padding:24px;background:#F8F8F8;margin-bottom:28px;">
   <div style="font-size:15px;font-weight:700;margin-bottom:16px;border-bottom:1px solid #E0E0E0;padding-bottom:10px;">종합 판단</div>
-
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
     <div>
       <div style="font-size:12px;font-weight:700;color:#C62828;margin-bottom:8px;">❌ 하면 안 되는 조합</div>
@@ -717,84 +960,50 @@ new Chart(document.getElementById('qualChart'), {
       </div>
     </div>
   </div>
-
   <div style="margin-top:16px;padding:14px 18px;background:#fff;border:1px solid #1565C0;border-radius:4px;font-size:13px;color:#111;line-height:1.8;">
     <strong>핵심 결론:</strong> 상금풀을 올리는 것은 당첨경험률을 높이지 않는다. 기준(threshold)을 올리면 반드시 상금도 같은 비율로 올려야 보상경험률이 유지된다. <br>
     비용 대비 효과가 가장 높은 구조는 여전히 <strong style="color:#1565C0">5경기 + 100만원 + 1천원</strong>이며, 당첨경험률(유저 재미)을 최우선할 경우 <strong style="color:#1565C0">3경기 + 200만원 + 1천원</strong>이 차선책 (월 비용 6천만원).
   </div>
 </div>
 
-<!-- ══════════════════════════════════════
-  과학적 근거 섹션
-══════════════════════════════════════ -->
+<!-- 과학적 근거 섹션 -->
 <div style="height:2px;background:#111;margin:48px 0 36px;"></div>
-
 <div style="font-size:20px;font-weight:700;margin-bottom:6px;">참여자를 늘리는 보상 구조 — 논문·심리학·산업 데이터 근거</div>
 <div style="font-size:13px;color:#666;margin-bottom:20px;">행동심리학 / 게임 산업 / 모바일앱 리텐션 / 복권경제학 연구 종합</div>
 
-<div style="background:#F8F8F8;border:1px solid #E0E0E0;border-radius:6px;padding:16px 20px;margin-bottom:28px;display:flex;gap:24px;align-items:flex-start;flex-wrap:wrap;">
-  <div style="min-width:220px;">
-    <div style="font-size:11px;font-weight:700;letter-spacing:0.08em;color:#888;margin-bottom:6px;">📌 인용 기관 약어 설명</div>
-    <div style="font-size:12px;color:#333;line-height:2;">
-      <strong>NIH</strong> — National Institutes of Health<br>
-      미국 국립보건원. 미국 보건복지부 산하 세계 최대 규모의 의학·행동과학 연구기관. 연간 약 47조원 규모의 연구를 지원하며, 행동경제학·심리학·공중보건 분야에서 peer-reviewed(동료 심사) 논문을 발행. 본 보고서에서 인용한 연구는 NIH 산하 PMC(PubMed Central) 공개 저널에 게재된 <em>"Modeling lottery incentives for daily adherence"(2019)</em>.
-    </div>
-  </div>
-  <div style="width:1px;background:#E0E0E0;align-self:stretch;"></div>
-  <div style="min-width:220px;">
-    <div style="font-size:11px;font-weight:700;letter-spacing:0.08em;color:#888;margin-bottom:6px;">📌 인용 저널 약어 설명</div>
-    <div style="font-size:12px;color:#333;line-height:2;">
-      <strong>PMC</strong> — PubMed Central. NIH가 운영하는 무료 생명과학·의학 논문 아카이브.<br>
-      <strong>arXiv</strong> — 코넬대학교 운영 프리프린트 서버. 경제학·수학·컴퓨터과학 논문 공개.<br>
-      <strong>RES</strong> — Review of Economic Studies. 경제학 분야 최상위 학술지(5대 저널 중 하나).<br>
-      <strong>ScienceDirect</strong> — Elsevier 출판사의 학술논문 플랫폼.
-    </div>
+<div style="background:#F8F8F8;border:1px solid #E0E0E0;border-radius:6px;padding:18px 22px;margin-bottom:28px;">
+  <div style="font-size:11px;font-weight:700;letter-spacing:0.08em;color:#888;margin-bottom:14px;">📌 이 보고서에서 인용한 연구 출처 — 한줄 요약</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+    <div style="background:#fff;border:1px solid #E8E8E8;border-radius:4px;padding:12px 14px;"><div style="font-size:12px;font-weight:700;color:#111;margin-bottom:4px;">미국 국립보건원 연구 (2019)</div><div style="font-size:12px;color:#555;line-height:1.7;">미국 정부 산하 의학·심리 연구기관. 전 세계에서 가장 신뢰받는 연구소 중 하나. 여기서 "사람들이 매일 건강 행동을 유지하려면 보상 확률이 얼마나 되어야 하는가"를 실험한 결과를 인용.</div></div>
+    <div style="background:#fff;border:1px solid #E8E8E8;border-radius:4px;padding:12px 14px;"><div style="font-size:12px;font-weight:700;color:#111;margin-bottom:4px;">복권경제학 논문 (2024)</div><div style="font-size:12px;color:#555;line-height:1.7;">경제학 분야 최고 권위 학술지에 게재된 연구. "복권 참여자들이 어떤 조건에서 더 많이 사고, 어떤 조건에서 그만두는가"를 대규모 실제 데이터로 분석한 결과를 인용.</div></div>
+    <div style="background:#fff;border:1px solid #E8E8E8;border-radius:4px;padding:12px 14px;"><div style="font-size:12px;font-weight:700;color:#111;margin-bottom:4px;">뇌과학 도파민 연구 (2010)</div><div style="font-size:12px;color:#555;line-height:1.7;">뇌 영상 촬영으로 실제로 도파민(쾌감 물질)이 언제 분비되는지 측정한 실험. "당첨됐을 때"보다 "당첨될 것 같을 때" 더 많이 분비된다는 결과. 기대감이 참여를 만든다는 근거.</div></div>
+    <div style="background:#fff;border:1px solid #E8E8E8;border-radius:4px;padding:12px 14px;"><div style="font-size:12px;font-weight:700;color:#111;margin-bottom:4px;">모바일앱 보상 배치 연구 (2021)</div><div style="font-size:12px;color:#555;line-height:1.7;">사람들이 보상을 "나중에 받을 것"과 "바로 받을 것" 중 어떤 걸 선택하는지 실험. 보상이 늦어질수록 체감 가치가 빠르게 줄어든다는 결과. 누적 모델의 위험성 근거.</div></div>
   </div>
 </div>
 
-<!-- 1. CORE PSYCHOLOGY -->
 <div style="font-size:15px;font-weight:700;border-bottom:2px solid #222;padding-bottom:8px;margin:0 0 18px;">1. 행동심리학 — 왜 보상 빈도가 참여를 결정하는가</div>
-
 <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:24px;">
-
   <div style="border:1px solid #E0E0E0;border-radius:6px;padding:20px;background:#FAFAFA;">
     <div style="font-size:10px;font-weight:700;letter-spacing:0.1em;color:#888;margin-bottom:8px;">B.F. SKINNER (1953) · 조작적 조건화</div>
     <div style="font-size:13px;font-weight:700;color:#111;margin-bottom:10px;">변동비율 강화 스케줄 (VR Schedule)</div>
-    <div style="font-size:12px;color:#333;line-height:1.8;">
-      4가지 강화 스케줄 중 <strong>변동비율이 가장 강력한 참여 유지력</strong>을 보임. 슬롯머신, 낚시, 소셜미디어 좋아요가 대표 사례. 예측 불가능한 보상이 예측 가능한 보상보다 훨씬 높은 지속 행동을 만들어냄.
-    </div>
-    <div style="margin-top:12px;padding:10px;background:#EEF4FF;border-radius:4px;font-size:12px;color:#1565C0;font-weight:600;">
-      올킬 이벤트는 이미 VR 구조 — 매일 당첨 여부가 불확실 → 참여 동기 내재
-    </div>
+    <div style="font-size:12px;color:#333;line-height:1.8;">4가지 강화 스케줄 중 <strong>변동비율이 가장 강력한 참여 유지력</strong>을 보임. 슬롯머신, 낚시, 소셜미디어 좋아요가 대표 사례. 예측 불가능한 보상이 예측 가능한 보상보다 훨씬 높은 지속 행동을 만들어냄.</div>
+    <div style="margin-top:12px;padding:10px;background:#EEF4FF;border-radius:4px;font-size:12px;color:#1565C0;font-weight:600;">올킬 이벤트는 이미 VR 구조 — 매일 당첨 여부가 불확실 → 참여 동기 내재</div>
   </div>
-
   <div style="border:1px solid #E0E0E0;border-radius:6px;padding:20px;background:#FAFAFA;">
     <div style="font-size:10px;font-weight:700;letter-spacing:0.1em;color:#888;margin-bottom:8px;">CHASE & CLARK (2010) · 신경과학</div>
     <div style="font-size:13px;font-weight:700;color:#111;margin-bottom:10px;">도파민은 당첨 순간이 아닌 기대 순간 분비</div>
-    <div style="font-size:12px;color:#333;line-height:1.8;">
-      fMRI 연구에서 보상 획득 시점보다 <strong>기대하는 순간</strong>에 뇌의 복측선조체(ventral striatum) 도파민 활성이 더 높음. "거의 당첨" 경험(near miss)도 도파민 분비를 유발 → 계속 참여하게 만듦.
-    </div>
-    <div style="margin-top:12px;padding:10px;background:#EEF4FF;border-radius:4px;font-size:12px;color:#1565C0;font-weight:600;">
-      → 당첨 확률이 너무 낮으면(7경기) 기대감 자체가 형성되지 않음. 참여 포기.
-    </div>
+    <div style="font-size:12px;color:#333;line-height:1.8;">fMRI 연구에서 보상 획득 시점보다 <strong>기대하는 순간</strong>에 뇌의 복측선조체(ventral striatum) 도파민 활성이 더 높음. "거의 당첨" 경험(near miss)도 도파민 분비를 유발 → 계속 참여하게 만듦.</div>
+    <div style="margin-top:12px;padding:10px;background:#EEF4FF;border-radius:4px;font-size:12px;color:#1565C0;font-weight:600;">→ 당첨 확률이 너무 낮으면(7경기) 기대감 자체가 형성되지 않음. 참여 포기.</div>
   </div>
-
   <div style="border:1px solid #E0E0E0;border-radius:6px;padding:20px;background:#FAFAFA;">
     <div style="font-size:10px;font-weight:700;letter-spacing:0.1em;color:#888;margin-bottom:8px;">TEMPORAL DISCOUNTING 연구 (ScienceDirect, 2021)</div>
     <div style="font-size:13px;font-weight:700;color:#111;margin-bottom:10px;">보상이 늦을수록 체감 가치 급감</div>
-    <div style="font-size:12px;color:#333;line-height:1.8;">
-      70명 대상 실험: <strong>보상이 행동 이후 빠를수록 앱 재사용률 유의미하게 상승</strong>. 보상이 미래로 미뤄질수록 가치가 급격히 할인됨(temporal discounting). 1천원을 3개월 뒤에 받는 것보다 오늘 500원이 동기 유발에 더 효과적.
-    </div>
-    <div style="margin-top:12px;padding:10px;background:#FFF8F8;border-radius:4px;font-size:12px;color:#C62828;font-weight:600;">
-      → 3경기 누적 모델은 보상이 지연됨 → 체감 가치 하락 → 이탈 위험
-    </div>
+    <div style="font-size:12px;color:#333;line-height:1.8;">70명 대상 실험: <strong>보상이 행동 이후 빠를수록 앱 재사용률 유의미하게 상승</strong>. 보상이 미래로 미뤄질수록 가치가 급격히 할인됨. 올킬 이벤트는 매달 초기화되며 이전 달 상금은 골든타임(1~5일) 내 합산 신청 가능, 6일 0시 소멸. <strong>즉 최대 보상 대기 기간은 1개월 이내</strong> — 다회 당첨 누적이 필요한 3경기(100만원) 구조에서 월말까지 기준 미달 상태가 지속되는 것이 문제.</div>
+    <div style="margin-top:12px;padding:10px;background:#FFF8F8;border-radius:4px;font-size:12px;color:#C62828;font-weight:600;">→ 3경기(100만원) 구조는 월내 4회 당첨이 필요 — 달성 못하면 해당 월 보상 경험 자체가 소멸</div>
   </div>
-
 </div>
 
-<!-- 2. KEY FINDING: OPTIMAL WIN RATE ZONE -->
 <div style="font-size:15px;font-weight:700;border-bottom:2px solid #222;padding-bottom:8px;margin:28px 0 18px;">2. 핵심 발견 — "참여가 가장 높은 당첨 확률 구간"</div>
-
 <div style="border:1px solid #1565C0;border-radius:6px;padding:24px;background:#EEF4FF;margin-bottom:24px;">
   <div style="font-size:14px;font-weight:700;color:#1565C0;margin-bottom:16px;">복권경제학 연구 (Lockwood et al., Review of Economic Studies 2024) + NIH 행동변화 연구 (PMC, 2019)</div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
@@ -819,7 +1028,6 @@ new Chart(document.getElementById('qualChart'), {
   </div>
 </div>
 
-<!-- OPTIMAL ZONE VISUAL -->
 <div style="border:1px solid #E0E0E0;border-radius:6px;padding:24px;background:#FAFAFA;margin-bottom:24px;">
   <div style="font-size:14px;font-weight:700;margin-bottom:16px;">과학적 근거 기반 — 일일 당첨률 구간별 유저 행동</div>
   <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;text-align:center;">
@@ -844,7 +1052,7 @@ new Chart(document.getElementById('qualChart'), {
     <div style="border-radius:6px;padding:14px 8px;background:#EEF4FF;border:2px solid #4A86C8;">
       <div style="font-size:11px;color:#1565C0;font-weight:700;margin-bottom:4px;">15~20%</div>
       <div style="font-size:19px;font-weight:700;color:#1565C0;">최적 ★</div>
-      <div style="font-size:10px;color:#333;margin-top:6px;line-height:1.5;">NIH 연구 권장<br>최적점 18%에<br>가장 근접</div>
+      <div style="font-size:10px;color:#333;margin-top:6px;line-height:1.5;">미국 국립보건원 연구 권장<br>최적점 18%에<br>가장 근접</div>
       <div style="margin-top:8px;font-size:10px;font-weight:700;color:#1565C0;">3경기<br>16.85%</div>
     </div>
     <div style="border-radius:6px;padding:14px 8px;background:#FFF8F8;border:1px solid #FFCCCC;">
@@ -857,112 +1065,103 @@ new Chart(document.getElementById('qualChart'), {
   <div style="margin-top:12px;font-size:11px;color:#888;">※ 출처: NIH PMC(2019) 일일 로터리 인센티브 연구 / Lockwood et al.(2024) 복권경제학 / Murch & Clark(2016) 도파민-도박 연구 / Chase & Clark(2010) near-miss fMRI 연구</div>
 </div>
 
-<!-- 3. APP INDUSTRY DATA -->
 <div style="font-size:15px;font-weight:700;border-bottom:2px solid #222;padding-bottom:8px;margin:28px 0 18px;">3. 모바일 앱 산업 데이터 — 보상이 리텐션에 미치는 영향</div>
-
 <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px;">
-  <div style="border:1px solid #E0E0E0;border-radius:6px;padding:18px;background:#FAFAFA;text-align:center;">
-    <div style="font-size:28px;font-weight:700;color:#1565C0;">22%</div>
-    <div style="font-size:11px;color:#555;margin-top:4px;line-height:1.5;">게임화 도입 앱의<br>평균 리텐션 개선율</div>
-    <div style="font-size:10px;color:#888;margin-top:6px;">Storyly, 2025</div>
-  </div>
-  <div style="border:1px solid #E0E0E0;border-radius:6px;padding:18px;background:#FAFAFA;text-align:center;">
-    <div style="font-size:28px;font-weight:700;color:#1565C0;">30%</div>
-    <div style="font-size:11px;color:#555;margin-top:4px;line-height:1.5;">포인트 시스템 도입 시<br>리텐션 증가율</div>
-    <div style="font-size:10px;color:#888;margin-top:6px;">MoldStud, 2024</div>
-  </div>
-  <div style="border:1px solid #E0E0E0;border-radius:6px;padding:18px;background:#FAFAFA;text-align:center;">
-    <div style="font-size:28px;font-weight:700;color:#1565C0;">71%</div>
-    <div style="font-size:11px;color:#555;margin-top:4px;line-height:1.5;">게임 요소가 앱 사용<br>동기를 높인다는 사용자</div>
-    <div style="font-size:10px;color:#888;margin-top:6px;">MoldStud, 2024</div>
-  </div>
-  <div style="border:1px solid #E0E0E0;border-radius:6px;padding:18px;background:#FAFAFA;text-align:center;">
-    <div style="font-size:28px;font-weight:700;color:#C62828;">71%</div>
-    <div style="font-size:11px;color:#555;margin-top:4px;line-height:1.5;">다운로드 후 90일 내<br>앱 이탈하는 사용자</div>
-    <div style="font-size:10px;color:#888;margin-top:6px;">Storyly, 2025</div>
-  </div>
+  <div style="border:1px solid #E0E0E0;border-radius:6px;padding:18px;background:#FAFAFA;text-align:center;"><div style="font-size:28px;font-weight:700;color:#1565C0;">22%</div><div style="font-size:11px;color:#555;margin-top:4px;line-height:1.5;">게임화 도입 앱의<br>평균 리텐션 개선율</div><div style="font-size:10px;color:#888;margin-top:6px;">Storyly, 2025</div></div>
+  <div style="border:1px solid #E0E0E0;border-radius:6px;padding:18px;background:#FAFAFA;text-align:center;"><div style="font-size:28px;font-weight:700;color:#1565C0;">30%</div><div style="font-size:11px;color:#555;margin-top:4px;line-height:1.5;">포인트 시스템 도입 시<br>리텐션 증가율</div><div style="font-size:10px;color:#888;margin-top:6px;">MoldStud, 2024</div></div>
+  <div style="border:1px solid #E0E0E0;border-radius:6px;padding:18px;background:#FAFAFA;text-align:center;"><div style="font-size:28px;font-weight:700;color:#1565C0;">71%</div><div style="font-size:11px;color:#555;margin-top:4px;line-height:1.5;">게임 요소가 앱 사용<br>동기를 높인다는 사용자</div><div style="font-size:10px;color:#888;margin-top:6px;">MoldStud, 2024</div></div>
+  <div style="border:1px solid #E0E0E0;border-radius:6px;padding:18px;background:#FAFAFA;text-align:center;"><div style="font-size:28px;font-weight:700;color:#C62828;">71%</div><div style="font-size:11px;color:#555;margin-top:4px;line-height:1.5;">다운로드 후 90일 내<br>앱 이탈하는 사용자</div><div style="font-size:10px;color:#888;margin-top:6px;">Storyly, 2025</div></div>
 </div>
 
-<!-- 4. APPLIED TO OLKILL -->
 <div style="font-size:15px;font-weight:700;border-bottom:2px solid #222;padding-bottom:8px;margin:28px 0 18px;">4. 올킬 이벤트에 적용 — 과학적 근거 기반 설계 원칙</div>
-
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px;">
-
   <div style="border:1px solid #E0E0E0;border-radius:6px;padding:20px;background:#FAFAFA;">
     <div style="font-size:13px;font-weight:700;margin-bottom:12px;">원칙 ① — 당첨 경험은 월 1회 이상이어야 한다</div>
-    <div style="font-size:12px;color:#333;line-height:1.8;margin-bottom:10px;">
-      NIH(미국 국립보건원) 연구에서 일일 18%(= 월 약 80%) 당첨률이 행동 지속성 최고. 최소 기준은 <strong>월 1회 이상 당첨 경험</strong>. 월 1회도 못 받으면 유저는 이벤트 자체를 잊고 이탈. NIH 연구 최적점은 <strong>일일 18%(월 80% 수준)</strong>이며, 3경기(16.85%)가 이 기준에 가장 근접.
-    </div>
+    <div style="font-size:12px;color:#333;line-height:1.8;margin-bottom:10px;">미국 국립보건원 연구에서 일일 18%(= 월 약 80%) 당첨률이 행동 지속성 최고. 최소 기준은 <strong>월 1회 이상 당첨 경험</strong>. 월 1회도 못 받으면 유저는 이벤트 자체를 잊고 이탈. 미국 국립보건원 연구 최적점은 <strong>일일 18%(월 80% 수준)</strong>이며, 3경기(16.85%)가 이 기준에 가장 근접.</div>
     <div style="background:#F8F8F8;border-radius:4px;padding:10px;font-size:11px;">
       <div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid #EEE;"><span>7경기 현재</span><span style="color:#C62828;font-weight:700">월 당첨경험률 3.4% → 기준 미달</span></div>
       <div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid #EEE;"><span>5경기</span><span style="color:#1565C0;font-weight:700">월 38.9% → 적정</span></div>
-      <div style="display:flex;justify-content:space-between;padding:3px 0;"><span>3경기</span><span style="color:#1565C0;font-weight:700">월 80.2% → NIH 최적점(18%) 가장 근접 ✓</span></div>
+      <div style="display:flex;justify-content:space-between;padding:3px 0;"><span>3경기</span><span style="color:#1565C0;font-weight:700">월 80.2% → 미국 국립보건원 최적점(18%) 가장 근접 ✓</span></div>
     </div>
   </div>
-
   <div style="border:1px solid #E0E0E0;border-radius:6px;padding:20px;background:#FAFAFA;">
-    <div style="font-size:13px;font-weight:700;margin-bottom:12px;">원칙 ② — 1회 당첨으로 보상을 바로 느껴야 한다</div>
-    <div style="font-size:12px;color:#333;line-height:1.8;margin-bottom:10px;">
-      Temporal discounting 연구: 보상이 미래로 밀릴수록 체감 가치 급감. 당첨됐는데 "아직 신청 못함"은 동기 저하. <strong>1회 당첨 = 즉시 지급 가능</strong>해야 보상 경험이 행동으로 연결됨.
+    <div style="font-size:13px;font-weight:700;margin-bottom:12px;">원칙 ② — 사람들은 몇 번 당첨까지 참을 수 있는가</div>
+    <div style="font-size:12px;color:#333;line-height:1.8;margin-bottom:14px;">보상 지연 가치 할인 연구: 보상이 미래로 밀릴수록 체감 가치 급감. 당첨됐는데 "아직 신청 못함"은 동기 저하. <strong>1회 당첨 = 즉시 지급 가능</strong>해야 보상 경험이 행동으로 연결됨.</div>
+
+    <!-- 허용 횟수 스펙트럼 -->
+    <div style="font-size:11px;font-weight:700;color:#666;letter-spacing:0.06em;margin-bottom:8px;">▸ 최대 허용 당첨 횟수 — 심리적 수용 구간</div>
+    <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:14px;">
+
+      <div style="display:grid;grid-template-columns:80px 1fr auto;align-items:center;gap:10px;background:#EEF4FF;border:1px solid #1565C0;border-radius:4px;padding:9px 12px;">
+        <div style="font-size:12px;font-weight:700;color:#1565C0;">1회 ★ 최적</div>
+        <div style="font-size:11px;color:#333;line-height:1.6;">당첨 즉시 신청 가능 → 보상 경험이 행동과 직결<br>유저가 "이 이벤트는 된다"는 인식 형성</div>
+        <div style="font-size:11px;font-weight:700;color:#1565C0;text-align:right;">5경기 100만<br>1,081원</div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:80px 1fr auto;align-items:center;gap:10px;background:#F8F8F8;border:1px solid #CCCCCC;border-radius:4px;padding:9px 12px;">
+        <div style="font-size:12px;font-weight:700;color:#555;">2회 허용</div>
+        <div style="font-size:11px;color:#333;line-height:1.6;">"한 번 더 되면 신청할 수 있다" — 목표가 보임<br>목표 기울기 효과: 가까운 목표는 행동을 가속</div>
+        <div style="font-size:11px;font-weight:700;color:#555;text-align:right;">3경기 200만<br>660원</div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:80px 1fr auto;align-items:center;gap:10px;background:#FFFBF0;border:1px solid #FFD080;border-radius:4px;padding:9px 12px;">
+        <div style="font-size:12px;font-weight:700;color:#B07700;">3회 경계</div>
+        <div style="font-size:11px;color:#333;line-height:1.6;">"운이 좋아야 한다" — 목표가 멀게 느껴지기 시작<br>중간에 한 번이라도 놓치면 리셋 체감 → 이탈 위험</div>
+        <div style="font-size:11px;font-weight:700;color:#B07700;text-align:right;">3경기 300만<br>989원</div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:80px 1fr auto;align-items:center;gap:10px;background:#FFF8F8;border:1px solid #FFAAAA;border-radius:4px;padding:9px 12px;">
+        <div style="font-size:12px;font-weight:700;color:#C62828;">4회+ 이탈</div>
+        <div style="font-size:11px;color:#333;line-height:1.6;">월 9.6회 참여 중 4회 당첨 필요 → 달성 확률 8.1%<br>"어차피 못 받는다" 인식 → 참여 동기 붕괴</div>
+        <div style="font-size:11px;font-weight:700;color:#C62828;text-align:right;">3경기 100만<br>330원</div>
+      </div>
+
     </div>
+
+    <!-- 목표 기울기 설명 -->
+    <div style="background:#F0F0F0;border-radius:4px;padding:10px 12px;font-size:11px;color:#444;line-height:1.7;margin-bottom:10px;">
+      <strong>목표 기울기 효과 (Hull, 1932):</strong> 목표에 가까울수록 행동이 빨라진다. 1~2회는 "오늘 한 번 더 참여하면 신청할 수 있다"는 구체적 목표가 생겨 재참여를 유도. 3회 이상은 목표가 월말까지 미뤄져 유저가 추적 자체를 포기.
+    </div>
+
+    <!-- 현재 구조별 요약 -->
     <div style="background:#F8F8F8;border-radius:4px;padding:10px;font-size:11px;">
-      <div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid #EEE;"><span>3경기 100만원</span><span style="color:#C62828;font-weight:700">330원 → 4회 필요 → 기준 미달</span></div>
-      <div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid #EEE;"><span>5경기 100만원</span><span style="color:#1565C0;font-weight:700">1,081원 → 즉시 가능 ✓</span></div>
-      <div style="display:flex;justify-content:space-between;padding:3px 0;"><span>3경기 200만원</span><span style="color:#1565C0;font-weight:700">660원 → 2회면 가능 (허용 범위)</span></div>
+      <div style="font-weight:700;color:#666;margin-bottom:6px;">현재 구조별 필요 당첨 횟수</div>
+      <div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid #EEE;"><span>3경기 100만원</span><span style="color:#C62828;font-weight:700">4회 → 이탈 구간</span></div>
+      <div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid #EEE;"><span>3경기 200만원</span><span style="color:#555;font-weight:700">2회 → 허용 구간</span></div>
+      <div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid #EEE;"><span>5경기 100만원</span><span style="color:#1565C0;font-weight:700">1회 → 최적 ✓</span></div>
+      <div style="display:flex;justify-content:space-between;padding:3px 0;"><span>7경기 현재</span><span style="color:#1565C0;font-weight:700">1회 → 최적 (단, 당첨 자체가 희박)</span></div>
     </div>
   </div>
-
   <div style="border:1px solid #E0E0E0;border-radius:6px;padding:20px;background:#FAFAFA;">
     <div style="font-size:13px;font-weight:700;margin-bottom:12px;">원칙 ③ — 적정 난이도가 "기대감"을 만든다</div>
-    <div style="font-size:12px;color:#333;line-height:1.8;margin-bottom:10px;">
-      Chase & Clark(2010) 연구: 도파민은 결과가 아닌 <strong>기대 과정</strong>에서 분비. 너무 쉬우면(3경기 100만) 긴장감 없음. 너무 어려우면(7경기) 기대 자체 포기. 일일 <strong>5~15% 당첨률</strong>이 "오늘은 될 것 같은데" 기대감을 유지.
-    </div>
-    <div style="background:#EEF4FF;border-radius:4px;padding:10px;font-size:11px;color:#1565C0;font-weight:600;">
-      5경기 5.14% → 과학적 최적 구간 내 위치. 이 구간 유지가 핵심.
-    </div>
+    <div style="font-size:12px;color:#333;line-height:1.8;margin-bottom:10px;">Chase & Clark(2010) 연구: 도파민은 결과가 아닌 <strong>기대 과정</strong>에서 분비. 너무 쉬우면(3경기 100만) 긴장감 없음. 너무 어려우면(7경기) 기대 자체 포기. 일일 <strong>5~15% 당첨률</strong>이 "오늘은 될 것 같은데" 기대감을 유지.</div>
+    <div style="background:#EEF4FF;border-radius:4px;padding:10px;font-size:11px;color:#1565C0;font-weight:600;">5경기 5.14% → 과학적 최적 구간 내 위치. 이 구간 유지가 핵심.</div>
   </div>
-
   <div style="border:1px solid #E0E0E0;border-radius:6px;padding:20px;background:#FAFAFA;">
     <div style="font-size:13px;font-weight:700;margin-bottom:12px;">원칙 ④ — 상금 크기보다 보상 빈도가 참여를 만든다</div>
-    <div style="font-size:12px;color:#333;line-height:1.8;margin-bottom:10px;">
-      Lockwood et al.(2024): 2등 상금 증액은 복권 구매에 영향 없음. 잭팟(1등) 가능성 인식만 영향. 즉 <strong>상금을 200만→300만으로 올려도 당첨경험률이 그대로면 참여율은 변하지 않는다</strong>. 비용만 증가.
-    </div>
-    <div style="background:#FFF8F8;border-radius:4px;padding:10px;font-size:11px;color:#C62828;font-weight:600;">
-      상금 증액 단독으로는 효과 없음. 당첨경험률 개선이 선행되어야 함.
-    </div>
+    <div style="font-size:12px;color:#333;line-height:1.8;margin-bottom:10px;">Lockwood et al.(2024): 2등 상금 증액은 복권 구매에 영향 없음. 잭팟(1등) 가능성 인식만 영향. 즉 <strong>상금을 200만→300만으로 올려도 당첨경험률이 그대로면 참여율은 변하지 않는다</strong>. 비용만 증가.</div>
+    <div style="background:#FFF8F8;border-radius:4px;padding:10px;font-size:11px;color:#C62828;font-weight:600;">상금 증액 단독으로는 효과 없음. 당첨경험률 개선이 선행되어야 함.</div>
   </div>
-
 </div>
 
-<!-- FINAL RECOMMENDATION -->
 <div style="border:2px solid #111;border-radius:6px;padding:24px;background:#fff;margin-bottom:8px;">
   <div style="font-size:15px;font-weight:700;margin-bottom:16px;">과학적 근거 기반 최종 권고</div>
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;">
-
     <div style="border-left:4px solid #1565C0;padding-left:14px;">
       <div style="font-size:12px;font-weight:700;color:#1565C0;margin-bottom:6px;">1순위 — 3경기 + 200만원 + 1천원</div>
-      <div style="font-size:12px;color:#333;line-height:1.7;">
-        일일 당첨률 16.85% → <strong>NIH 연구 최적점(18%)에 가장 근접</strong>. 2회 당첨으로 1천원 초과. 보상경험률 3.27% (전 시나리오 최고). 당첨경험률 80%. 월 비용 6천만원.
-      </div>
+      <div style="font-size:12px;color:#333;line-height:1.7;">일일 당첨률 16.85% → <strong>미국 국립보건원 연구 최적점(18%)에 가장 근접</strong>. 2회 당첨으로 1천원 초과. 보상경험률 3.27% (전 시나리오 최고). 당첨경험률 80%. 월 비용 6천만원.</div>
     </div>
-
     <div style="border-left:4px solid #555;padding-left:14px;">
       <div style="font-size:12px;font-weight:700;color:#333;margin-bottom:6px;">2순위 — 5경기 + 100만원 + 1천원</div>
-      <div style="font-size:12px;color:#333;line-height:1.7;">
-        일일 당첨률 5.14% → 적정 구간. 1회 당첨으로 즉시 1천원 초과. 보상경험률 2.65%. 월 비용 3천만원. <strong>비용 효율 최고</strong>. 예산 제약 시 최선.
-      </div>
+      <div style="font-size:12px;color:#333;line-height:1.7;">일일 당첨률 5.14% → 적정 구간. 1회 당첨으로 즉시 1천원 초과. 보상경험률 2.65%. 월 비용 3천만원. <strong>비용 효율 최고</strong>. 예산 제약 시 최선.</div>
     </div>
-
     <div style="border-left:4px solid #888;padding-left:14px;">
       <div style="font-size:12px;font-weight:700;color:#333;margin-bottom:6px;">3순위 — 4경기 + 100만원 + 1천원</div>
-      <div style="font-size:12px;color:#333;line-height:1.7;">
-        일일 당첨률 9.31% → 적정 구간. 2회 당첨으로 1천원. 보상경험률 1.53%. 당첨경험률 59% → 유저 체감 당첨 빈도↑. 비용 3천만원 유지.
-      </div>
+      <div style="font-size:12px;color:#333;line-height:1.7;">일일 당첨률 9.31% → 적정 구간. 2회 당첨으로 1천원. 보상경험률 1.53%. 당첨경험률 59% → 유저 체감 당첨 빈도↑. 비용 3천만원 유지.</div>
     </div>
-
   </div>
   <div style="margin-top:16px;padding:14px;background:#F8F8F8;border-radius:4px;font-size:12px;color:#333;line-height:1.8;">
-    <strong>대표님 제안에 대한 수정된 과학적 판단:</strong> "3경기 + 상금 증액"은 <strong>과학적으로 정당하다</strong>. NIH 연구 최적 당첨률(일일 18%)에 3경기(16.85%)가 가장 근접하며, 200만원 상금풀로 올리면 보상경험률도 3.27%로 전 시나리오 중 최고. 단 <strong>상금 증액 없이 기준만 올리는 것(1천→3천원)</strong>은 temporal discounting으로 이탈 가속 → 반드시 상금풀을 함께 올려야 함. <br>
+    <strong>대표님 제안에 대한 수정된 과학적 판단:</strong> "3경기 + 상금 증액"은 <strong>과학적으로 정당하다</strong>. 미국 국립보건원 연구 최적 당첨률(일일 18%)에 3경기(16.85%)가 가장 근접하며, 200만원 상금풀로 올리면 보상경험률도 3.27%로 전 시나리오 중 최고. 단 <strong>상금 증액 없이 기준만 올리는 것(1천→3천원)</strong>은 보상 지연 효과로 이탈 가속 → 반드시 상금풀을 함께 올려야 함. <br>
     <strong style="color:#1565C0;">참여자를 가장 늘리는 구조 (비용 감수 가능 시): 3경기 + 200만원 + 1천원</strong> → 당첨경험률 80%, 보상경험률 3.27%, 월 6천만원.<br>
     <strong style="color:#555;">예산 제약 시: 5경기 + 100만원 + 1천원 + 신청 허들 제거</strong> → 비용 동일, 보상경험률 5~10% 개선.
   </div>
@@ -971,3 +1170,257 @@ new Chart(document.getElementById('qualChart'), {
 <div style="font-size:10px;color:#AAAAAA;margin-top:12px;line-height:1.8;">
 참고 문헌: B.F. Skinner(1953) Science and Human Behavior / Chase & Clark(2010) Gambling severity predicts midbrain response to near-miss outcomes, Journal of Neuroscience / Murch & Clark(2016) Dopamine gambling research / Lockwood, Allcott, Taubinsky & Sial(2024) Optimal Lottery Design, Review of Economic Studies / NIH PMC Modeling lottery incentives for daily adherence(2019) / Storyly Gamification Strategies(2025) / MoldStud Mobile App Engagement(2024) / ScienceDirect Reward Placement Study(2021)
 </div>
+
+</div><!-- /sec-sim -->
+
+</div><!-- /wrap -->
+
+<script>
+Chart.defaults.color = '#444';
+Chart.defaults.borderColor = '#E0E0E0';
+
+/* ── SECTION 1: updated 차트 데이터 ── */
+const MONTHS = ['25.8월*','25.9월','25.10월','25.11월','25.12월','26.1월','26.2월','26.3월','26.4월','26.5월*'];
+const IS_7GAME = [false,false,false,false,false,false,false,false,true,true];
+const IS_4GAME = [false,false,false,false,false,true,true,false,false,false];
+const AVG_PART   = [33674,22257,22004,21958,20712,20827,20000,20325,20738,17859];
+const AVG_WIN    = [1864,1593,1020,716,1142,2184,2639,759,84,55];
+const WIN_RATE   = [5.53,7.16,4.64,3.26,5.51,10.49,13.20,3.73,0.40,0.31];
+const AVG_PRIZE  = [96512,5160,5921,17507,6015,1875,2967,74371,88036,127214];
+const QUAL_RATE  = [41.22,49.70,35.93,26.87,41.09,63.46,71.83,30.13,3.80,2.89];
+const REWARD_EXP = [2.80,3.38,2.44,1.83,2.79,4.32,4.88,2.05,0.26,0.20];
+const ZERO_DAYS  = [0,1,0,0,0,0,0,2,2,3];
+const TOTAL_DAYS = [11,30,31,30,31,31,28,31,30,21];
+const TYPICAL_PRIZE = AVG_WIN.map((w,i) => w > 0 ? Math.round(1000000/w) : 0);
+
+const prev = [null,...REWARD_EXP];
+const tbody = document.getElementById('monthTable');
+const structLabels = ['5경기','5경기','5경기','5경기','5경기','4경기','4경기','전환기','7경기+이월','7경기+이월'];
+MONTHS.forEach((m,i) => {
+  const is7 = IS_7GAME[i];
+  const isTrans = structLabels[i]==='전환기';
+  const cls = is7 ? 'alert' : (REWARD_EXP[i]>=3 ? 'best' : (isTrans?'warn':''));
+  const diff = i===0 ? '—' : ((REWARD_EXP[i]-REWARD_EXP[i-1])>=0 ? '+':'') + (REWARD_EXP[i]-REWARD_EXP[i-1]).toFixed(2)+'%p';
+  const diffColor = i>0 && REWARD_EXP[i]<REWARD_EXP[i-1] ? '#C62828' : '#1565C0';
+  const structBadge = is7 ? '<span class="badge p">7경기</span>' : (isTrans?'<span class="badge y">전환기</span>':(IS_4GAME[i]?'<span class="badge r">4경기</span>':'<span class="badge g">5경기</span>'));
+  tbody.innerHTML += `<tr class="${cls}">
+    <td><strong>${m}</strong></td>
+    <td>${structBadge}</td>
+    <td>${AVG_PART[i].toLocaleString()}명</td>
+    <td>${AVG_WIN[i].toLocaleString()}명</td>
+    <td>${WIN_RATE[i]}%</td>
+    <td>${TYPICAL_PRIZE[i].toLocaleString()}원</td>
+    <td>${IS_7GAME[i] ? '<span style="color:#F5C518">'+ZERO_DAYS[i]+'일 이월</span>' : ZERO_DAYS[i]>0 ? '<span style="color:#888">'+ZERO_DAYS[i]+'일 소멸</span>' : '0일'}</td>
+    <td>${QUAL_RATE[i]}%</td>
+    <td style="font-weight:700">${REWARD_EXP[i]}%</td>
+    <td style="color:${i===0?'#888':diffColor}">${diff}</td>
+  </tr>`;
+});
+
+new Chart(document.getElementById('partChart'), {
+  type:'bar',
+  data:{
+    labels:MONTHS,
+    datasets:[
+      { label:'일평균 참여자', data:AVG_PART, backgroundColor:'rgba(21,101,192,0.15)', borderColor:'#1565C0', borderWidth:2, borderRadius:4, yAxisID:'y' },
+      { label:'일평균 당첨자', data:AVG_WIN, backgroundColor:MONTHS.map((_,i)=>IS_7GAME[i]?'rgba(198,40,40,0.5)':'rgba(21,101,192,0.4)'), borderColor:MONTHS.map((_,i)=>IS_7GAME[i]?'#C62828':'#1565C0'), borderWidth:2, borderRadius:4, yAxisID:'y2' }
+    ]
+  },
+  options:{
+    responsive:true, maintainAspectRatio:false,
+    plugins:{ legend:{labels:{color:'#333',font:{size:12},padding:14}}, tooltip:{backgroundColor:'rgba(255,255,255,0.97)',titleColor:'#111',bodyColor:'#333',borderColor:'#CCC',borderWidth:1} },
+    scales:{
+      y:{ position:'left', beginAtZero:true, grid:{color:'#EEEEEE'}, ticks:{color:'#555',callback:v=>v.toLocaleString()+'명'} },
+      y2:{ position:'right', beginAtZero:true, grid:{display:false}, ticks:{color:'#555',callback:v=>v.toLocaleString()+'명'} },
+      x:{ grid:{display:false}, ticks:{color:'#555',font:{size:11}} }
+    }
+  }
+});
+
+new Chart(document.getElementById('prizeChart'), {
+  type:'bar',
+  data:{
+    labels:MONTHS,
+    datasets:[{ label:'1인당 평균 상금 (원)', data:TYPICAL_PRIZE, backgroundColor:MONTHS.map((_,i)=>IS_7GAME[i]?'rgba(198,40,40,0.5)':'rgba(21,101,192,0.4)'), borderColor:MONTHS.map((_,i)=>IS_7GAME[i]?'#C62828':'#1565C0'), borderWidth:2, borderRadius:4 }]
+  },
+  options:{
+    responsive:true, maintainAspectRatio:false,
+    plugins:{legend:{labels:{color:'#333',font:{size:12},padding:14}}, tooltip:{backgroundColor:'rgba(255,255,255,0.97)',titleColor:'#111',bodyColor:'#333',borderColor:'#CCC',borderWidth:1,callbacks:{label:ctx=>ctx.dataset.label+': '+ctx.parsed.y.toLocaleString()+'원'}}},
+    scales:{ y:{beginAtZero:true, grid:{color:'#EEEEEE'}, ticks:{color:'#555',callback:v=>v.toLocaleString()+'원'}}, x:{grid:{display:false}, ticks:{color:'#555',font:{size:11}}} }
+  }
+});
+
+new Chart(document.getElementById('expChart'), {
+  type:'line',
+  data:{
+    labels:MONTHS,
+    datasets:[{
+      label:'보상경험률 (추정 %)', data:REWARD_EXP, borderColor:'#1565C0',
+      backgroundColor: ctx => { const g = ctx.chart.ctx.createLinearGradient(0,0,0,200); g.addColorStop(0,'rgba(21,101,192,0.1)'); g.addColorStop(1,'rgba(21,101,192,0)'); return g; },
+      borderWidth:3, pointRadius:6,
+      pointBackgroundColor:MONTHS.map((_,i)=>IS_7GAME[i]?'#C62828':'#1565C0'),
+      pointBorderColor:'#FFF', pointBorderWidth:2, fill:true, tension:0.3
+    }]
+  },
+  options:{
+    responsive:true, maintainAspectRatio:false,
+    plugins:{ legend:{labels:{color:'#333',font:{size:12},padding:14}}, tooltip:{backgroundColor:'rgba(255,255,255,0.97)',titleColor:'#111',bodyColor:'#333',borderColor:'#CCC',borderWidth:1,callbacks:{label:ctx=>'보상경험률: '+ctx.parsed.y+'%'}} },
+    scales:{ y:{beginAtZero:true, grid:{color:'#EEEEEE'}, ticks:{color:'#555',callback:v=>v+'%'}}, x:{grid:{display:false}, ticks:{color:'#555',font:{size:11}}} }
+  }
+});
+
+new Chart(document.getElementById('rateChart'), {
+  type:'bar',
+  data:{
+    labels:MONTHS,
+    datasets:[{ label:'일일 당첨률 (%)', data:WIN_RATE, backgroundColor:MONTHS.map((_,i)=>IS_7GAME[i]?'rgba(198,40,40,0.5)':'rgba(21,101,192,0.35)'), borderColor:MONTHS.map((_,i)=>IS_7GAME[i]?'#C62828':'#1565C0'), borderWidth:2, borderRadius:4 }]
+  },
+  options:{
+    responsive:true, maintainAspectRatio:false,
+    plugins:{legend:{labels:{color:'#333',font:{size:12},padding:14}}, tooltip:{backgroundColor:'rgba(255,255,255,0.97)',titleColor:'#111',bodyColor:'#333',borderColor:'#CCC',borderWidth:1,callbacks:{label:ctx=>'당첨률: '+ctx.parsed.y+'%'}}},
+    scales:{ y:{beginAtZero:true, grid:{color:'#EEEEEE'}, ticks:{color:'#555',callback:v=>v+'%'}}, x:{grid:{display:false}, ticks:{color:'#555',font:{size:11}}} }
+  }
+});
+
+/* ── SECTION 2: 시뮬레이션 차트 데이터 ── */
+Chart.defaults.color = '#555';
+Chart.defaults.borderColor = '#E8E8E8';
+
+const SIM_LABELS = ['3경기', '4경기', '5경기★', '6경기', '7경기(실제)'];
+const SIM_COLORS = ['#AAAAAA','#AAAAAA','#1565C0','#AAAAAA','#C62828'];
+const WIN_EXP   = [80.2, 59.1, 38.9, 23.9, 3.4];
+const SIM_QUAL  = [8.1, 22.5, 38.9, 23.9, 3.4];
+const REWARD    = [0.55, 1.53, 2.65, 1.62, 0.23];
+const PRIZE     = [330, 597, 1081, 1957, 15385];
+
+const TOPTS = { backgroundColor:'rgba(255,255,255,0.97)', titleColor:'#111', bodyColor:'#333', borderColor:'#CCC', borderWidth:1 };
+
+new Chart(document.getElementById('rewardChart'), {
+  type:'bar',
+  data:{ labels:SIM_LABELS, datasets:[{ label:'보상경험률(%)', data:REWARD, backgroundColor:SIM_COLORS.map(c=>c+'33'), borderColor:SIM_COLORS, borderWidth:2, borderRadius:4 }] },
+  options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{labels:{color:'#333',font:{size:11},padding:12}}, tooltip:{...TOPTS, callbacks:{label:ctx=>ctx.parsed.y+'%'}} }, scales:{ y:{beginAtZero:true,grid:{color:'#EEEEEE'},ticks:{color:'#555',callback:v=>v+'%'}}, x:{grid:{display:false},ticks:{color:'#444',font:{size:11}}} } }
+});
+
+new Chart(document.getElementById('dualChart'), {
+  type:'bar',
+  data:{ labels:SIM_LABELS, datasets:[
+    { label:'당첨경험률(%)', data:WIN_EXP, backgroundColor:'rgba(80,80,80,0.2)', borderColor:'#888', borderWidth:2, borderRadius:4 },
+    { label:'보상경험률(%)', data:REWARD, backgroundColor:SIM_COLORS.map(c=>c+'44'), borderColor:SIM_COLORS, borderWidth:2, borderRadius:4 }
+  ]},
+  options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{labels:{color:'#333',font:{size:11},padding:12}}, tooltip:{...TOPTS} }, scales:{ y:{beginAtZero:true,grid:{color:'#EEEEEE'},ticks:{color:'#555',callback:v=>v+'%'}}, x:{grid:{display:false},ticks:{color:'#444',font:{size:11}}} } }
+});
+
+new Chart(document.getElementById('simPrizeChart'), {
+  type:'bar',
+  data:{ labels:SIM_LABELS, datasets:[{ label:'1회 당첨 상금(원)', data:PRIZE, backgroundColor:PRIZE.map(p=>p>=1000?'rgba(21,101,192,0.2)':'rgba(198,40,40,0.15)'), borderColor:PRIZE.map(p=>p>=1000?'#1565C0':'#C62828'), borderWidth:2, borderRadius:4 }]},
+  options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{labels:{color:'#333',font:{size:11},padding:12}}, tooltip:{...TOPTS, callbacks:{label:ctx=>ctx.parsed.y.toLocaleString()+'원'}} }, scales:{ y:{ beginAtZero:true, max:4000, grid:{color:'#EEEEEE'}, ticks:{color:'#555',callback:v=>v.toLocaleString()+'원'} }, x:{grid:{display:false},ticks:{color:'#444',font:{size:11}}} } }
+});
+
+new Chart(document.getElementById('qualChart'), {
+  type:'bar',
+  data:{ labels:SIM_LABELS, datasets:[{ label:'자격획득률(%)', data:SIM_QUAL, backgroundColor:SIM_COLORS.map(c=>c+'33'), borderColor:SIM_COLORS, borderWidth:2, borderRadius:4 }] },
+  options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{labels:{color:'#333',font:{size:11},padding:12}}, tooltip:{...TOPTS, callbacks:{label:ctx=>ctx.parsed.y+'%'}} }, scales:{ y:{beginAtZero:true,grid:{color:'#EEEEEE'},ticks:{color:'#555',callback:v=>v+'%'}}, x:{grid:{display:false},ticks:{color:'#444',font:{size:11}}} } }
+});
+
+/* ── 실측 데이터 ── */
+const REAL_DATA = [
+  {m:'25.9월', s:'5경기', winners:38200, over1k:8699, ratio:22.8, prize:2661360, note:'5경기 최다 당첨'},
+  {m:'25.10월', s:'5경기', winners:20388, over1k:5037, ratio:24.7, prize:5781260, note:''},
+  {m:'25.11월', s:'5경기', winners:15925, over1k:6645, ratio:41.7, prize:7274010, note:'1천원+ 비율 최고'},
+  {m:'25.12월', s:'5경기', winners:21742, over1k:8001, ratio:36.8, prize:8405540, note:''},
+  {m:'26.1월', s:'4경기', winners:30311, over1k:9221, ratio:30.4, prize:5756870, note:'4경기 최다 당첨'},
+  {m:'26.2월', s:'4경기', winners:29819, over1k:6878, ratio:23.1, prize:6590960, note:''},
+  {m:'26.3월', s:'전환기', winners:20203, over1k:3371, ratio:16.7, prize:16125550, note:'구조 전환'},
+  {m:'26.4월', s:'7경기', winners:2421, over1k:2421, ratio:100.0, prize:16697530, note:'당첨자 88% 급감'},
+  {m:'26.5월*', s:'7경기', winners:1123, over1k:1123, ratio:100.0, prize:10706370, note:'21일까지 (미완료)'},
+];
+const rdTbody = document.getElementById('realDataTable');
+REAL_DATA.forEach(d => {
+  const is7 = d.s==='7경기';
+  const isBest = d.m==='26.1월';
+  const cls = is7 ? 'row-actual' : (isBest ? 'row-best' : '');
+  const sBadge = is7 ? '<span class="tag tag-red">7경기</span>'
+    : d.s==='전환기' ? '<span class="tag tag-gray">전환기</span>'
+    : d.s==='4경기' ? '<span class="tag tag-gray">4경기</span>'
+    : '<span class="tag tag-blue">5경기</span>';
+  rdTbody.innerHTML += `<tr class="${cls}">
+    <td><strong>${d.m}</strong></td>
+    <td>${sBadge}</td>
+    <td style="font-weight:700">${d.winners.toLocaleString()}명</td>
+    <td>${d.over1k.toLocaleString()}명</td>
+    <td style="font-weight:700;color:${is7?'#1565C0':d.ratio>=35?'#1565C0':'#555'}">${d.ratio}%</td>
+    <td>${(d.prize/10000).toFixed(0)}만원</td>
+    <td style="font-size:11px;color:${is7?'#C62828':'#666'}">${d.note}</td>
+  </tr>`;
+});
+
+/* 실측 당첨경험자 차트 */
+const REAL_MONTHS = REAL_DATA.map(d=>d.m);
+const REAL_WINNERS = REAL_DATA.map(d=>d.winners);
+const REAL_OVER1K  = REAL_DATA.map(d=>d.over1k);
+const REAL_IS7 = REAL_DATA.map(d=>d.s==='7경기');
+
+new Chart(document.getElementById('realWinnerChart'), {
+  type:'bar',
+  data:{
+    labels: REAL_MONTHS,
+    datasets:[
+      { label:'월 당첨 경험자 (실측)', data:REAL_WINNERS,
+        backgroundColor: REAL_IS7.map(v=>v?'rgba(198,40,40,0.5)':'rgba(21,101,192,0.35)'),
+        borderColor: REAL_IS7.map(v=>v?'#C62828':'#1565C0'),
+        borderWidth:2, borderRadius:4 },
+      { label:'1천원+ 수령 가능자', data:REAL_OVER1K,
+        backgroundColor: REAL_IS7.map(v=>v?'rgba(198,40,40,0.8)':'rgba(21,101,192,0.7)'),
+        borderColor: REAL_IS7.map(v=>v?'#C62828':'#1565C0'),
+        borderWidth:2, borderRadius:4 }
+    ]
+  },
+  options:{
+    responsive:true, maintainAspectRatio:false,
+    plugins:{ legend:{labels:{color:'#333',font:{size:12},padding:14}},
+      tooltip:{backgroundColor:'rgba(255,255,255,0.97)',titleColor:'#111',bodyColor:'#333',borderColor:'#CCC',borderWidth:1,
+        callbacks:{label:ctx=>ctx.dataset.label+': '+ctx.parsed.y.toLocaleString()+'명'}} },
+    scales:{
+      y:{beginAtZero:true, grid:{color:'#EEEEEE'}, ticks:{color:'#555',callback:v=>v.toLocaleString()+'명'}},
+      x:{grid:{display:false}, ticks:{color:'#555',font:{size:11}}}
+    }
+  }
+});
+
+/* 신규참여자 실측 차트 */
+const NEW_MONTHS_REAL = ['25.8월','25.9월','25.10월','25.11월','25.12월','26.1월','26.2월','26.3월','26.4월','26.5월*'];
+const NEW_DAILY_AVG   = [55, 38.3, 20.5, 18.4, 14.8, 27.9, 23.4, 36.5, 49.8, 42.2]; // daily avg new participants
+const TOTAL_PART_AVG  = [33674,22257,22004,21958,20712,20827,20000,20325,20738,17859];
+const NEW_IS7 = [false,false,false,false,false,false,false,false,true,true];
+
+new Chart(document.getElementById('newUserChart'), {
+  type:'bar',
+  data:{
+    labels: NEW_MONTHS_REAL,
+    datasets:[
+      { label:'일평균 총 참여자 (÷100)', data:TOTAL_PART_AVG.map(v=>Math.round(v/100)),
+        backgroundColor:'rgba(21,101,192,0.12)', borderColor:'#1565C0', borderWidth:2, borderRadius:4, yAxisID:'y' },
+      { label:'일평균 신규참여자', data:NEW_DAILY_AVG,
+        backgroundColor:NEW_IS7.map(v=>v?'rgba(198,40,40,0.6)':'rgba(21,101,192,0.6)'),
+        borderColor:NEW_IS7.map(v=>v?'#C62828':'#1565C0'),
+        borderWidth:2, borderRadius:4, yAxisID:'y2' }
+    ]
+  },
+  options:{
+    responsive:true, maintainAspectRatio:false,
+    plugins:{ legend:{labels:{color:'#333',font:{size:12},padding:14}},
+      tooltip:{backgroundColor:'rgba(255,255,255,0.97)',titleColor:'#111',bodyColor:'#333',borderColor:'#CCC',borderWidth:1} },
+    scales:{
+      y:{ position:'left', beginAtZero:true, grid:{color:'#EEEEEE'},
+        ticks:{color:'#1565C0',callback:v=>(v*100).toLocaleString()+'명'},
+        title:{display:true,text:'총 참여자',color:'#1565C0',font:{size:11}} },
+      y2:{ position:'right', beginAtZero:true, grid:{display:false},
+        ticks:{color:'#C62828',callback:v=>v+'명'},
+        title:{display:true,text:'신규참여자',color:'#C62828',font:{size:11}} },
+      x:{grid:{display:false}, ticks:{color:'#555',font:{size:11}}}
+    }
+  }
+});
+</script>
+</body>
+</html>
