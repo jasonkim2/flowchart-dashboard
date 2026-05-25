@@ -136,19 +136,57 @@ tr.ref td:first-child { font-size:12px; }
 
   <!-- 개념 설명 -->
   <div class="concept">
-    <div class="concept-title">📖 표를 보기 전에 — 왜 100%가 아닌가</div>
+    <div class="concept-title">한 달 30번 중 4번 당첨될 확률 = 76.8% — 이 숫자가 나오는 이유</div>
     <div class="concept-sub">이항분포 (二項分布, Binomial Distribution) — <strong style="color:#111;">반복 시도에서 성공 횟수가 얼마나 퍼지는지를 나타내는 확률 분포</strong></div>
 
-    <div class="concept-body">
-      3경기 올킬의 하루 당첨 확률은 <strong>16.85%</strong>입니다. 한 달(30일) 동안 매일 참여하면 평균적으로 <strong>30 × 16.85% = 5.1회</strong> 당첨이 기대됩니다.<br><br>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:center;">
 
-      하지만 <strong>평균 5.1회는 모든 유저가 정확히 5.1번 당첨된다는 뜻이 아닙니다.</strong><br>
-      동전을 30번 던지면 항상 15번 앞면이 나오지 않는 것처럼, 실제로는 유저마다 당첨 횟수가 다릅니다.
-      <span class="hl">운이 좋은 달</span>은 7~8회, <span class="hl-r">운이 나쁜 달</span>은 2~3회가 나올 수도 있습니다.<br><br>
+      <!-- 공식 -->
+      <div style="background:#F7F7F5;border:1px solid #E0E0DC;border-radius:6px;padding:20px 24px;">
+        <div style="font-size:10px;font-weight:700;letter-spacing:0.1em;color:#888;margin-bottom:14px;">공식</div>
+        <div style="font-family:'Courier New',monospace;font-size:14px;color:#111;line-height:2.2;">
+          <div>P(X ≥ k) = <span style="font-size:18px;">Σ</span> <sup>n</sup>C<sub>i</sub> × p<sup>i</sup> × (1−p)<sup>n−i</sup></div>
+        </div>
+        <div style="font-size:11px;color:#888;margin-top:12px;font-family:'Noto Sans KR',sans-serif;line-height:2.0;border-top:1px solid #E0E0DC;padding-top:12px;">
+          <div style="display:flex;gap:8px;align-items:baseline;">
+            <span style="font-family:'Courier New',monospace;color:#111;font-weight:700;min-width:14px;">n</span>
+            <span>= 30 &nbsp;<span style="color:#bbb;">|</span>&nbsp; 한 달 동안 참여하는 총 횟수</span>
+          </div>
+          <div style="display:flex;gap:8px;align-items:baseline;">
+            <span style="font-family:'Courier New',monospace;color:#111;font-weight:700;min-width:14px;">p</span>
+            <span>= 0.1685 &nbsp;<span style="color:#bbb;">|</span>&nbsp; 하루 당첨될 확률 (16.85%)</span>
+          </div>
+          <div style="display:flex;gap:8px;align-items:baseline;">
+            <span style="font-family:'Courier New',monospace;color:#111;font-weight:700;min-width:14px;">k</span>
+            <span>= 4 &nbsp;<span style="color:#bbb;">|</span>&nbsp; 1천원 달성에 필요한 최소 당첨 횟수</span>
+          </div>
+          <div style="display:flex;gap:8px;align-items:baseline;">
+            <span style="font-family:'Courier New',monospace;color:#111;font-weight:700;min-width:14px;">P</span>
+            <span>= &nbsp;<span style="color:#bbb;">|</span>&nbsp; n번 참여 중 k번 이상 당첨될 확률</span>
+          </div>
+        </div>
+      </div>
 
-      <strong>100만원 기준 1,000원 달성에는 4회 당첨이 필요합니다.</strong><br>
-      30번 참여 중 4회 이상 당첨될 확률을 계산하면 <span class="hl">76.8%</span>이고, 나머지 <span class="hl-r">23.2%</span>는 그 달 운이 나빠 3회 이하로 끝납니다.
+      <!-- 결과 -->
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <div style="background:#EEF4FF;border:1px solid #1565C0;border-radius:6px;padding:16px 20px;display:flex;justify-content:space-between;align-items:center;">
+          <div>
+            <div style="font-size:10px;font-weight:700;color:#888;margin-bottom:4px;">4회 이상 당첨 확률</div>
+            <div style="font-size:11px;color:#555;">→ 1천원 달성</div>
+          </div>
+          <div style="font-size:32px;font-weight:900;color:#1565C0;">76.8%</div>
+        </div>
+        <div style="background:#FFF8F8;border:1px solid #C62828;border-radius:6px;padding:16px 20px;display:flex;justify-content:space-between;align-items:center;">
+          <div>
+            <div style="font-size:10px;font-weight:700;color:#888;margin-bottom:4px;">3회 이하 당첨 확률</div>
+            <div style="font-size:11px;color:#555;">→ 1천원 미달</div>
+          </div>
+          <div style="font-size:32px;font-weight:900;color:#C62828;">23.2%</div>
+        </div>
+      </div>
+
     </div>
+
   </div>
 
   <!-- 시나리오 A: 전원 신청 -->
@@ -156,7 +194,6 @@ tr.ref td:first-child { font-size:12px; }
     <span class="sc-badge a">시나리오 A</span>
     <div>
       <div class="sc-title">달성자 전원 신청 — 최대 지급 비용 (상한선)</div>
-      <div class="sc-desc">1천원 이상 누적한 모든 유저가 신청한다고 가정</div>
     </div>
   </div>
 
@@ -172,9 +209,9 @@ tr.ref td:first-child { font-size:12px; }
           <th colspan="2" style="border-left:2px solid #333;">기준 3,000원</th>
         </tr>
         <tr class="h2">
-          <th class="sep-dark">달성률</th><th>예상 월 지급액</th>
-          <th class="sep-dark">달성률</th><th>예상 월 지급액</th>
-          <th class="sep-dark">달성률</th><th>예상 월 지급액</th>
+          <th class="sep-dark">보상경험률</th><th>예상 월 지급액</th>
+          <th class="sep-dark">보상경험률</th><th>예상 월 지급액</th>
+          <th class="sep-dark">보상경험률</th><th>예상 월 지급액</th>
         </tr>
       </thead>
       <tbody>
@@ -223,8 +260,6 @@ tr.ref td:first-child { font-size:12px; }
     </table>
   </div>
 
-  <div class="fn">※ 달성률 = 30번 참여 중 필요 횟수 이상 당첨될 확률 / 예상 월 지급액 = 월 총 상금풀 × 달성률</div>
-
   <div class="divider"></div>
 
   <!-- 시나리오 B: 실측 신청률 -->
@@ -232,7 +267,10 @@ tr.ref td:first-child { font-size:12px; }
     <span class="sc-badge b">시나리오 B</span>
     <div>
       <div class="sc-title">실측 신청률 51.9% 적용 — 현실적 예상 비용</div>
-      <div class="sc-desc">7경기 실측 기준 — 달성자 중 51.9%가 실제 신청 / 당첨경험률 99.6%로 상승 가능성 있음</div>
+      <div style="font-size:12px;color:#555;margin-top:5px;">
+        1천원 달성자 <strong>76.8%</strong> × 실제 신청률 <strong>51.9%</strong> = <strong style="color:#1565C0;">39.9%</strong>
+        &nbsp;—&nbsp; 달성했어도 신청하지 않는 유저가 있기 때문
+      </div>
     </div>
   </div>
 
@@ -297,11 +335,6 @@ tr.ref td:first-child { font-size:12px; }
         </tr>
       </tbody>
     </table>
-  </div>
-
-  <div class="fn">
-    ※ 보상경험률 = 달성률 × 51.9% (7경기 실측 신청률) / 예상 월 지급액 = 월 총 상금풀 × 보상경험률<br>
-    ※ 실제 지급액은 시나리오 A(상한)와 시나리오 B(현실적 추정) 사이에서 결정됨
   </div>
 
 </div>
