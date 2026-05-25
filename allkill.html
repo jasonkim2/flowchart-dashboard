@@ -191,9 +191,9 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Apple SD Gothic 
 
 <div class="notice red">
   <h3>🔄 4월 구조 변경 핵심 요약</h3>
-  <p>• 5경기(25.8~12): <span class="hl">5경기 올킬</span> — 일평균 당첨자 1,179명, 일일 당첨률 5.19%</p>
-  <p>• 4경기(26.1~3.11): <span class="hl">4경기 올킬</span> — 일평균 당첨자 2,328명, 일일 당첨률 11.35%, 월당첨경험률 66.4%</p>
-  <p>• 7경기(3.12~): <span class="hl">7경기 올킬 + 이월제</span> — 일평균 당첨자 82명, 일일 당첨률 0.42%, 월당첨경험률 3.9%<br>보상경험률 <span class="hl">약 0.2%</span> — 4경기 대비 97% 감소</p>
+  <p>• 5경기(25.8~12): <span class="hl">5경기 올킬</span> — 일평균 당첨자 1,179명, 당첨경험률 5.19%</p>
+  <p>• 4경기(26.1~3.11): <span class="hl">4경기 올킬</span> — 일평균 당첨자 2,328명, 당첨경험률 11.35%, 월당첨경험률 66.4%</p>
+  <p>• 7경기(3.12~): <span class="hl">7경기 올킬 + 이월제</span> — 일평균 당첨자 82명, 당첨경험률 0.42%, 월당첨경험률 3.9%<br>보상경험률 <span class="hl">약 0.2%</span> — 4경기 대비 97% 감소</p>
 </div>
 
 <div class="section-title">📊 전체 기간 핵심 지표</div>
@@ -238,7 +238,7 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Apple SD Gothic 
     <thead>
       <tr>
         <th>월</th><th>구조</th><th>일평균 참여자</th><th>일평균 당첨자</th>
-        <th>일일 당첨률</th><th>1인 평균상금</th><th>0당첨일 (이월/소멸)</th>
+        <th>당첨경험률</th><th>1인 평균상금</th><th>0당첨일 (이월/소멸)</th>
         <th>자격획득률 (추정)</th><th>보상경험률 (추정)</th><th>전월 대비</th>
       </tr>
     </thead>
@@ -329,7 +329,7 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Apple SD Gothic 
     <h3>높은 확률, 낮은 상금</h3>
     <div class="metric-r"><span class="ml">5경기 일평균 당첨자</span><span class="mv blue">1,179명/일</span></div>
     <div class="metric-r"><span class="ml">4경기 일평균 당첨자</span><span class="mv blue">2,328명/일</span></div>
-    <div class="metric-r"><span class="ml">일일 당첨률</span><span class="mv blue">5경기 5.19% / 4경기 11.35%</span></div>
+    <div class="metric-r"><span class="ml">당첨경험률</span><span class="mv blue">5경기 5.19% / 4경기 11.35%</span></div>
     <div class="metric-r"><span class="ml">1인 상금 범위</span><span class="mv">400 ~ 17,500원</span></div>
     <div class="metric-r"><span class="ml">1회 당첨으로 1천원 자격?</span><span class="mv green">✓ 대부분 가능</span></div>
     <div class="metric-r"><span class="ml">월간 자격 획득률 (추정)</span><span class="mv green">26 ~ 72%</span></div>
@@ -340,7 +340,7 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Apple SD Gothic 
     <div class="s-tag">▶ 변경 후 · 7경기 올킬 + 이월 (2026년 4월~)</div>
     <h3>낮은 확률, 높은 상금</h3>
     <div class="metric-r"><span class="ml">일평균 당첨자</span><span class="mv red">55 ~ 84명/일</span></div>
-    <div class="metric-r"><span class="ml">일일 당첨률</span><span class="mv red">0.31 ~ 0.40%</span></div>
+    <div class="metric-r"><span class="ml">당첨경험률</span><span class="mv red">0.31 ~ 0.40%</span></div>
     <div class="metric-r"><span class="ml">1인 상금 범위</span><span class="mv purple">1,460 ~ 1,000,000원</span></div>
     <div class="metric-r"><span class="ml">1회 당첨으로 1천원 자격?</span><span class="mv green">✓ 항상 가능</span></div>
     <div class="metric-r"><span class="ml">월간 자격 획득률 (추정)</span><span class="mv red">2.89 ~ 3.80%</span></div>
@@ -379,7 +379,7 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Apple SD Gothic 
 </div>
 
 <div class="chart-box">
-  <h3>📉 일일 당첨률 변화 — 5경기 vs 7경기</h3>
+  <h3>📉 당첨경험률 변화 — 5경기 vs 7경기</h3>
   <div class="ch-sub">4월부터 당첨률 10분의 1 이하로 급락 · 7경기 난이도 영향</div>
   <div class="chart-container" style="height:280px"><canvas id="rateChart"></canvas></div>
 </div>
@@ -414,19 +414,69 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Apple SD Gothic 
   <p>3 / 4 / 5 / 6 / 7경기 올킬 구조 비교 · 실제 데이터 기반 · 2025.05.25</p>
 </div>
 
-<div class="premise">
-  <h3>분석 전제</h3>
-  <div class="premise-grid">
-    <div class="premise-item">📅 <strong>실제 경기수 이력</strong>: 5경기(25.8~25.12) → 4경기(26.1~3.11) → 7경기(3.12~)</div>
-    <div class="premise-item">👥 <strong>일평균 참여자</strong>: 18,000명 (현재 기준)</div>
-    <div class="premise-item">💰 <strong>일 상금풀</strong>: 100만원 고정 / 당첨자 균등 분배</div>
-    <div class="premise-item">📆 <strong>월 평균 참여</strong>: 1인당 9.6회/월</div>
-    <div class="premise-item">📝 <strong>지급 신청률</strong>: 6.8% (신분증 제출 허들)</div>
-    <div class="premise-item">💵 <strong>최소 지급 기준</strong>: 1,000원 누적</div>
-    <div class="premise-item">📐 <strong>경기당 확률</strong>: 55.3% (5경기 실측) / 58.0% (4경기 실측) / 평균 56.7%</div>
-    <div class="premise-item">⚠️ <strong>7경기 실제</strong>: 이론 대비 4배 어려움 (난이도 반영)</div>
+<div style="margin-bottom:28px;">
+  <div style="font-size:13px;font-weight:700;letter-spacing:0.08em;color:#666;margin-bottom:12px;text-transform:uppercase;">분석 전제</div>
+
+  <!-- 실측 이력 -->
+  <div style="background:#111;border-radius:6px;padding:14px 20px;margin-bottom:10px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+    <span style="font-size:10px;font-weight:700;color:#888;letter-spacing:0.1em;flex-shrink:0;">경기수 이력</span>
+    <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+      <span style="background:#1565C0;color:#fff;font-size:12px;font-weight:700;padding:4px 10px;border-radius:3px;">5경기</span>
+      <span style="font-size:11px;color:#888;">25.8 ~ 25.12</span>
+      <span style="color:#555;font-size:14px;">→</span>
+      <span style="background:#555;color:#fff;font-size:12px;font-weight:700;padding:4px 10px;border-radius:3px;">4경기</span>
+      <span style="font-size:11px;color:#888;">26.1 ~ 3.11</span>
+      <span style="color:#555;font-size:14px;">→</span>
+      <span style="background:#C62828;color:#fff;font-size:12px;font-weight:700;padding:4px 10px;border-radius:3px;">7경기</span>
+      <span style="font-size:11px;color:#888;">3.12 ~ 현재</span>
+    </div>
+  </div>
+
+  <!-- 핵심 수치 그리드 -->
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px;">
+    <div style="border:1px solid #E0E0E0;border-radius:5px;padding:12px 14px;background:#FAFAFA;">
+      <div style="font-size:10px;color:#888;font-weight:700;letter-spacing:0.06em;margin-bottom:6px;">👥 일평균 참여자</div>
+      <div style="font-size:20px;font-weight:700;color:#111;">18,000명</div>
+      <div style="font-size:10px;color:#888;margin-top:2px;">현재 기준 (실측 17,859명)</div>
+    </div>
+    <div style="border:1px solid #E0E0E0;border-radius:5px;padding:12px 14px;background:#FAFAFA;">
+      <div style="font-size:10px;color:#888;font-weight:700;letter-spacing:0.06em;margin-bottom:6px;">💰 일 상금풀</div>
+      <div style="font-size:20px;font-weight:700;color:#111;">100만원</div>
+      <div style="font-size:10px;color:#888;margin-top:2px;">고정 / 당첨자 균등 분배</div>
+    </div>
+    <div style="border:1px solid #E0E0E0;border-radius:5px;padding:12px 14px;background:#FAFAFA;">
+      <div style="font-size:10px;color:#888;font-weight:700;letter-spacing:0.06em;margin-bottom:6px;">📆 월 평균 참여</div>
+      <div style="font-size:20px;font-weight:700;color:#111;">9.6회</div>
+      <div style="font-size:10px;color:#888;margin-top:2px;">1인당 / 월 기준</div>
+    </div>
+    <div style="border:1px solid #E0E0E0;border-radius:5px;padding:12px 14px;background:#FAFAFA;">
+      <div style="font-size:10px;color:#888;font-weight:700;letter-spacing:0.06em;margin-bottom:6px;">💵 최소 지급 기준</div>
+      <div style="font-size:20px;font-weight:700;color:#111;">1,000원</div>
+      <div style="font-size:10px;color:#888;margin-top:2px;">누적 합산 기준</div>
+    </div>
+    <div style="border:1px solid #E0E0E0;border-radius:5px;padding:12px 14px;background:#FAFAFA;">
+      <div style="font-size:10px;color:#888;font-weight:700;letter-spacing:0.06em;margin-bottom:6px;">📝 지급 신청률</div>
+      <div style="font-size:20px;font-weight:700;color:#111;">6.8%</div>
+      <div style="font-size:10px;color:#888;margin-top:2px;">신분증 제출 허들 반영</div>
+    </div>
+    <div style="border:1px solid #E0E0E0;border-radius:5px;padding:12px 14px;background:#FAFAFA;">
+      <div style="font-size:10px;color:#888;font-weight:700;letter-spacing:0.06em;margin-bottom:6px;">📐 경기당 적중률</div>
+      <div style="font-size:20px;font-weight:700;color:#111;">56.7%</div>
+      <div style="font-size:10px;color:#888;margin-top:2px;">5경기 55.3% / 4경기 58.0% 실측 평균</div>
+    </div>
+  </div>
+
+  <!-- 7경기 주의 배너 -->
+  <div style="background:#FFF8F8;border:1px solid #FFAAAA;border-radius:5px;padding:10px 16px;display:flex;align-items:center;gap:12px;">
+    <span style="font-size:18px;flex-shrink:0;">⚠️</span>
+    <div style="font-size:12px;color:#333;line-height:1.6;">
+      <strong style="color:#C62828;">7경기 실제 난이도 주의</strong> —
+      이론 당첨률 1.57% 대비 실측 0.36%, 약 <strong>4배 더 어려움</strong>.
+      게임 선정 난이도 영향으로 이론값 사용 불가 → 실측값 병기
+    </div>
   </div>
 </div>
+
 
 <div class="sec-title">핵심 지표 비교</div>
 <div class="tbl-wrap">
@@ -533,11 +583,10 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Apple SD Gothic 
   <div class="feel-card">
     <div class="fc-n">3</div>
     <div class="fc-label">경기 올킬</div>
-    <div class="feel-item"><span>하루 당첨률</span><span class="fi-val">16.9%</span></div>
+    <div class="feel-item"><span>당첨경험률</span><span class="fi-val">16.9%</span></div>
     <div class="feel-item"><span>한 달 당첨 경험</span><span class="fi-val">10명 중 8명</span></div>
     <div class="feel-item"><span>1회 상금</span><span class="fi-val">330원</span></div>
     <div class="feel-item"><span>1천원 필요 횟수</span><span class="fi-val" style="color:#C62828">4회 당첨</span></div>
-    <div class="feel-item"><span>실제 자격획득률</span><span class="fi-val">8.1%</span></div>
     <div class="feel-item"><span>보상경험률</span><span class="fi-val">0.55%</span></div>
     <div style="margin-top:12px;font-size:11px;color:#555;line-height:1.7;">
       미국 국립보건원 연구 최적 당첨률(18%)에 가장 근접한 구조. 당첨 경험은 충분하나 100만원 상금풀 유지 시 1회 330원으로 1천원까지 4회 필요. <strong>상금풀 200만원으로 올리면 보상경험률도 3.27%로 최고</strong>.
@@ -546,11 +595,10 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Apple SD Gothic 
   <div class="feel-card">
     <div class="fc-n">4</div>
     <div class="fc-label">경기 올킬 <span style="font-size:9px;background:#1565C0;color:#fff;padding:1px 5px;border-radius:2px;vertical-align:middle;">실측</span></div>
-    <div class="feel-item"><span>하루 당첨률</span><span class="fi-val">11.8%</span></div>
+    <div class="feel-item"><span>당첨경험률</span><span class="fi-val">11.8%</span></div>
     <div class="feel-item"><span>한 달 당첨 경험</span><span class="fi-val">10명 중 7명</span></div>
     <div class="feel-item"><span>1회 상금</span><span class="fi-val">417원</span></div>
     <div class="feel-item"><span>1천원 필요 횟수</span><span class="fi-val" style="color:#C62828">3회 당첨</span></div>
-    <div class="feel-item"><span>실제 자격획득률</span><span class="fi-val">26.8%</span></div>
     <div class="feel-item"><span>보상경험률</span><span class="fi-val">1.82%</span></div>
     <div style="margin-top:12px;font-size:11px;color:#555;line-height:1.7;">
       당첨은 자주 되지만 1회 상금 417원으로 3번 당첨해야 1천원. 이론(597원, 2회)보다 실제 난이도가 더 높았음.
@@ -559,11 +607,10 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Apple SD Gothic 
   <div class="feel-card best">
     <div class="fc-n">5</div>
     <div class="fc-label">경기 올킬 ★ 최적</div>
-    <div class="feel-item"><span>하루 당첨률</span><span class="fi-val">5.1%</span></div>
+    <div class="feel-item"><span>당첨경험률</span><span class="fi-val">5.1%</span></div>
     <div class="feel-item"><span>한 달 당첨 경험</span><span class="fi-val">10명 중 4명</span></div>
     <div class="feel-item"><span>1회 상금</span><span class="fi-val">1,081원</span></div>
     <div class="feel-item"><span>1천원 필요 횟수</span><span class="fi-val">1회 당첨</span></div>
-    <div class="feel-item"><span>실제 자격획득률</span><span class="fi-val">38.9%</span></div>
     <div class="feel-item"><span>보상경험률</span><span class="fi-val">2.65%</span></div>
     <div style="margin-top:12px;font-size:11px;color:#1565C0;line-height:1.7;">
       당첨 한 번이면 바로 신청 가능. 적절한 난이도 + 즉각 보상 구조. 전 경기수 중 보상경험률 최고.
@@ -572,11 +619,10 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Apple SD Gothic 
   <div class="feel-card">
     <div class="fc-n">6</div>
     <div class="fc-label">경기 올킬</div>
-    <div class="feel-item"><span>하루 당첨률</span><span class="fi-val">2.8%</span></div>
+    <div class="feel-item"><span>당첨경험률</span><span class="fi-val">2.8%</span></div>
     <div class="feel-item"><span>한 달 당첨 경험</span><span class="fi-val">10명 중 2명</span></div>
     <div class="feel-item"><span>1회 상금</span><span class="fi-val">1,957원</span></div>
     <div class="feel-item"><span>1천원 필요 횟수</span><span class="fi-val">1회 당첨</span></div>
-    <div class="feel-item"><span>실제 자격획득률</span><span class="fi-val">23.9%</span></div>
     <div class="feel-item"><span>보상경험률</span><span class="fi-val">1.62%</span></div>
     <div style="margin-top:12px;font-size:11px;color:#555;line-height:1.7;">
       1회로 기준 초과하지만 당첨 자체가 드물어 대다수 유저가 월내 당첨 경험 없음.
@@ -585,11 +631,10 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Apple SD Gothic 
   <div class="feel-card current">
     <div class="fc-n">7</div>
     <div class="fc-label">경기 올킬 (현재)</div>
-    <div class="feel-item"><span>하루 당첨률</span><span class="fi-val">0.36%</span></div>
+    <div class="feel-item"><span>당첨경험률</span><span class="fi-val">0.36%</span></div>
     <div class="feel-item"><span>한 달 당첨 경험</span><span class="fi-val">10명 중 0.3명</span></div>
     <div class="feel-item"><span>1회 상금</span><span class="fi-val">15,385원</span></div>
     <div class="feel-item"><span>1천원 필요 횟수</span><span class="fi-val">1회 당첨</span></div>
-    <div class="feel-item"><span>실제 자격획득률</span><span class="fi-val">3.4%</span></div>
     <div class="feel-item"><span>보상경험률</span><span class="fi-val">0.23%</span></div>
     <div style="margin-top:12px;font-size:11px;color:#C62828;line-height:1.7;">
       300명 중 1명 수준. 대부분의 유저가 달 내내 당첨 한 번도 없음. 이벤트 존재 자체를 잊음.
@@ -759,7 +804,7 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Apple SD Gothic 
 <table>
   <thead>
     <tr style="background:#111;color:#fff;">
-      <th>경기수</th><th>일일 당첨률</th><th>7일 내 1회 이상 당첨</th>
+      <th>경기수</th><th>당첨경험률</th><th>7일 내 1회 이상 당첨</th>
       <th>미당첨 이탈 위험군</th><th>1회 상금</th><th>1회로 1천원?</th><th>첫인상</th>
     </tr>
   </thead>
@@ -801,7 +846,7 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Apple SD Gothic 
   </tbody>
 </table>
 </div>
-<p style="font-size:11px;color:#999;margin-bottom:28px;">* 7일 내 당첨 확률 = 1-(1-일일당첨률)^7 / 기존 유저 이탈 방어가 1차 과제, 신규 전환이 2차 과제</p>
+<p style="font-size:11px;color:#999;margin-bottom:28px;">* 7일 내 당첨 확률 = 1-(1-당첨경험률)^7 / 기존 유저 이탈 방어가 1차 과제, 신규 전환이 2차 과제</p>
 
 <!-- 대표님 제안 분석 -->
 <div style="height:2px;background:#111;margin:48px 0 36px;"></div>
@@ -1022,14 +1067,14 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Apple SD Gothic 
         • 1자리 일치(18% 확률) = 소액 / 2자리 일치(1% 확률) = 대액<br>
         • <strong>18% 당첨 확률 구간에서 일일 참여 행동 가장 지속적</strong><br>
         • 1% 구간은 참여율 초기엔 높지만 빠르게 이탈<br>
-        • 결론: 일일 당첨률 <strong>5~20% 구간이 참여 지속성 최적</strong>
+        • 결론: 당첨경험률 <strong>5~20% 구간이 참여 지속성 최적</strong>
       </div>
     </div>
   </div>
 </div>
 
 <div style="border:1px solid #E0E0E0;border-radius:6px;padding:24px;background:#FAFAFA;margin-bottom:24px;">
-  <div style="font-size:14px;font-weight:700;margin-bottom:16px;">과학적 근거 기반 — 일일 당첨률 구간별 유저 행동</div>
+  <div style="font-size:14px;font-weight:700;margin-bottom:16px;">과학적 근거 기반 — 당첨경험률 구간별 유저 행동</div>
   <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;text-align:center;">
     <div style="border-radius:6px;padding:14px 8px;background:#FFF8F8;border:1px solid #FFCCCC;">
       <div style="font-size:11px;color:#C62828;font-weight:700;margin-bottom:4px;">0.1~1%</div>
@@ -1149,15 +1194,15 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Apple SD Gothic 
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;">
     <div style="border-left:4px solid #1565C0;padding-left:14px;">
       <div style="font-size:12px;font-weight:700;color:#1565C0;margin-bottom:6px;">1순위 — 3경기 + 200만원 + 1천원</div>
-      <div style="font-size:12px;color:#333;line-height:1.7;">일일 당첨률 16.85% → <strong>미국 국립보건원 연구 최적점(18%)에 가장 근접</strong>. 2회 당첨으로 1천원 초과. 보상경험률 3.27% (전 시나리오 최고). 당첨경험률 80%. 월 비용 6천만원.</div>
+      <div style="font-size:12px;color:#333;line-height:1.7;">당첨경험률 16.85% → <strong>미국 국립보건원 연구 최적점(18%)에 가장 근접</strong>. 2회 당첨으로 1천원 초과. 보상경험률 3.27% (전 시나리오 최고). 당첨경험률 80%. 월 비용 6천만원.</div>
     </div>
     <div style="border-left:4px solid #555;padding-left:14px;">
       <div style="font-size:12px;font-weight:700;color:#333;margin-bottom:6px;">2순위 — 5경기 + 100만원 + 1천원</div>
-      <div style="font-size:12px;color:#333;line-height:1.7;">일일 당첨률 5.14% → 적정 구간. 1회 당첨으로 즉시 1천원 초과. 보상경험률 2.65%. 월 비용 3천만원. <strong>비용 효율 최고</strong>. 예산 제약 시 최선.</div>
+      <div style="font-size:12px;color:#333;line-height:1.7;">당첨경험률 5.14% → 적정 구간. 1회 당첨으로 즉시 1천원 초과. 보상경험률 2.65%. 월 비용 3천만원. <strong>비용 효율 최고</strong>. 예산 제약 시 최선.</div>
     </div>
     <div style="border-left:4px solid #888;padding-left:14px;">
       <div style="font-size:12px;font-weight:700;color:#333;margin-bottom:6px;">3순위 — 4경기 + 100만원 + 1천원</div>
-      <div style="font-size:12px;color:#333;line-height:1.7;">일일 당첨률 9.31% → 적정 구간. 2회 당첨으로 1천원. 보상경험률 1.53%. 당첨경험률 59% → 유저 체감 당첨 빈도↑. 비용 3천만원 유지.</div>
+      <div style="font-size:12px;color:#333;line-height:1.7;">당첨경험률 11.75% (실측) → 적정 구간. 3회 당첨으로 1천원. 보상경험률 1.82%. 당첨경험률 69.9% → 유저 체감 당첨 빈도↑. 비용 3천만원 유지.</div>
     </div>
   </div>
   <div style="margin-top:16px;padding:14px;background:#F8F8F8;border-radius:4px;font-size:12px;color:#333;line-height:1.8;">
@@ -1273,7 +1318,7 @@ new Chart(document.getElementById('rateChart'), {
   type:'bar',
   data:{
     labels:MONTHS,
-    datasets:[{ label:'일일 당첨률 (%)', data:WIN_RATE, backgroundColor:MONTHS.map((_,i)=>IS_7GAME[i]?'rgba(198,40,40,0.5)':'rgba(21,101,192,0.35)'), borderColor:MONTHS.map((_,i)=>IS_7GAME[i]?'#C62828':'#1565C0'), borderWidth:2, borderRadius:4 }]
+    datasets:[{ label:'당첨경험률 (%)', data:WIN_RATE, backgroundColor:MONTHS.map((_,i)=>IS_7GAME[i]?'rgba(198,40,40,0.5)':'rgba(21,101,192,0.35)'), borderColor:MONTHS.map((_,i)=>IS_7GAME[i]?'#C62828':'#1565C0'), borderWidth:2, borderRadius:4 }]
   },
   options:{
     responsive:true, maintainAspectRatio:false,
