@@ -427,6 +427,177 @@
       .proj-mobile-title { display: block; background: #111; color: #fff; font-size: 15px; font-weight: 800; padding: 12px 24px; }
       .proj-desktop-info { display: none; }
     }
+
+    /* ── DATA 개선 ── */
+    .sample-badge {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      background: transparent;
+      border: 1px solid #999;
+      color: #999;
+      padding: 2px 7px;
+      vertical-align: middle;
+      margin-left: 8px;
+      position: relative;
+      top: -1px;
+    }
+    .data-variability-notice {
+      font-size: 13px;
+      color: #555;
+      border: 1px dashed #bbb;
+      padding: 10px 16px;
+      margin-bottom: 16px;
+      line-height: 1.7;
+    }
+    .data-variability-notice strong { color: #111; }
+    .data-check {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 13px;
+      color: #333;
+      padding: 3px 0;
+      cursor: pointer;
+      line-height: 1.4;
+    }
+    .data-check input[type="checkbox"] {
+      width: 13px;
+      height: 13px;
+      margin: 0;
+      flex-shrink: 0;
+      accent-color: #111;
+      cursor: pointer;
+    }
+    .data-check span { flex: 1; }
+    .data-tags { display: flex; flex-direction: column; gap: 0; }
+    .data-cell-add {
+      background: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      cursor: pointer;
+      min-height: 180px;
+      border: 2.5px dashed #ccc;
+      margin: -1px;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .data-cell-add:hover { border-color: #111; background: #f9f9f9; }
+    .data-cell-add-icon {
+      font-size: 72px;
+      font-weight: 200;
+      color: #bbb;
+      line-height: 1;
+      margin-bottom: 10px;
+      font-family: 'Pretendard', sans-serif;
+      transition: color 0.2s;
+    }
+    .data-cell-add:hover .data-cell-add-icon { color: #111; }
+    .data-cell-add-label {
+      font-size: 12px;
+      color: #aaa;
+      font-weight: 600;
+      letter-spacing: 1px;
+      transition: color 0.2s;
+    }
+    .data-cell-add:hover .data-cell-add-label { color: #111; }
+
+    /* ── 샘플 조합 카드 ── */
+    .sample-combo-wrap {
+      margin-bottom: 24px;
+    }
+    .sample-combo-label {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      color: #999;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .sample-combo-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: #ddd;
+    }
+    .sample-combo-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: #111;
+      border: 1px solid #111;
+      overflow: hidden;
+      margin-bottom: 2px;
+    }
+    .sample-combo-card {
+      background: #fff;
+      padding: 22px 20px;
+      position: relative;
+    }
+    .sample-combo-tag {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0;
+      color: #555;
+      background: transparent;
+      border-bottom: 1px solid #ddd;
+      padding: 0 0 8px 0;
+      display: block;
+      margin-bottom: 12px;
+      width: 100%;
+    }
+    .sample-combo-name {
+      font-size: 17px;
+      font-weight: 900;
+      color: #111;
+      line-height: 1.3;
+      margin-bottom: 6px;
+      letter-spacing: -0.5px;
+    }
+    .sample-combo-desc {
+      font-size: 12px;
+      color: #888;
+      margin-bottom: 16px;
+      line-height: 1.6;
+    }
+    .sample-combo-items {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      border-top: 1px solid #eee;
+      padding-top: 12px;
+    }
+    .sample-combo-check {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 12px;
+      color: #333;
+      padding: 4px 0;
+      cursor: pointer;
+      line-height: 1.4;
+    }
+    .sample-combo-check input[type="checkbox"] {
+      width: 13px;
+      height: 13px;
+      margin: 0;
+      flex-shrink: 0;
+      accent-color: #111;
+    }
+    .sample-combo-footnote {
+      font-size: 11px;
+      color: #bbb;
+      text-align: right;
+      margin-top: 4px;
+      letter-spacing: 0.5px;
+    }
+    @media (max-width: 720px) {
+      .sample-combo-grid { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 <body>
@@ -616,7 +787,59 @@
     <div style="font-size:12px; color:#555; padding-left:2px;">* 실제 Opta 데이터 구조 기반 샘플. 수치는 예시입니다.</div>
 
     <!-- 데이터 카드 그리드 -->
-    <div style="margin-top:32px;" class="label">전체 데이터 구성</div>
+    <div style="margin-top:32px;" class="label">전체 데이터 구성 <span class="sample-badge">SAMPLE</span></div>
+    <div class="data-variability-notice">
+      이 분류 구조는 <strong>예시(샘플)</strong>입니다. 대분류·소분류 모두 크리에이터가 자유롭게 재구성할 수 있습니다.<br/>
+      어떤 항목을 조합하고 어떻게 묶을지는 크리에이터의 판단에 따릅니다. 항목은 계속 추가됩니다.
+    </div>
+    <!-- ── 샘플 조합 3종 ── -->
+    <div class="sample-combo-wrap">
+      <div class="sample-combo-label">실제 유저가 만든 데이터 조합 · 3종</div>
+      <div class="sample-combo-grid">
+
+        <!-- 샘플 1 -->
+        <div class="sample-combo-card">
+          <div class="sample-combo-tag">'모기눈알' 님의</div>
+          <div class="sample-combo-name">배당 냄새<br/>맡기 센서</div>
+          <div class="sample-combo-desc">배당이 움직이기 전에<br/>돈 냄새부터 맡는다</div>
+          <div class="sample-combo-items">
+            <label class="sample-combo-check"><input type="checkbox" checked><span>초기→직전→LIVE 변동추이</span></label>
+            <label class="sample-combo-check"><input type="checkbox" checked><span>배당 급변 알림</span></label>
+            <label class="sample-combo-check"><input type="checkbox" checked><span>베트맨 구매현황</span></label>
+            <label class="sample-combo-check"><input type="checkbox" checked><span>베팅사별 비교</span></label>
+          </div>
+        </div>
+
+        <!-- 샘플 2 -->
+        <div class="sample-combo-card">
+          <div class="sample-combo-tag">'마운트캐슬' 님의</div>
+          <div class="sample-combo-name">오늘 영수증<br/>성적 감정</div>
+          <div class="sample-combo-desc">내가 베팅한 경기의 데이터를<br/>직접 영수증처럼 뽑아본다</div>
+          <div class="sample-combo-items">
+            <label class="sample-combo-check"><input type="checkbox" checked><span>사용자 승부예측 투표</span></label>
+            <label class="sample-combo-check"><input type="checkbox" checked><span>동일배당 과거 승률</span></label>
+            <label class="sample-combo-check"><input type="checkbox" checked><span>베트맨 구매현황</span></label>
+            <label class="sample-combo-check"><input type="checkbox" checked><span>결과확률 매트릭스</span></label>
+          </div>
+        </div>
+
+        <!-- 샘플 3 -->
+        <div class="sample-combo-card">
+          <div class="sample-combo-tag">'구영탄' 님의</div>
+          <div class="sample-combo-name">오늘 경기<br/>망친 범인 수배</div>
+          <div class="sample-combo-desc">라인업 전원 평점 분석.<br/>누가 내 돈을 날렸는지 특정한다</div>
+          <div class="sample-combo-items">
+            <label class="sample-combo-check"><input type="checkbox" checked><span>경기별 평점</span></label>
+            <label class="sample-combo-check"><input type="checkbox" checked><span>슈팅·패스·카드</span></label>
+            <label class="sample-combo-check"><input type="checkbox" checked><span>직전경기 소화시간</span></label>
+            <label class="sample-combo-check"><input type="checkbox" checked><span>부상·결장선수</span></label>
+          </div>
+        </div>
+
+      </div>
+      <div class="sample-combo-footnote">※ 위 조합은 실제 유저 데이터 활용 예시입니다. 항목은 자유롭게 재구성할 수 있습니다.</div>
+    </div>
+
     <div class="data-grid">
       <div class="data-cell" style="grid-column: span 2;">
         <div class="data-cell-title" style="font-size:18px; margin-bottom:16px;"><span style="background:#37607D; color:#fff; padding:2px 8px; margin-right:6px;">LIVE스코어</span><span style="color:#111; font-weight:900;">+ 45만 유저의 핵심 데이터</span></div>
@@ -624,86 +847,80 @@
           <div>
             <div style="font-size:13px; font-weight:700; color:#37607D; margin-bottom:8px; letter-spacing:0.5px;">⚡ xG 기대지표</div>
             <div class="data-tags">
-              <span class="data-tag">xG 기대득점</span><span class="data-tag">xA 기대도움</span><span class="data-tag">xGA 기대실점</span><span class="data-tag">xP 기대승점</span><span class="data-tag">xW 기대승률</span><span class="data-tag">실시간 xW 추이</span><span class="data-tag">슛맵</span><span class="data-tag">슛별 xG값</span><span class="data-tag">전반·후반 xG 흐름</span><span class="data-tag">팀 누적 xG</span><span class="data-tag">경기별 xG 비교</span><span class="data-tag">시즌 xG 랭킹</span><span class="data-tag">유저 반응 연동 xG</span><span class="data-tag">응원 폭발 구간 xG</span>
+              <label class="data-check"><input type="checkbox"><span>xG 기대득점</span></label><label class="data-check"><input type="checkbox"><span>xA 기대도움</span></label><label class="data-check"><input type="checkbox"><span>xGA 기대실점</span></label><label class="data-check"><input type="checkbox"><span>xP 기대승점</span></label><label class="data-check"><input type="checkbox"><span>xW 기대승률</span></label><label class="data-check"><input type="checkbox"><span>실시간 xW 추이</span></label><label class="data-check"><input type="checkbox"><span>슛맵</span></label><label class="data-check"><input type="checkbox"><span>슛별 xG값</span></label><label class="data-check"><input type="checkbox"><span>전반·후반 xG 흐름</span></label><label class="data-check"><input type="checkbox"><span>팀 누적 xG</span></label><label class="data-check"><input type="checkbox"><span>경기별 xG 비교</span></label><label class="data-check"><input type="checkbox"><span>시즌 xG 랭킹</span></label><label class="data-check"><input type="checkbox"><span>유저 반응 연동 xG</span></label><label class="data-check"><input type="checkbox"><span>응원 폭발 구간 xG</span></label>
             </div>
           </div>
           <div>
             <div style="font-size:13px; font-weight:700; color:#37607D; margin-bottom:8px; letter-spacing:0.5px;">🎯 선수 세부 스탯</div>
             <div class="data-tags">
-              <span class="data-tag">경기별 평점</span><span class="data-tag">경기별 슛맵·xG</span><span class="data-tag">시즌 전체 슛맵</span><span class="data-tag">최근 3경기 vs 시즌 평균</span><span class="data-tag">팀내 기록순위</span><span class="data-tag">시즌 평균평점</span><span class="data-tag">등록선수 현황</span><span class="data-tag">슈팅·패스·카드</span><span class="data-tag">유저 관심 선수 순위</span><span class="data-tag">응원글 언급 빈도</span><span class="data-tag">선수별 팬 반응 지수</span><span class="data-tag">Form 그래프</span><span class="data-tag">직전경기 소화시간</span><span class="data-tag">시장가치</span>
+              <label class="data-check"><input type="checkbox"><span>경기별 평점</span></label><label class="data-check"><input type="checkbox"><span>경기별 슛맵·xG</span></label><label class="data-check"><input type="checkbox"><span>시즌 전체 슛맵</span></label><label class="data-check"><input type="checkbox"><span>최근 3경기 vs 시즌 평균</span></label><label class="data-check"><input type="checkbox"><span>팀내 기록순위</span></label><label class="data-check"><input type="checkbox"><span>시즌 평균평점</span></label><label class="data-check"><input type="checkbox"><span>등록선수 현황</span></label><label class="data-check"><input type="checkbox"><span>슈팅·패스·카드</span></label><label class="data-check"><input type="checkbox"><span>유저 관심 선수 순위</span></label><label class="data-check"><input type="checkbox"><span>응원글 언급 빈도</span></label><label class="data-check"><input type="checkbox"><span>선수별 팬 반응 지수</span></label><label class="data-check"><input type="checkbox"><span>Form 그래프</span></label><label class="data-check"><input type="checkbox"><span>직전경기 소화시간</span></label><label class="data-check"><input type="checkbox"><span>시장가치</span></label>
             </div>
           </div>
         </div>
       </div>
       <div class="data-cell">
         <div class="data-cell-title">⚔️ 전력 비교</div>
-        <div class="data-cell-num">1억 5천만+</div>
         <div class="data-tags">
-          <span class="data-tag">최근 흐름</span><span class="data-tag">상대 전적</span><span class="data-tag">키 플레이어 비교</span><span class="data-tag">선발투수 비교</span><span class="data-tag">부상·결장선수</span><span class="data-tag">팀 평균평점</span><span class="data-tag">xW 실시간 기대승률</span><span class="data-tag">결과확률 매트릭스</span><span class="data-tag">인사이트·매치픽</span><span class="data-tag">홈·원정 승률</span><span class="data-tag">최근 5경기 득실</span><span class="data-tag">팀 xG 비교</span><span class="data-tag">유효슈팅 비교</span><span class="data-tag">점유율 추이</span><span class="data-tag">세트피스 득점력</span>
+          <label class="data-check"><input type="checkbox"><span>최근 흐름</span></label><label class="data-check"><input type="checkbox"><span>상대 전적</span></label><label class="data-check"><input type="checkbox"><span>키 플레이어 비교</span></label><label class="data-check"><input type="checkbox"><span>선발투수 비교</span></label><label class="data-check"><input type="checkbox"><span>부상·결장선수</span></label><label class="data-check"><input type="checkbox"><span>팀 평균평점</span></label><label class="data-check"><input type="checkbox"><span>xW 실시간 기대승률</span></label><label class="data-check"><input type="checkbox"><span>결과확률 매트릭스</span></label><label class="data-check"><input type="checkbox"><span>인사이트·매치픽</span></label><label class="data-check"><input type="checkbox"><span>홈·원정 승률</span></label><label class="data-check"><input type="checkbox"><span>최근 5경기 득실</span></label><label class="data-check"><input type="checkbox"><span>팀 xG 비교</span></label><label class="data-check"><input type="checkbox"><span>유효슈팅 비교</span></label><label class="data-check"><input type="checkbox"><span>점유율 추이</span></label><label class="data-check"><input type="checkbox"><span>세트피스 득점력</span></label>
         </div>
       </div>
       <div class="data-cell">
         <div class="data-cell-title">📋 라인업</div>
-        <div class="data-cell-num">5천만+</div>
         <div class="data-tags">
-          <span class="data-tag">이전 라인업</span><span class="data-tag">예상 라인업</span><span class="data-tag">확정 라인업</span><span class="data-tag">선수별 시즌 기록</span><span class="data-tag">선수별 평균 평점</span><span class="data-tag">선수별 시장가치</span><span class="data-tag">직전경기 소화시간</span><span class="data-tag">시즌 스냅샷</span><span class="data-tag">포메이션</span><span class="data-tag">BetsAPI 라인업</span><span class="data-tag">Betradar 라인업</span><span class="data-tag">Sports2i 라인업</span><span class="data-tag">야구 선발투수</span><span class="data-tag">농구 스타터5</span><span class="data-tag">배구 스타팅 세터</span>
+          <label class="data-check"><input type="checkbox"><span>이전 라인업</span></label><label class="data-check"><input type="checkbox"><span>예상 라인업</span></label><label class="data-check"><input type="checkbox"><span>확정 라인업</span></label><label class="data-check"><input type="checkbox"><span>선수별 시즌 기록</span></label><label class="data-check"><input type="checkbox"><span>선수별 평균 평점</span></label><label class="data-check"><input type="checkbox"><span>선수별 시장가치</span></label><label class="data-check"><input type="checkbox"><span>직전경기 소화시간</span></label><label class="data-check"><input type="checkbox"><span>시즌 스냅샷</span></label><label class="data-check"><input type="checkbox"><span>포메이션</span></label><label class="data-check"><input type="checkbox"><span>BetsAPI 라인업</span></label><label class="data-check"><input type="checkbox"><span>Betradar 라인업</span></label><label class="data-check"><input type="checkbox"><span>Sports2i 라인업</span></label><label class="data-check"><input type="checkbox"><span>야구 선발투수</span></label><label class="data-check"><input type="checkbox"><span>농구 스타터5</span></label><label class="data-check"><input type="checkbox"><span>배구 스타팅 세터</span></label>
         </div>
       </div>
       <div class="data-cell">
         <div class="data-cell-title">📈 배당률</div>
-        <div class="data-cell-num">3억 2천만+</div>
         <div class="data-tags">
-          <span class="data-tag">경기 전 배당</span><span class="data-tag">라이브 배당</span><span class="data-tag">핸디캡</span><span class="data-tag">오버/언더</span><span class="data-tag">초기→직전→LIVE 변동추이</span><span class="data-tag">동일배당 과거 승률</span><span class="data-tag">베트맨 구매현황</span><span class="data-tag">사용자 승부예측 투표</span><span class="data-tag">BetsAPI 배당</span><span class="data-tag">Betradar 배당</span><span class="data-tag">스포츠토토 연동</span><span class="data-tag">배당 급변 알림</span><span class="data-tag">종목별 배당 히스토리</span><span class="data-tag">베팅사별 비교</span>
+          <label class="data-check"><input type="checkbox"><span>경기 전 배당</span></label><label class="data-check"><input type="checkbox"><span>라이브 배당</span></label><label class="data-check"><input type="checkbox"><span>핸디캡</span></label><label class="data-check"><input type="checkbox"><span>오버/언더</span></label><label class="data-check"><input type="checkbox"><span>초기→직전→LIVE 변동추이</span></label><label class="data-check"><input type="checkbox"><span>동일배당 과거 승률</span></label><label class="data-check"><input type="checkbox"><span>베트맨 구매현황</span></label><label class="data-check"><input type="checkbox"><span>사용자 승부예측 투표</span></label><label class="data-check"><input type="checkbox"><span>BetsAPI 배당</span></label><label class="data-check"><input type="checkbox"><span>Betradar 배당</span></label><label class="data-check"><input type="checkbox"><span>스포츠토토 연동</span></label><label class="data-check"><input type="checkbox"><span>배당 급변 알림</span></label><label class="data-check"><input type="checkbox"><span>종목별 배당 히스토리</span></label><label class="data-check"><input type="checkbox"><span>베팅사별 비교</span></label>
         </div>
       </div>
       <div class="data-cell">
         <div class="data-cell-title">🤖 AI·분석</div>
-        <div class="data-cell-num">1천만+</div>
         <div class="data-tags">
-          <span class="data-tag">픽 조합</span><span class="data-tag">분석가 승률</span><span class="data-tag">축구 예측</span><span class="data-tag">야구 예측</span><span class="data-tag">농구 예측</span><span class="data-tag">분석가 픽 구매 로그</span><span class="data-tag">Sportguru 연동 분석</span><span class="data-tag">AI 학습 데이터셋</span><span class="data-tag">경기 학습 누적</span><span class="data-tag">분석가 팔로워 수</span><span class="data-tag">픽 판매 통계</span><span class="data-tag">적중률 랭킹</span>
+          <label class="data-check"><input type="checkbox"><span>픽 조합</span></label><label class="data-check"><input type="checkbox"><span>분석가 승률</span></label><label class="data-check"><input type="checkbox"><span>축구 예측</span></label><label class="data-check"><input type="checkbox"><span>야구 예측</span></label><label class="data-check"><input type="checkbox"><span>농구 예측</span></label><label class="data-check"><input type="checkbox"><span>분석가 픽 구매 로그</span></label><label class="data-check"><input type="checkbox"><span>Sportguru 연동 분석</span></label><label class="data-check"><input type="checkbox"><span>AI 학습 데이터셋</span></label><label class="data-check"><input type="checkbox"><span>경기 학습 누적</span></label><label class="data-check"><input type="checkbox"><span>분석가 팔로워 수</span></label><label class="data-check"><input type="checkbox"><span>픽 판매 통계</span></label><label class="data-check"><input type="checkbox"><span>적중률 랭킹</span></label>
         </div>
       </div>
       <div class="data-cell">
         <div class="data-cell-title">🏟️ 경기 기록</div>
-        <div class="data-cell-num">4억 5천만+</div>
         <div class="data-tags">
-          <span class="data-tag">경기 결과</span><span class="data-tag">선수별 기록</span><span class="data-tag">교체 기록</span><span class="data-tag">리그 순위</span><span class="data-tag">중계 정보</span><span class="data-tag">득점·어시스트</span><span class="data-tag">타율·방어율</span><span class="data-tag">이닝별 득점</span><span class="data-tag">리바운드·블록</span><span class="data-tag">세트별 득점</span><span class="data-tag">테니스 게임 스코어</span><span class="data-tag">아이스하키 피리어드</span><span class="data-tag">가상축구 결과</span><span class="data-tag">파워볼 데이터</span><span class="data-tag">실시간 경기 이벤트</span><span class="data-tag">VAR·판정 기록</span><span class="data-tag">코너킥·프리킥</span><span class="data-tag">경고·퇴장</span>
+          <label class="data-check"><input type="checkbox"><span>경기 결과</span></label><label class="data-check"><input type="checkbox"><span>선수별 기록</span></label><label class="data-check"><input type="checkbox"><span>교체 기록</span></label><label class="data-check"><input type="checkbox"><span>리그 순위</span></label><label class="data-check"><input type="checkbox"><span>중계 정보</span></label><label class="data-check"><input type="checkbox"><span>득점·어시스트</span></label><label class="data-check"><input type="checkbox"><span>타율·방어율</span></label><label class="data-check"><input type="checkbox"><span>이닝별 득점</span></label><label class="data-check"><input type="checkbox"><span>리바운드·블록</span></label><label class="data-check"><input type="checkbox"><span>세트별 득점</span></label><label class="data-check"><input type="checkbox"><span>테니스 게임 스코어</span></label><label class="data-check"><input type="checkbox"><span>아이스하키 피리어드</span></label><label class="data-check"><input type="checkbox"><span>가상축구 결과</span></label><label class="data-check"><input type="checkbox"><span>파워볼 데이터</span></label><label class="data-check"><input type="checkbox"><span>실시간 경기 이벤트</span></label><label class="data-check"><input type="checkbox"><span>VAR·판정 기록</span></label><label class="data-check"><input type="checkbox"><span>코너킥·프리킥</span></label><label class="data-check"><input type="checkbox"><span>경고·퇴장</span></label>
         </div>
       </div>
       <div class="data-cell">
         <div class="data-cell-title">💬 팬 반응</div>
-        <div class="data-cell-num">3억 6천만+</div>
         <div class="data-tags">
-          <span class="data-tag">응원글</span><span class="data-tag">댓글·리플</span><span class="data-tag">게시판 글</span><span class="data-tag">핫뉴스</span><span class="data-tag">사진 공유</span><span class="data-tag">카툰·만화</span><span class="data-tag">유튜브 영상</span><span class="data-tag">속보</span><span class="data-tag">이모티콘 반응</span><span class="data-tag">신고 로그</span><span class="data-tag">응원 퍼센트</span><span class="data-tag">경기별 응원 폭발량</span><span class="data-tag">팬게임 참여</span><span class="data-tag">그룹톡</span><span class="data-tag">아프리카TV 연동</span><span class="data-tag">태그별 반응</span><span class="data-tag">쪽지·메모</span>
+          <label class="data-check"><input type="checkbox"><span>응원글</span></label><label class="data-check"><input type="checkbox"><span>댓글·리플</span></label><label class="data-check"><input type="checkbox"><span>게시판 글</span></label><label class="data-check"><input type="checkbox"><span>핫뉴스</span></label><label class="data-check"><input type="checkbox"><span>사진 공유</span></label><label class="data-check"><input type="checkbox"><span>카툰·만화</span></label><label class="data-check"><input type="checkbox"><span>유튜브 영상</span></label><label class="data-check"><input type="checkbox"><span>속보</span></label><label class="data-check"><input type="checkbox"><span>이모티콘 반응</span></label><label class="data-check"><input type="checkbox"><span>신고 로그</span></label><label class="data-check"><input type="checkbox"><span>응원 퍼센트</span></label><label class="data-check"><input type="checkbox"><span>경기별 응원 폭발량</span></label><label class="data-check"><input type="checkbox"><span>팬게임 참여</span></label><label class="data-check"><input type="checkbox"><span>그룹톡</span></label><label class="data-check"><input type="checkbox"><span>아프리카TV 연동</span></label><label class="data-check"><input type="checkbox"><span>태그별 반응</span></label><label class="data-check"><input type="checkbox"><span>쪽지·메모</span></label>
         </div>
       </div>
       <div class="data-cell">
         <div class="data-cell-title">👥 사용자 관심</div>
-        <div class="data-cell-num">4천 9백만+</div>
         <div class="data-tags">
-          <span class="data-tag">팀 관심</span><span class="data-tag">선수 관심</span><span class="data-tag">리그 관심</span><span class="data-tag">분석가 팔로우</span><span class="data-tag">태그 관심</span><span class="data-tag">접속 UV</span><span class="data-tag">경기별 비교</span><span class="data-tag">관심 경기 알리미</span><span class="data-tag">구독 사용자</span><span class="data-tag">베팅 관심사 랭킹</span><span class="data-tag">사용자 차단 관계</span><span class="data-tag">UV·PV 통계</span><span class="data-tag">GMT별 접속 분포</span><span class="data-tag">국가별 유저</span><span class="data-tag">올킬 이벤트 참여</span>
+          <label class="data-check"><input type="checkbox"><span>팀 관심</span></label><label class="data-check"><input type="checkbox"><span>선수 관심</span></label><label class="data-check"><input type="checkbox"><span>리그 관심</span></label><label class="data-check"><input type="checkbox"><span>분석가 팔로우</span></label><label class="data-check"><input type="checkbox"><span>태그 관심</span></label><label class="data-check"><input type="checkbox"><span>접속 UV</span></label><label class="data-check"><input type="checkbox"><span>경기별 비교</span></label><label class="data-check"><input type="checkbox"><span>관심 경기 알리미</span></label><label class="data-check"><input type="checkbox"><span>구독 사용자</span></label><label class="data-check"><input type="checkbox"><span>베팅 관심사 랭킹</span></label><label class="data-check"><input type="checkbox"><span>사용자 차단 관계</span></label><label class="data-check"><input type="checkbox"><span>UV·PV 통계</span></label><label class="data-check"><input type="checkbox"><span>GMT별 접속 분포</span></label><label class="data-check"><input type="checkbox"><span>국가별 유저</span></label><label class="data-check"><input type="checkbox"><span>올킬 이벤트 참여</span></label>
         </div>
       </div>
       <div class="data-cell">
         <div class="data-cell-title">📸 선수 공식 사진</div>
-        <div class="data-cell-num" style="font-size:20px; margin-bottom:4px;">계약 제공</div>
         <div class="data-tags">
-          <span class="data-tag">오센(OSEN) · 국내</span><span class="data-tag">Getty Images · 해외</span><span class="data-tag">종목·리그·선수 검색</span><span class="data-tag">경기 현장 사진</span><span class="data-tag">훈련·인터뷰 컷</span><span class="data-tag">팀 단체 사진</span><span class="data-tag">CDN 실시간 제공</span>
+          <label class="data-check"><input type="checkbox"><span>오센(OSEN) · 국내</span></label><label class="data-check"><input type="checkbox"><span>Getty Images · 해외</span></label><label class="data-check"><input type="checkbox"><span>종목·리그·선수 검색</span></label><label class="data-check"><input type="checkbox"><span>경기 현장 사진</span></label><label class="data-check"><input type="checkbox"><span>훈련·인터뷰 컷</span></label><label class="data-check"><input type="checkbox"><span>팀 단체 사진</span></label><label class="data-check"><input type="checkbox"><span>CDN 실시간 제공</span></label>
         </div>
       </div>
       <div class="data-cell">
         <div class="data-cell-title">🔔 알림·푸시</div>
-        <div class="data-cell-num">5백 8십만+</div>
         <div class="data-tags">
-          <span class="data-tag">스코어 알림</span><span class="data-tag">베팅 알림</span><span class="data-tag">분석픽 알림</span><span class="data-tag">속보 푸시</span><span class="data-tag">유니버설 푸시</span><span class="data-tag">관심 경기 시작 알림</span><span class="data-tag">관심 선수 득점 알림</span><span class="data-tag">GCM·APNS 토큰</span><span class="data-tag">알리미 등록 1천 3백만+</span><span class="data-tag">SMS 인증</span>
+          <label class="data-check"><input type="checkbox"><span>스코어 알림</span></label><label class="data-check"><input type="checkbox"><span>베팅 알림</span></label><label class="data-check"><input type="checkbox"><span>분석픽 알림</span></label><label class="data-check"><input type="checkbox"><span>속보 푸시</span></label><label class="data-check"><input type="checkbox"><span>유니버설 푸시</span></label><label class="data-check"><input type="checkbox"><span>관심 경기 시작 알림</span></label><label class="data-check"><input type="checkbox"><span>관심 선수 득점 알림</span></label><label class="data-check"><input type="checkbox"><span>GCM·APNS 토큰</span></label><label class="data-check"><input type="checkbox"><span>알리미 등록 1천 3백만+</span></label><label class="data-check"><input type="checkbox"><span>SMS 인증</span></label>
         </div>
       </div>
       <div class="data-cell">
         <div class="data-cell-title">💰 결제·구독</div>
-        <div class="data-cell-num">5백만+</div>
         <div class="data-tags">
-          <span class="data-tag">구글 인앱결제</span><span class="data-tag">정기결제 로그</span><span class="data-tag">구독 사용자</span><span class="data-tag">보너스 포인트</span><span class="data-tag">환불 요청</span><span class="data-tag">LSBall 충전</span><span class="data-tag">분석픽 구매</span><span class="data-tag">이모티콘 구매</span><span class="data-tag">환전 요청</span><span class="data-tag">비정상 결제 감지</span>
+          <label class="data-check"><input type="checkbox"><span>구글 인앱결제</span></label><label class="data-check"><input type="checkbox"><span>정기결제 로그</span></label><label class="data-check"><input type="checkbox"><span>구독 사용자</span></label><label class="data-check"><input type="checkbox"><span>보너스 포인트</span></label><label class="data-check"><input type="checkbox"><span>환불 요청</span></label><label class="data-check"><input type="checkbox"><span>LSBall 충전</span></label><label class="data-check"><input type="checkbox"><span>분석픽 구매</span></label><label class="data-check"><input type="checkbox"><span>이모티콘 구매</span></label><label class="data-check"><input type="checkbox"><span>환전 요청</span></label><label class="data-check"><input type="checkbox"><span>비정상 결제 감지</span></label>
         </div>
+      </div>
+      <div class="data-cell-add" onclick="alert('새 분류 추가: 크리에이터 또는 AI가 직접 항목을 정의합니다.')">
+        <div class="data-cell-add-icon">+</div>
+        <div class="data-cell-add-label">분류 추가</div>
       </div>
     </div>
     <div style="margin-top:12px; background:var(--text); padding:20px 28px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
