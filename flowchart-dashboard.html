@@ -12,11 +12,11 @@
       --blue: #1A56DB;
       --green: #1A7B34;
       --text: #111;
-      --sub: #444;
-      --muted: #888;
+      --sub: #111;
+      --muted: #555;
       --bg: #fff;
-      --bg2: #F5F6F8;
-      --border: #E2E5EA;
+      --bg2: #fff;
+      --border: #111;
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
@@ -24,7 +24,7 @@
       font-family: 'Pretendard', -apple-system, 'Apple SD Gothic Neo', sans-serif;
       background: var(--bg);
       color: var(--text);
-      font-size: 16px;
+      font-size: 17px;
       line-height: 1.6;
       -webkit-font-smoothing: antialiased;
     }
@@ -32,25 +32,25 @@
     .sec { padding: 72px 0; }
     .sec-sm { padding: 48px 0; }
     .label {
-      font-size: 14px;
-      font-weight: 700;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 20px;
+      font-size: 22px;
+      font-weight: 900;
+      letter-spacing: -0.3px;
+      text-transform: none;
+      color: #111;
+      margin-bottom: 24px;
     }
-    .divider { height: 1px; background: var(--border); }
+    .divider { height: 1px; background: #111; }
 
     /* ── HEADER ── */
     header {
-      border-bottom: 1px solid var(--border);
+      border-bottom: 2px solid #111;
       padding: 20px 28px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       max-width: 100%;
     }
-    .logo { font-size: 14px; font-weight: 800; color: var(--red); letter-spacing: 1px; }
+    .logo { font-size: 14px; font-weight: 800; color: #111; letter-spacing: 1px; }
     .header-badge {
       font-size: 12px;
       font-weight: 600;
@@ -62,7 +62,7 @@
     .dot {
       width: 6px; height: 6px;
       border-radius: 50%;
-      background: var(--red);
+      background: #111;
       animation: blink 1.4s infinite;
     }
     @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
@@ -70,7 +70,7 @@
     /* ── HERO ── */
     .hero {
       padding: 64px 0 56px;
-      border-bottom: 1px solid var(--border);
+      border-bottom: 2px solid #111;
       background: var(--bg2);
     }
     .hero-title {
@@ -80,13 +80,12 @@
       line-height: 1.05;
       margin-bottom: 40px;
     }
-    .hero-title .red { color: var(--red); }
+    .hero-title .red { color: #111; }
 
     /* 숫자 바 */
     .stat-bar {
       display: flex;
-      border: 1px solid var(--border);
-      border-radius: 12px;
+      border: 1px solid #111;
       overflow: hidden;
       background: var(--bg);
       width: fit-content;
@@ -99,7 +98,7 @@
     .stat-num {
       font-size: 30px;
       font-weight: 900;
-      color: var(--blue);
+      color: #111;
       display: block;
       letter-spacing: -1px;
       line-height: 1;
@@ -114,7 +113,7 @@
     /* ── 수익 실사례 ── */
     .revenue-block {
       background: var(--text);
-      border-radius: 16px;
+      
       padding: 44px 48px;
       display: flex;
       align-items: center;
@@ -129,11 +128,11 @@
       line-height: 1;
       letter-spacing: -3px;
     }
-    .revenue-unit { font-size: 32px; font-weight: 700; color: rgba(255,255,255,0.5); }
-    .revenue-sub { font-size: 14px; color: rgba(255,255,255,0.4); margin-top: 8px; }
+    .revenue-unit { font-size: 32px; font-weight: 700; color: rgba(255,255,255,0.9); }
+    .revenue-sub { font-size: 14px; color: rgba(255,255,255,0.85); margin-top: 8px; }
     .revenue-desc {
       font-size: 18px;
-      color: rgba(255,255,255,0.7);
+      color: #fff;
       line-height: 1.8;
       max-width: 420px;
     }
@@ -141,8 +140,8 @@
 
     /* ── DATA ── */
     .opta-block {
-      border: 1px solid var(--border);
-      border-radius: 16px;
+      border: 1px solid #111;
+      
       overflow: hidden;
       margin-bottom: 16px;
     }
@@ -156,65 +155,64 @@
       gap: 12px;
     }
     .opta-head-title {
-      font-size: 20px;
+      font-size: 22px;
       font-weight: 800;
       color: #fff;
     }
-    .opta-head-sub { font-size: 16px; color: rgba(255,255,255,0.8); line-height: 1.7; margin-top: 6px; }
+    .opta-head-sub { font-size: 16px; color: #fff; line-height: 1.7; margin-top: 6px; }
     .opta-contract {
       font-size: 15px;
       font-weight: 800;
       color: #fff;
-      background: var(--blue);
+      background: #111;
       border: none;
       padding: 8px 20px;
-      border-radius: 100px;
       letter-spacing: 1px;
       white-space: nowrap;
     }
 
     /* 팀 스탯 테이블 */
     .match-table { width: 100%; border-collapse: collapse; }
-    .match-table .col-team { width: 40%; padding: 13px 24px; font-size: 16px; font-weight: 700; }
-    .match-table .col-label { width: 20%; padding: 13px 0; font-size: 13px; color: var(--muted); text-align: center; border-left: 1px solid var(--border); border-right: 1px solid var(--border); }
-    .match-table tr { border-bottom: 1px solid var(--border); }
+    .match-table .col-team { width: 35%; padding: 13px 24px; font-size: 16px; font-weight: 700; }
+    .match-table .col-label { width: 30%; padding: 13px 0; font-size: 16px; color: #111; text-align: center; border-left: 1px solid var(--border); border-right: 1px solid var(--border); }
+    .match-table tr { border-bottom: 1px solid #111; }
     .match-table tr:last-child { border-bottom: none; }
-    .match-table .head-row { background: var(--bg2); font-size: 13px; font-weight: 700; }
-    .match-table .val-home { text-align: right; color: var(--red); }
+    .match-table .head-row { background: #fff; font-size: 16px; font-weight: 700; }
+    .match-table .val-home { text-align: right; color: #111; font-weight: 700; }
     .match-table .val-away { color: var(--sub); }
-    .match-table tr:nth-child(even):not(.head-row) { background: #FAFAFA; }
-    .match-num { font-size: 16px; font-weight: 700; }
+    .match-table tr:nth-child(even):not(.head-row) { background: #fff; }
+    .match-num { font-size: 18px; font-weight: 700; }
 
     /* 선수 테이블 */
     .player-table { width: 100%; border-collapse: collapse; }
-    .player-table th { background: var(--bg2); padding: 12px 16px; font-size: 12px; font-weight: 700; color: var(--muted); border-bottom: 1px solid var(--border); text-align: center; }
+    .player-table th { background: var(--bg2); padding: 12px 16px; font-size: 16px; font-weight: 700; color: #111; border-bottom: 1px solid #111; text-align: center; }
     .player-table th:first-child { text-align: left; }
-    .player-table td { padding: 13px 16px; font-size: 14px; color: var(--sub); border-bottom: 1px solid var(--border); text-align: center; }
+    .player-table td { padding: 13px 16px; font-size: 16px; color: #111; border-bottom: 1px solid #111; text-align: center; }
     .player-table td:first-child { font-weight: 700; color: var(--text); text-align: left; }
     .player-table tr:last-child td { border-bottom: none; }
-    .player-table tr:nth-child(even) td { background: #FAFAFA; }
-    .val-red { color: var(--red); font-weight: 700; }
-    .val-blue { color: var(--blue); font-weight: 700; }
-    .val-green { color: var(--green); font-weight: 700; }
+    .player-table tr:nth-child(even) td { background: #fff; }
+    .val-red { color: #111; font-weight: 700; }
+    .val-blue { color: #111; font-weight: 700; }
+    .val-green { color: #444; font-weight: 700; }
 
     /* 데이터 카드 그리드 */
     .data-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 1px;
-      background: var(--border);
-      border: 1px solid var(--border);
-      border-radius: 14px;
+      background: #111;
+      border: 1px solid #111;
+      
       overflow: hidden;
     }
     .data-cell {
       background: var(--bg);
       padding: 24px 22px;
     }
-    .data-cell-title { font-size: 13px; font-weight: 700; color: var(--muted); margin-bottom: 12px; }
+    .data-cell-title { font-size: 16px; font-weight: 700; color: var(--muted); margin-bottom: 12px; }
     .data-cell-num { font-size: 26px; font-weight: 900; color: var(--text); letter-spacing: -1px; line-height: 1; margin-bottom: 8px; }
     .data-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 10px; }
-    .data-tag { font-size: 12px; color: var(--sub); background: var(--bg2); border: 1px solid var(--border); padding: 3px 9px; border-radius: 5px; }
+    .data-tag { font-size: 14px; color: var(--sub); background: var(--bg2); border: 1px solid #111; padding: 3px 9px; }
 
     /* ── 프로젝트 ── */
     .proj-table { width: 100%; border-collapse: collapse; }
@@ -224,33 +222,32 @@
       font-size: 12px;
       font-weight: 700;
       color: var(--muted);
-      border-bottom: 1px solid var(--border);
+      border-bottom: 1px solid #111;
       text-align: left;
     }
     .proj-table td {
       padding: 20px 20px;
       font-size: 15px;
       color: var(--sub);
-      border-bottom: 1px solid var(--border);
+      border-bottom: 2px solid #111;
       vertical-align: top;
     }
     .proj-table tr:last-child td { border-bottom: none; }
-    .proj-table tr:nth-child(even) td { background: #FAFAFA; }
+    .proj-table tr:nth-child(even) td { background: #fff; }
     .proj-name { font-size: 16px; font-weight: 800; color: var(--text); margin-bottom: 4px; }
-    .proj-earn { font-size: 24px; font-weight: 900; color: var(--red); letter-spacing: -0.5px; }
-    .proj-earn.blue { color: var(--blue); }
-    .proj-earn.green { color: var(--green); }
+    .proj-earn { font-size: 24px; font-weight: 900; color: #111; letter-spacing: -0.5px; white-space: nowrap; }
+    .proj-earn.blue { color: #111; }
+    .proj-earn.green { color: #111; }
     .proj-type {
       display: inline-block;
       font-size: 11px;
       font-weight: 700;
       letter-spacing: 1px;
       padding: 3px 10px;
-      border-radius: 100px;
       margin-bottom: 8px;
     }
-    .type-always { background: #FFF2EE; color: var(--red); border: 1px solid #FBBDAA; }
-    .type-select { background: var(--bg2); color: var(--muted); border: 1px solid var(--border); }
+    .type-always { background: #fff; color: #444; border: 1px solid #111; }
+    .type-select { background: #fff; color: #444; border: 1px solid #111; }
 
     /* ── 기술 수익 ── */
     .tech-flow {
@@ -261,20 +258,19 @@
       margin-bottom: 24px;
     }
     .flow-step {
-      border: 1px solid var(--border);
-      border-radius: 12px;
+      border: 1px solid #111;
       padding: 20px 16px;
       text-align: center;
       background: var(--bg);
     }
-    .flow-step.active { border-color: var(--red); background: #FFF2EE; }
+    .flow-step.active { border-color: #111; background: #fff; }
     .flow-icon { font-size: 22px; margin-bottom: 8px; }
     .flow-title { font-size: 14px; font-weight: 700; color: var(--text); }
     .flow-arrow { text-align: center; color: var(--border); font-size: 18px; font-weight: 300; }
 
     .dist-table { width: 100%; border-collapse: collapse; }
-    .dist-table th { background: var(--bg2); padding: 13px 20px; font-size: 12px; font-weight: 700; color: var(--muted); border-bottom: 1px solid var(--border); text-align: left; }
-    .dist-table td { padding: 18px 20px; font-size: 15px; border-bottom: 1px solid var(--border); color: var(--sub); }
+    .dist-table th { background: var(--bg2); padding: 13px 20px; font-size: 12px; font-weight: 700; color: var(--muted); border-bottom: 1px solid #111; text-align: left; }
+    .dist-table td { padding: 18px 20px; font-size: 15px; border-bottom: 1px solid #111; color: var(--sub); }
     .dist-table tr:last-child td { border-bottom: none; }
     .dist-num { font-size: 26px; font-weight: 900; letter-spacing: -1px; }
 
@@ -283,15 +279,15 @@
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 1px;
-      background: var(--border);
-      border: 1px solid var(--border);
-      border-radius: 14px;
+      background: #111;
+      border: 1px solid #111;
+      
       overflow: hidden;
       margin-bottom: 16px;
     }
     .settle-cell { background: var(--bg); padding: 28px 24px; text-align: center; }
     .settle-label { font-size: 13px; color: var(--muted); font-weight: 600; margin-bottom: 14px; line-height: 1.5; }
-    .settle-num { font-size: 48px; font-weight: 900; color: var(--blue); letter-spacing: -2px; line-height: 1; }
+    .settle-num { font-size: 48px; font-weight: 900; color: #111; letter-spacing: -2px; line-height: 1; }
     .settle-unit { font-size: 20px; font-weight: 700; color: var(--sub); }
     .settle-note { font-size: 13px; color: var(--muted); margin-top: 10px; line-height: 1.6; }
 
@@ -301,7 +297,7 @@
       display: flex;
       gap: 16px;
       padding: 18px 0;
-      border-bottom: 1px solid var(--border);
+      border-bottom: 1px solid #111;
       align-items: flex-start;
     }
     .cond-item:last-child { border-bottom: none; }
@@ -321,7 +317,7 @@
       position: absolute;
       top: 20px; left: 12%; right: 12%;
       height: 1px;
-      background: var(--border);
+      background: #111;
     }
     .step { text-align: center; padding: 0 8px; }
     .step-num {
@@ -332,23 +328,22 @@
       margin: 0 auto 16px;
       position: relative; z-index: 1;
       background: var(--bg2);
-      border: 1px solid var(--border);
+      border: 1px solid #111;
       color: var(--sub);
     }
-    .step:first-child .step-num { background: var(--blue); border-color: var(--blue); color: #fff; }
+    .step:first-child .step-num { background: #111; border-color: #111; color: #fff; }
     .step-title { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 6px; }
     .step-note { font-size: 14px; color: var(--muted); line-height: 1.6; }
 
     /* ── MD 프로토콜 ── */
     .md-box {
-      background: #F8F9FA;
-      border: 1px solid var(--border);
-      border-radius: 12px;
+      background: #fff;
+      border: 1px solid #111;
       overflow: hidden;
       font-family: 'SF Mono', 'Fira Code', monospace;
     }
     .md-bar {
-      background: #EAECEF;
+      background: #fff;
       padding: 9px 16px;
       display: flex;
       align-items: center;
@@ -357,46 +352,374 @@
     .md-dot { width: 10px; height: 10px; border-radius: 50%; }
     .md-content { padding: 20px 24px; }
     .md-line { font-size: 14px; line-height: 2.1; display: block; }
-    .mk { color: var(--blue); font-weight: 600; }
-    .mv { color: var(--green); }
-    .mc { color: #AAA; font-style: italic; }
-    .mh { color: var(--red); font-weight: 700; }
-    .md-sep { color: #AAA; }
+    .mk { color: #111; font-weight: 600; }
+    .mv { color: #444; }
+    .mc { color: #555; font-style: italic; }
+    .mh { color: #111; font-weight: 700; }
+    .md-sep { color: #555; }
 
     /* ── CONTACT ── */
-    .contact-wrap { text-align: center; padding: 64px 0; border-top: 1px solid var(--border); }
+    .contact-wrap { text-align: center; padding: 64px 0; border-top: 2px solid #111; }
     .contact-email {
-      display: inline-block;
+      display: block;
+      width: fit-content;
+      margin: 0 auto 16px;
       font-size: 20px;
       font-weight: 800;
-      color: var(--red);
-      background: #FFF2EE;
-      border: 1.5px solid #FBBDAA;
-      border-radius: 12px;
+      color: #fff;
+      background: #111;
+      border: 1.5px solid #111;
       padding: 18px 40px;
       text-decoration: none;
-      margin-bottom: 16px;
+      text-align: center;
     }
     .contact-note { font-size: 14px; color: var(--muted); line-height: 1.8; }
 
     /* ── FOOTER ── */
-    footer { border-top: 1px solid var(--border); padding: 32px 28px; text-align: center; }
+    footer { border-top: 2px solid #111; padding: 32px 28px; text-align: center; }
     footer p { font-size: 13px; color: var(--muted); margin-top: 4px; }
+    .proj-mobile-title { display: none; }
+    .proj-desktop-info { display: block; }
 
     /* ── RESPONSIVE ── */
     @media (max-width: 720px) {
       .wrap { padding: 0 20px; }
       .sec { padding: 52px 0; }
-      .stat-bar { flex-wrap: wrap; }
-      .stat-item { padding: 16px 20px; }
+
+      /* stat-bar: 2x2 그리드 */
+      .stat-bar {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        width: 100%;
+      }
+      .stat-item {
+        padding: 20px 16px;
+        border-right: 1px solid #111;
+        border-bottom: 1px solid #111;
+      }
+      .stat-item:nth-child(2) { border-right: none; }
+      .stat-item:nth-child(3) { border-bottom: none; }
+      .stat-item:nth-child(4) { border-right: none; border-bottom: none; }
+      .stat-num { font-size: 22px; }
+      .stat-label { font-size: 13px; }
+
+      /* revenue */
+      .revenue-block { padding: 28px 24px; }
+      .revenue-num { font-size: 40px; letter-spacing: -1px; }
+      .revenue-unit { font-size: 22px; }
+      div[style*="font-size:36px"] { font-size: 20px !important; }
+
       .data-grid { grid-template-columns: 1fr; }
       .tech-flow { grid-template-columns: 1fr; }
       .flow-arrow { display: none; }
       .settle-grid { grid-template-columns: 1fr; }
+      .opta-head { flex-direction: column; align-items: flex-start; gap: 12px; }
+      .opta-contract { align-self: flex-start; }
+      .opta-head-title { font-size: 18px; }
+      .opta-head-sub { font-size: 14px; }
       .step-row { grid-template-columns: repeat(2, 1fr); gap: 28px; }
       .step-row::before { display: none; }
-      .revenue-block { flex-direction: column; padding: 32px 28px; }
-      .revenue-num { font-size: 56px; }
+      .contact-email { width: 100%; font-size: 16px; padding: 16px 20px; }
+      .proj-row { flex-direction: column !important; }
+      .proj-row > div { border-right: none !important; border-bottom: 1px solid #111; }
+      .proj-row > div:last-child { border-bottom: none; }
+      .proj-row > div:nth-child(2) { flex: none !important; padding: 16px 24px !important; flex-direction: row !important; align-items: center !important; justify-content: flex-start !important; gap: 12px; }
+      .proj-mobile-title { display: block; background: #111; color: #fff; font-size: 15px; font-weight: 800; padding: 12px 24px; }
+      .proj-desktop-info { display: none; }
+    }
+
+    /* ── DATA 개선 ── */
+    .sample-badge {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      background: transparent;
+      border: 1px solid #999;
+      color: #999;
+      padding: 2px 7px;
+      vertical-align: middle;
+      margin-left: 8px;
+      position: relative;
+      top: -1px;
+    }
+    .data-variability-notice {
+      font-size: 13px;
+      color: #555;
+      border: 1px dashed #bbb;
+      padding: 10px 16px;
+      margin-bottom: 16px;
+      line-height: 1.7;
+    }
+    .data-variability-notice strong { color: #111; }
+    .data-check {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 13px;
+      color: #333;
+      padding: 3px 0;
+      cursor: pointer;
+      line-height: 1.4;
+    }
+    .data-check input[type="checkbox"] {
+      width: 13px;
+      height: 13px;
+      margin: 0;
+      flex-shrink: 0;
+      accent-color: #111;
+      cursor: pointer;
+    }
+    .data-check span:first-of-type { flex: 1; }
+    .data-tags { display: flex; flex-direction: column; gap: 0; }
+    .data-cell-add {
+      background: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      cursor: pointer;
+      min-height: 180px;
+      border: 2.5px dashed #ccc;
+      margin: -1px;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .data-cell-add:hover { border-color: #111; background: #f9f9f9; }
+    .data-cell-add-icon {
+      font-size: 72px;
+      font-weight: 200;
+      color: #bbb;
+      line-height: 1;
+      margin-bottom: 10px;
+      font-family: 'Pretendard', sans-serif;
+      transition: color 0.2s;
+    }
+    .data-cell-add:hover .data-cell-add-icon { color: #111; }
+    .data-cell-add-label {
+      font-size: 12px;
+      color: #aaa;
+      font-weight: 600;
+      letter-spacing: 1px;
+      transition: color 0.2s;
+    }
+    .data-cell-add:hover .data-cell-add-label { color: #111; }
+
+    /* ── 샘플 조합 카드 ── */
+    .sample-combo-wrap {
+      margin-top: 44px;
+      margin-bottom: 24px;
+    }
+    .sample-combo-label {
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      color: #111;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .sample-combo-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: #ccc;
+    }
+    .sample-combo-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: #111;
+      border: 1px solid #111;
+      overflow: hidden;
+      margin-bottom: 2px;
+    }
+    .sample-combo-card {
+      background: #fff;
+      padding: 22px 20px;
+      position: relative;
+    }
+    .sample-combo-tag {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0;
+      color: #999;
+      background: transparent;
+      border-top: 1px solid #eee;
+      padding: 10px 0 0 0;
+      display: block;
+      margin-top: 12px;
+      width: 100%;
+    }
+    .sample-combo-name {
+      font-size: 20px;
+      font-weight: 900;
+      color: #111;
+      line-height: 1.25;
+      margin-bottom: 8px;
+      letter-spacing: -0.5px;
+    }
+    .sample-combo-desc {
+      font-size: 14px;
+      color: #333;
+      font-weight: 600;
+      margin-bottom: 16px;
+      line-height: 1.55;
+    }
+    .sample-combo-items {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      border-top: 1px solid #eee;
+      padding-top: 12px;
+    }
+    .sample-combo-check {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 7px;
+      font-size: 12px;
+      color: #333;
+      padding: 4px 0;
+      line-height: 1.4;
+    }
+    .sample-combo-check input[type="checkbox"],
+    .data-check input[type="checkbox"] {
+      display: none;
+    }
+    .data-check { cursor: default; }
+    .sample-combo-check { cursor: default; }
+    .sample-combo-footnote {
+      font-size: 11px;
+      color: #bbb;
+      text-align: right;
+      margin-top: 4px;
+      letter-spacing: 0.5px;
+    }
+    @media (max-width: 720px) {
+      .sample-combo-grid { grid-template-columns: 1fr; }
+    }
+
+    .data-check { justify-content: space-between; }
+    .data-val {
+      font-size: 11px;
+      color: #aaa;
+      font-weight: 600;
+      text-align: right;
+      white-space: nowrap;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      flex-shrink: 0;
+      margin-left: 6px;
+    }
+    .sample-combo-check { justify-content: space-between; }
+    .sample-combo-check span:first-of-type { flex: 1; }
+    .combo-val {
+      font-size: 11px;
+      color: #aaa;
+      font-weight: 600;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      flex-shrink: 0;
+      margin-left: 6px;
+    }
+
+    /* ── 데이터 검색 (손님 관점 진입) ── */
+    .data-search-wrap { margin-top: 32px; }
+    .data-search-head {
+      font-size: clamp(20px, 3.5vw, 28px); font-weight: 900; color: #111;
+      letter-spacing: -0.5px; line-height: 1.3; margin-bottom: 4px;
+    }
+    .data-search-sub { font-size: 14px; color: #777; margin-bottom: 18px; }
+    .data-search-box {
+      display: flex; align-items: center; gap: 10px;
+      border: 2px solid #111; background: #fff; padding: 0 18px; height: 60px;
+    }
+    .data-search-box svg { flex-shrink: 0; }
+    .data-search-box input {
+      flex: 1; border: none; outline: none; background: transparent;
+      font-size: 17px; font-weight: 600; color: #111; height: 100%;
+      font-family: inherit;
+    }
+    .data-search-box input::placeholder { color: #aaa; font-weight: 500; }
+    .data-search-clear {
+      display: none; cursor: pointer; border: none; background: #111; color: #fff;
+      width: 26px; height: 26px; font-size: 14px; line-height: 1; flex-shrink: 0;
+    }
+    .data-search-clear.show { display: block; }
+
+    /* 인기 칩 */
+    .data-chips-label {
+      font-size: 14px; font-weight: 800; color: #111; letter-spacing: 0.5px;
+      margin: 18px 0 10px;
+    }
+    .label-est {
+      display: inline-block; font-size: 10px; font-weight: 800; letter-spacing: 0.5px;
+      color: #888; border: 1px solid #ccc; padding: 2px 7px; margin-left: 6px;
+      vertical-align: middle;
+    }
+    .sample-combo-revenue {
+      display: flex; align-items: baseline; justify-content: space-between;
+      margin-top: 14px; padding-top: 12px; border-top: 1px solid #e5e5e5;
+    }
+    .sample-combo-revenue span { font-size: 12px; font-weight: 700; color: #777; }
+    .sample-combo-revenue b { font-size: 19px; font-weight: 900; color: var(--red); letter-spacing: -0.5px; }
+    .data-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .data-chip {
+      display: inline-flex; align-items: center;
+      border: 1px solid #111; background: #fff; color: #111;
+      font-size: 13px; font-weight: 700; padding: 7px 13px; font-family: inherit;
+    }
+    .data-chip .chip-rank { color: var(--red); margin-right: 5px; font-weight: 900; }
+
+    /* 검색 결과 카운트 */
+    .data-search-count {
+      display: none; font-size: 13px; font-weight: 700; color: #111;
+      margin: 16px 0 0; padding: 10px 14px; background: #F3F3F3; border-left: 3px solid var(--red);
+    }
+    .data-search-count.show { display: block; }
+    .data-search-count b { color: var(--red); }
+
+    /* 카탈로그 접기/펼치기 */
+    .catalog-toggle {
+      width: 100%; cursor: pointer; border: 1px solid #111; background: #fff;
+      color: #111; font-family: inherit; font-size: 15px; font-weight: 800;
+      padding: 16px; margin-top: 20px; display: flex; align-items: center;
+      justify-content: center; gap: 8px; transition: all 0.12s;
+    }
+    .catalog-toggle:hover { background: #111; color: #fff; }
+    .catalog-toggle .tog-arrow { transition: transform 0.2s; font-size: 12px; }
+    .catalog-body.collapsed { display: none; }
+    .catalog-toggle.open .tog-arrow { transform: rotate(180deg); }
+
+    /* 검색 매칭 하이라이트 / 숨김 */
+    .data-check.dc-hide { display: none !important; }
+    .data-cell.cell-hide { display: none !important; }
+    .data-check mark { background: #FFE600; color: #111; padding: 0 1px; }
+    .data-noresult {
+      display: none; text-align: center; padding: 40px 20px;
+      border: 1px dashed #aaa; color: #777; font-size: 15px; font-weight: 600;
+    }
+    .data-noresult.show { display: block; }
+
+    /* 검색 결과 영역 (검색창 바로 아래) */
+    .data-results { display: none; margin-top: 18px; }
+    .data-results.show { display: block; }
+    .data-results-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px;
+      background: #111; border: 1px solid #111; margin-top: 14px;
+    }
+    .data-results-grid:empty { display: none; }
+    .data-result-cell { background: #fff; padding: 18px 20px; }
+    .data-result-cell .rc-title {
+      font-size: 15px; font-weight: 900; color: #111; margin-bottom: 12px;
+    }
+    @media (max-width: 768px) {
+      .data-results-grid { grid-template-columns: 1fr; }
+      .rc-empty { display: none; }
+    }
+
+    @media (max-width: 768px) {
+      .data-search-box { height: 54px; padding: 0 14px; }
+      .data-search-box input { font-size: 16px; }
     }
   </style>
 </head>
@@ -412,7 +735,7 @@
 </header>
 
 <!-- ── HERO ── -->
-<section class="hero">
+<section class="hero" >
   <div class="wrap">
     <div class="hero-title">
       스포츠 크리에이터<br/>
@@ -421,7 +744,7 @@
     <div class="stat-bar">
       <div class="stat-item">
         <span class="stat-num">40만+</span>
-        <span class="stat-label">월간 활성 사용자</span>
+        <span class="stat-label">일간 활성 사용자</span>
       </div>
       <div class="stat-item">
         <span class="stat-num">70 %</span>
@@ -442,11 +765,10 @@
 <!-- ── 수익 실사례 ── -->
 <div class="sec-sm" style="background:#fff; border-bottom:1px solid var(--border);">
   <div class="wrap">
-    <div class="revenue-block" style="justify-content:center;">
-      <div style="display:flex; align-items:center; gap:24px; flex-wrap:wrap;">
-        <div style="font-size:36px; font-weight:800; color:rgba(255,255,255,0.8);">픽 분석가 월 최고 수익</div>
-        <div style="font-size:36px; font-weight:800; color:#fff;">:</div>
-        <div style="font-size:36px; font-weight:900; color:#fff; letter-spacing:-1px;">1,000 만원</div>
+    <div style="text-align:center;">
+      <div style="font-size:13px; font-weight:700; color:#999; letter-spacing:1.5px; margin-bottom:16px;">수익 실사례</div>
+      <div style="font-size:clamp(32px, 6vw, 64px); font-weight:900; color:#111; line-height:1.2; letter-spacing:-2px;">
+        활동 중 크리에이터<br/>월 최고 수익 1,000만원 이상
       </div>
     </div>
   </div>
@@ -455,260 +777,313 @@
 <!-- ── OPTA 데이터 ── -->
 <div class="sec" style="border-bottom:1px solid var(--border);">
   <div class="wrap">
-    <div class="label">Data — Opta 공식 계약</div>
+    <div class="label">Data — 공식 계약 현황</div>
 
-    <!-- Opta 헤더 -->
-    <div class="opta-block" style="margin-bottom:12px;">
-      <div class="opta-head">
-        <div>
-          <div class="opta-head-title">Opta Sports Data</div>
-          <div class="opta-head-sub">전세계 스포츠 빅데이터 라이선스 사용 가능</div>
-        </div>
-        <div class="opta-contract">공식 계약</div>
+    <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:#111; border:1px solid #111; overflow:hidden; margin-bottom:4px;">
+      <div style="background:#fff; padding:28px 24px;">
+        <div style="font-size:11px; font-weight:800; letter-spacing:2px; color:#999; margin-bottom:14px;">SPORTS DATA</div>
+        <div style="font-size:22px; font-weight:900; color:#111; margin-bottom:6px; letter-spacing:-0.5px;">Opta Sports</div>
+        <div style="font-size:13px; color:#555; line-height:1.8; margin-bottom:18px;">⚽ 축구 &nbsp;·&nbsp; ⚾ 야구 &nbsp;·&nbsp; 🏀 농구<br/>🏐 배구 &nbsp;·&nbsp; 🎾 테니스</div>
+        <div style="font-size:11px; font-weight:800; letter-spacing:1px; color:#fff; background:#111; display:inline-block; padding:4px 12px;">공식 라이선스</div>
       </div>
-      <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:0; border-top:1px solid var(--border);">
-        <div style="padding:16px 24px; border-right:1px solid var(--border);">
-          <div style="font-size:12px; color:var(--muted); margin-bottom:4px;">⚽ 축구</div>
-          <div style="font-size:14px; color:var(--sub);">점유율·슈팅·xG·패스·코너킥·오프사이드·경고·퇴장</div>
-        </div>
-        <div style="padding:16px 24px; border-right:1px solid var(--border);">
-          <div style="font-size:12px; color:var(--muted); margin-bottom:4px;">⚾ 야구</div>
-          <div style="font-size:14px; color:var(--sub);">타율·방어율·구종·구속·이닝별 득점·피칭 기록</div>
-        </div>
-        <div style="padding:16px 24px;">
-          <div style="font-size:12px; color:var(--muted); margin-bottom:4px;">🏀 농구 · 배구 · 테니스</div>
-          <div style="font-size:14px; color:var(--sub);">득점·리바운드·어시스트·블로킹·선수별 퍼포먼스</div>
-        </div>
+      <div style="background:#fff; padding:28px 24px;">
+        <div style="font-size:11px; font-weight:800; letter-spacing:2px; color:#999; margin-bottom:14px;">PLAYER PHOTO · 해외</div>
+        <div style="font-size:22px; font-weight:900; color:#111; margin-bottom:6px; letter-spacing:-0.5px;">Getty Images</div>
+        <div style="font-size:13px; color:#555; line-height:1.8; margin-bottom:18px;">해외 리그 선수 공식 사진<br/>경기 현장 · 훈련 · 인터뷰 컷</div>
+        <div style="font-size:11px; font-weight:800; letter-spacing:1px; color:#fff; background:#111; display:inline-block; padding:4px 12px;">공식 계약</div>
+      </div>
+      <div style="background:#fff; padding:28px 24px;">
+        <div style="font-size:11px; font-weight:800; letter-spacing:2px; color:#999; margin-bottom:14px;">PLAYER PHOTO · 국내</div>
+        <div style="font-size:22px; font-weight:900; color:#111; margin-bottom:6px; letter-spacing:-0.5px;">OSEN</div>
+        <div style="font-size:13px; color:#555; line-height:1.8; margin-bottom:18px;">국내 선수 공식 사진<br/>KBO · K리그 · 경기 현장</div>
+        <div style="font-size:11px; font-weight:800; letter-spacing:1px; color:#fff; background:#111; display:inline-block; padding:4px 12px;">공식 계약</div>
       </div>
     </div>
 
-    <!-- 샘플 — 팀 스탯 -->
-    <div class="opta-block" style="margin-bottom:12px;">
-      <div style="padding:12px 20px; background:var(--bg2); border-bottom:1px solid var(--border); font-size:12px; color:var(--muted); font-weight:600; letter-spacing:0.5px;">
-        SAMPLE · 2026.05.10 · EPL · Arsenal vs Chelsea
+    <!-- ── 데이터 검색 (손님 관점 진입) ── -->
+    <div class="data-search-wrap">
+      <div class="data-search-head">LIVE스코어 빅 데이터</div>
+      <div class="data-search-sub">공식 경기 기록부터 실시간 배당·유저 반응·AI 분석까지, LIVE스코어가 실시간으로 모은 스포츠 빅데이터 161종+</div>
+      <div class="data-search-box">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.5" y2="16.5"></line></svg>
+        <input id="dataSearchInput" type="text" placeholder="예: 배당, 평점, xG, 라인업, 팬 반응…" autocomplete="off"/>
+        <button class="data-search-clear" id="dataSearchClear" aria-label="검색어 지우기">✕</button>
       </div>
-      <table class="match-table">
-        <tr class="head-row">
-          <td class="col-team" style="text-align:right; font-size:13px;">Arsenal</td>
-          <td class="col-label">지표</td>
-          <td class="col-team" style="font-size:13px;">Chelsea</td>
-        </tr>
-        <tr>
-          <td class="col-team val-home"><span class="match-num">62%</span></td>
-          <td class="col-label">점유율</td>
-          <td class="col-team val-away"><span class="match-num">38%</span></td>
-        </tr>
-        <tr>
-          <td class="col-team val-home"><span class="match-num">18</span></td>
-          <td class="col-label">슈팅</td>
-          <td class="col-team val-away"><span class="match-num">9</span></td>
-        </tr>
-        <tr>
-          <td class="col-team val-home"><span class="match-num">7</span></td>
-          <td class="col-label">유효슈팅</td>
-          <td class="col-team val-away"><span class="match-num">3</span></td>
-        </tr>
-        <tr>
-          <td class="col-team val-home"><span class="match-num">1.87</span></td>
-          <td class="col-label">xG (기대득점)</td>
-          <td class="col-team val-away"><span class="match-num">0.74</span></td>
-        </tr>
-        <tr>
-          <td class="col-team val-home"><span class="match-num">543</span></td>
-          <td class="col-label">패스 시도</td>
-          <td class="col-team val-away"><span class="match-num">312</span></td>
-        </tr>
-        <tr>
-          <td class="col-team val-home"><span class="match-num">88%</span></td>
-          <td class="col-label">패스 성공률</td>
-          <td class="col-team val-away"><span class="match-num">79%</span></td>
-        </tr>
-        <tr>
-          <td class="col-team val-home"><span class="match-num">7</span></td>
-          <td class="col-label">코너킥</td>
-          <td class="col-team val-away"><span class="match-num">3</span></td>
-        </tr>
-        <tr>
-          <td class="col-team val-home"><span class="match-num">2</span></td>
-          <td class="col-label">오프사이드</td>
-          <td class="col-team val-away"><span class="match-num">1</span></td>
-        </tr>
-        <tr>
-          <td class="col-team val-home"><span class="match-num">1</span></td>
-          <td class="col-label">경고</td>
-          <td class="col-team val-away"><span class="match-num">3</span></td>
-        </tr>
-      </table>
+
+      <!-- 검색 결과 (검색창 바로 아래) -->
+      <div class="data-results" id="dataResults">
+        <div class="data-search-count" id="dataSearchCount"></div>
+        <div class="data-results-grid" id="dataResultsGrid"></div>
+        <div class="data-noresult" id="dataNoResult"></div>
+      </div>
+
+      <div class="data-chips-label" id="chipsLabel">🔥 실시간 인기 데이터 TOP 10 <span class="label-est">예상</span></div>
+      <div class="data-chips" id="dataChips">
+        <span class="data-chip"><span class="chip-rank">1</span>배당률 LIVE 변동</span>
+        <span class="data-chip"><span class="chip-rank">2</span>경기별 평점</span>
+        <span class="data-chip"><span class="chip-rank">3</span>xW 기대승률</span>
+        <span class="data-chip"><span class="chip-rank">4</span>베트맨 구매현황</span>
+        <span class="data-chip"><span class="chip-rank">5</span>승부예측 투표</span>
+        <span class="data-chip"><span class="chip-rank">6</span>결과확률 매트릭스</span>
+        <span class="data-chip"><span class="chip-rank">7</span>동일배당 과거 승률</span>
+        <span class="data-chip"><span class="chip-rank">8</span>슈팅·패스·카드</span>
+        <span class="data-chip"><span class="chip-rank">9</span>라이브 배당</span>
+        <span class="data-chip"><span class="chip-rank">10</span>xG 기대득점</span>
+      </div>
     </div>
 
-    <!-- 샘플 — 선수 스탯 -->
-    <div class="opta-block" style="margin-bottom:8px;">
-      <table class="player-table">
-        <thead>
-          <tr>
-            <th>선수</th>
-            <th>출전시간</th>
-            <th>득점</th>
-            <th>어시스트</th>
-            <th>슈팅</th>
-            <th>패스</th>
-            <th>평점</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Saka, B.</td>
-            <td>90'</td>
-            <td class="val-red">2</td>
-            <td>1</td>
-            <td>5</td>
-            <td>47</td>
-            <td class="val-green">9.2</td>
-          </tr>
-          <tr>
-            <td>Ødegaard, M.</td>
-            <td>90'</td>
-            <td>0</td>
-            <td class="val-blue">2</td>
-            <td>3</td>
-            <td>68</td>
-            <td class="val-green">8.7</td>
-          </tr>
-          <tr>
-            <td>Havertz, K.</td>
-            <td>74'</td>
-            <td class="val-red">1</td>
-            <td>0</td>
-            <td>4</td>
-            <td>29</td>
-            <td class="val-green">8.1</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <div style="font-size:12px; color:#BBB; padding-left:2px;">* 실제 Opta 데이터 구조 기반 샘플. 수치는 예시입니다.</div>
+    <!-- ── 인기 조합 3종 ── -->
+    <div class="sample-combo-wrap">
+      <div class="sample-combo-label">🏆 유저가 만든 돈 버는 TOP 3 데이터 조합 <span class="label-est">예상 매출</span></div>
+      <div class="sample-combo-grid">
 
-    <!-- 데이터 카드 그리드 -->
-    <div style="margin-top:32px;" class="label">전체 데이터 구성</div>
+        <!-- 샘플 1 -->
+        <div class="sample-combo-card">
+          <div class="sample-combo-name">배당 냄새 맡기 센서</div>
+          <div class="sample-combo-desc">배당이 움직이기 전에 돈 냄새부터 맡는다</div>
+          <div class="sample-combo-items">
+            <label class="sample-combo-check"><input type="checkbox" checked><span>배당률 LIVE 변동</span><span class="combo-val">2.10→1.95→1.85</span></label>
+            <label class="sample-combo-check"><input type="checkbox" checked><span>배당 급변 알림</span><span class="combo-val">▼0.15</span></label>
+            <label class="sample-combo-check"><input type="checkbox" checked><span>베트맨 구매현황</span><span class="combo-val">68%</span></label>
+            <label class="sample-combo-check"><input type="checkbox" checked><span>베팅사별 비교</span><span class="combo-val">3사+</span></label>
+          </div>
+          <div class="sample-combo-revenue"><span>예상 월 매출</span><b>320만원</b></div>
+          <div class="sample-combo-tag">by '모기눈알'</div>
+        </div>
+
+        <!-- 샘플 2 -->
+        <div class="sample-combo-card">
+          <div class="sample-combo-name">오늘 영수증 성적 감정</div>
+          <div class="sample-combo-desc">내가 베팅한 경기의 데이터를 직접 영수증처럼 뽑아본다</div>
+          <div class="sample-combo-items">
+            <label class="sample-combo-check"><input type="checkbox" checked><span>사용자 승부예측 투표</span><span class="combo-val">71%</span></label>
+            <label class="sample-combo-check"><input type="checkbox" checked><span>동일배당 과거 승률</span><span class="combo-val">54%</span></label>
+            <label class="sample-combo-check"><input type="checkbox" checked><span>베트맨 구매현황</span><span class="combo-val">68%</span></label>
+            <label class="sample-combo-check"><input type="checkbox" checked><span>결과확률 매트릭스</span><span class="combo-val">홈승 54%</span></label>
+          </div>
+          <div class="sample-combo-revenue"><span>예상 월 매출</span><b>240만원</b></div>
+          <div class="sample-combo-tag">by '마운트캐슬'</div>
+        </div>
+
+        <!-- 샘플 3 -->
+        <div class="sample-combo-card">
+          <div class="sample-combo-name">오늘 경기 망친 범인 수배</div>
+          <div class="sample-combo-desc">라인업 전원 평점 분석. 누가 내 돈을 날렸는지 특정한다</div>
+          <div class="sample-combo-items">
+            <label class="sample-combo-check"><input type="checkbox" checked><span>경기별 평점</span><span class="combo-val">7.4</span></label>
+            <label class="sample-combo-check"><input type="checkbox" checked><span>슈팅·패스·카드</span><span class="combo-val">4 / 52 / 1</span></label>
+            <label class="sample-combo-check"><input type="checkbox" checked><span>직전경기 소화시간</span><span class="combo-val">87'</span></label>
+            <label class="sample-combo-check"><input type="checkbox" checked><span>부상·결장선수</span><span class="combo-val">3명</span></label>
+          </div>
+          <div class="sample-combo-revenue"><span>예상 월 매출</span><b>150만원</b></div>
+          <div class="sample-combo-tag">by '구영탄'</div>
+        </div>
+
+      </div>
+      <div class="sample-combo-footnote">※ 위 조합은 실제 유저 데이터 활용 예시입니다. 항목은 자유롭게 재구성할 수 있습니다.</div>
+    </div>
+
+    <!-- 전체 카탈로그 토글 -->
+    <button class="catalog-toggle" id="catalogToggle">
+      <span id="catalogToggleText">전체 데이터 둘러보기 (161개 항목)</span>
+      <span class="tog-arrow">▼</span>
+    </button>
+
+    <!-- 전체 데이터 구성 (기본 접힘) -->
+    <div class="catalog-body collapsed" id="catalogBody">
+    <div class="data-variability-notice" style="margin-top:20px;">
+      이 분류 구조는 <strong>예시(샘플)</strong>입니다. 대분류·소분류 모두 크리에이터가 자유롭게 재구성할 수 있습니다.<br/>
+      어떤 항목을 조합하고 어떻게 묶을지는 크리에이터의 판단에 따릅니다. 항목은 계속 추가됩니다.
+    </div>
     <div class="data-grid">
-      <div class="data-cell">
-        <div class="data-cell-title">🏟️ 경기 기록</div>
-        <div class="data-cell-num">4억 5천만+</div>
-        <div class="data-tags">
-          <span class="data-tag">경기 결과</span><span class="data-tag">선발 라인업</span><span class="data-tag">교체 기록</span><span class="data-tag">리그 순위</span><span class="data-tag">중계 정보</span><span class="data-tag">득점·어시스트</span><span class="data-tag">타율·방어율</span><span class="data-tag">이닝별 득점</span><span class="data-tag">리바운드</span>
+      <div class="data-cell" style="grid-column: span 2;">
+        <div class="data-cell-title" style="font-size:18px; margin-bottom:16px;"><span style="background:#37607D; color:#fff; padding:2px 8px; margin-right:6px;">LIVE스코어</span><span style="color:#111; font-weight:900;">+ 45만 유저의 핵심 데이터</span></div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
+          <div>
+            <div style="font-size:13px; font-weight:700; color:#37607D; margin-bottom:8px; letter-spacing:0.5px;">⚡ xG 기대지표</div>
+            <div class="data-tags">
+              <label class="data-check"><input type="checkbox"><span>xG 기대득점</span><span class="data-val">1.87</span></label><label class="data-check"><input type="checkbox"><span>xA 기대도움</span><span class="data-val">0.43</span></label><label class="data-check"><input type="checkbox"><span>xGA 기대실점</span><span class="data-val">0.74</span></label><label class="data-check"><input type="checkbox"><span>xP 기대승점</span><span class="data-val">1.2</span></label><label class="data-check"><input type="checkbox"><span>xW 기대승률</span><span class="data-val">68%</span></label><label class="data-check"><input type="checkbox"><span>실시간 xW 추이</span><span class="data-val">62%→68%</span></label><label class="data-check"><input type="checkbox"><span>슛맵</span></label><label class="data-check"><input type="checkbox"><span>슛별 xG값</span><span class="data-val">0.23</span></label><label class="data-check"><input type="checkbox"><span>전반·후반 xG 흐름</span><span class="data-val">0.9 / 0.97</span></label><label class="data-check"><input type="checkbox"><span>팀 누적 xG</span><span class="data-val">38.4</span></label><label class="data-check"><input type="checkbox"><span>경기별 xG 비교</span></label><label class="data-check"><input type="checkbox"><span>시즌 xG 랭킹</span><span class="data-val">3위</span></label><label class="data-check"><input type="checkbox"><span>유저 반응 연동 xG</span></label><label class="data-check"><input type="checkbox"><span>응원 폭발 구간 xG</span></label>
+            </div>
+          </div>
+          <div>
+            <div style="font-size:13px; font-weight:700; color:#37607D; margin-bottom:8px; letter-spacing:0.5px;">🎯 선수 세부 스탯</div>
+            <div class="data-tags">
+              <label class="data-check"><input type="checkbox"><span>경기별 평점</span><span class="data-val">7.4</span></label><label class="data-check"><input type="checkbox"><span>경기별 슛맵·xG</span><span class="data-val">0.52</span></label><label class="data-check"><input type="checkbox"><span>시즌 전체 슛맵</span></label><label class="data-check"><input type="checkbox"><span>최근3G vs 시즌avg</span><span class="data-val">8.1 / 7.2</span></label><label class="data-check"><input type="checkbox"><span>팀내 기록순위</span><span class="data-val">2위</span></label><label class="data-check"><input type="checkbox"><span>시즌 평균평점</span><span class="data-val">7.8</span></label><label class="data-check"><input type="checkbox"><span>등록선수 현황</span><span class="data-val">26명</span></label><label class="data-check"><input type="checkbox"><span>슈팅·패스·카드</span><span class="data-val">4 / 52 / 1</span></label><label class="data-check"><input type="checkbox"><span>유저 관심 선수 순위</span><span class="data-val">1위</span></label><label class="data-check"><input type="checkbox"><span>응원글 언급 빈도</span><span class="data-val">1,240회</span></label><label class="data-check"><input type="checkbox"><span>선수별 팬 반응 지수</span><span class="data-val">94.2</span></label><label class="data-check"><input type="checkbox"><span>Form 그래프</span></label><label class="data-check"><input type="checkbox"><span>직전경기 소화시간</span><span class="data-val">87'</span></label><label class="data-check"><input type="checkbox"><span>시장가치</span><span class="data-val">€42M</span></label>
+            </div>
+          </div>
         </div>
       </div>
       <div class="data-cell">
-        <div class="data-cell-title">💬 팬 반응</div>
-        <div class="data-cell-num">3억 6천만+</div>
+        <div class="data-cell-title">⚔️ 전력 비교</div>
         <div class="data-tags">
-          <span class="data-tag">응원글</span><span class="data-tag">댓글·리플</span><span class="data-tag">게시판 글</span><span class="data-tag">핫뉴스</span><span class="data-tag">사진 공유</span><span class="data-tag">카툰·만화</span><span class="data-tag">유튜브</span><span class="data-tag">속보</span>
+          <label class="data-check"><input type="checkbox"><span>최근 흐름</span><span class="data-val">3승1무1패</span></label><label class="data-check"><input type="checkbox"><span>상대 전적</span><span class="data-val">12승4무8패</span></label><label class="data-check"><input type="checkbox"><span>키 플레이어 비교</span></label><label class="data-check"><input type="checkbox"><span>선발투수 비교</span></label><label class="data-check"><input type="checkbox"><span>부상·결장선수</span><span class="data-val">3명</span></label><label class="data-check"><input type="checkbox"><span>팀 평균평점</span><span class="data-val">7.1</span></label><label class="data-check"><input type="checkbox"><span>xW 실시간 기대승률</span><span class="data-val">68%</span></label><label class="data-check"><input type="checkbox"><span>결과확률 매트릭스</span></label><label class="data-check"><input type="checkbox"><span>인사이트·매치픽</span></label><label class="data-check"><input type="checkbox"><span>홈·원정 승률</span><span class="data-val">홈 72%</span></label><label class="data-check"><input type="checkbox"><span>최근 5경기 득실</span><span class="data-val">+8</span></label><label class="data-check"><input type="checkbox"><span>팀 xG 비교</span><span class="data-val">1.87 vs 0.74</span></label><label class="data-check"><input type="checkbox"><span>유효슈팅 비교</span><span class="data-val">7 vs 3</span></label><label class="data-check"><input type="checkbox"><span>점유율 추이</span><span class="data-val">62%</span></label><label class="data-check"><input type="checkbox"><span>세트피스 득점력</span><span class="data-val">4골</span></label>
+        </div>
+      </div>
+      <div class="data-cell">
+        <div class="data-cell-title">📋 라인업</div>
+        <div class="data-tags">
+          <label class="data-check"><input type="checkbox"><span>이전 라인업</span></label><label class="data-check"><input type="checkbox"><span>예상 라인업</span></label><label class="data-check"><input type="checkbox"><span>확정 라인업</span></label><label class="data-check"><input type="checkbox"><span>선수별 시즌 기록</span></label><label class="data-check"><input type="checkbox"><span>선수별 평균 평점</span><span class="data-val">7.2</span></label><label class="data-check"><input type="checkbox"><span>선수별 시장가치</span><span class="data-val">€28M</span></label><label class="data-check"><input type="checkbox"><span>직전경기 소화시간</span><span class="data-val">87'</span></label><label class="data-check"><input type="checkbox"><span>시즌 스냅샷</span></label><label class="data-check"><input type="checkbox"><span>포메이션</span><span class="data-val">4-3-3</span></label><label class="data-check"><input type="checkbox"><span>BetsAPI 라인업</span></label><label class="data-check"><input type="checkbox"><span>Betradar 라인업</span></label><label class="data-check"><input type="checkbox"><span>Sports2i 라인업</span></label><label class="data-check"><input type="checkbox"><span>야구 선발투수</span></label><label class="data-check"><input type="checkbox"><span>농구 스타터5</span></label><label class="data-check"><input type="checkbox"><span>배구 스타팅 세터</span></label>
         </div>
       </div>
       <div class="data-cell">
         <div class="data-cell-title">📈 배당률</div>
-        <div class="data-cell-num">3억 2천만+</div>
         <div class="data-tags">
-          <span class="data-tag">BetsAPI</span><span class="data-tag">Betradar</span><span class="data-tag">BetMan</span><span class="data-tag">경기 전 배당</span><span class="data-tag">라이브 배당</span><span class="data-tag">핸디캡</span><span class="data-tag">오버/언더</span><span class="data-tag">변동 이력</span>
+          <label class="data-check"><input type="checkbox"><span>경기 전 배당</span><span class="data-val">2.10</span></label><label class="data-check"><input type="checkbox"><span>라이브 배당</span><span class="data-val">1.85</span></label><label class="data-check"><input type="checkbox"><span>핸디캡</span><span class="data-val">-0.5</span></label><label class="data-check"><input type="checkbox"><span>오버/언더</span><span class="data-val">2.5</span></label><label class="data-check"><input type="checkbox"><span>배당률 LIVE 변동</span><span class="data-val">2.10→1.95→1.85</span></label><label class="data-check"><input type="checkbox"><span>동일배당 과거 승률</span><span class="data-val">54%</span></label><label class="data-check"><input type="checkbox"><span>베트맨 구매현황</span><span class="data-val">68%</span></label><label class="data-check"><input type="checkbox"><span>사용자 승부예측 투표</span><span class="data-val">71%</span></label><label class="data-check"><input type="checkbox"><span>BetsAPI 배당</span><span class="data-val">2.08</span></label><label class="data-check"><input type="checkbox"><span>Betradar 배당</span><span class="data-val">2.05</span></label><label class="data-check"><input type="checkbox"><span>스포츠토토 연동</span></label><label class="data-check"><input type="checkbox"><span>배당 급변 알림</span><span class="data-val">▼0.15</span></label><label class="data-check"><input type="checkbox"><span>종목별 배당 히스토리</span></label><label class="data-check"><input type="checkbox"><span>베팅사별 비교</span></label>
+        </div>
+      </div>
+      <div class="data-cell">
+        <div class="data-cell-title">🤖 AI·분석</div>
+        <div class="data-tags">
+          <label class="data-check"><input type="checkbox"><span>픽 조합</span></label><label class="data-check"><input type="checkbox"><span>분석가 승률</span><span class="data-val">61%</span></label><label class="data-check"><input type="checkbox"><span>축구 예측</span><span class="data-val">홈승 68%</span></label><label class="data-check"><input type="checkbox"><span>야구 예측</span><span class="data-val">홈승 54%</span></label><label class="data-check"><input type="checkbox"><span>농구 예측</span></label><label class="data-check"><input type="checkbox"><span>분석가 픽 구매 로그</span><span class="data-val">1,240건</span></label><label class="data-check"><input type="checkbox"><span>Sportguru 연동 분석</span></label><label class="data-check"><input type="checkbox"><span>AI 학습 데이터셋</span></label><label class="data-check"><input type="checkbox"><span>경기 학습 누적</span><span class="data-val">14,820경기</span></label><label class="data-check"><input type="checkbox"><span>분석가 팔로워 수</span><span class="data-val">8,420명</span></label><label class="data-check"><input type="checkbox"><span>픽 판매 통계</span><span class="data-val">320건</span></label><label class="data-check"><input type="checkbox"><span>적중률 랭킹</span><span class="data-val">3위</span></label>
+        </div>
+      </div>
+      <div class="data-cell">
+        <div class="data-cell-title">🏟️ 경기 기록</div>
+        <div class="data-tags">
+          <label class="data-check"><input type="checkbox"><span>경기 결과</span><span class="data-val">2-1</span></label><label class="data-check"><input type="checkbox"><span>선수별 기록</span></label><label class="data-check"><input type="checkbox"><span>교체 기록</span><span class="data-val">5회</span></label><label class="data-check"><input type="checkbox"><span>리그 순위</span><span class="data-val">3위</span></label><label class="data-check"><input type="checkbox"><span>중계 정보</span></label><label class="data-check"><input type="checkbox"><span>득점·어시스트</span><span class="data-val">2G 1A</span></label><label class="data-check"><input type="checkbox"><span>타율·방어율</span><span class="data-val">.312 / 3.24</span></label><label class="data-check"><input type="checkbox"><span>이닝별 득점</span><span class="data-val">3-1-0-...</span></label><label class="data-check"><input type="checkbox"><span>리바운드·블록</span><span class="data-val">11 / 3</span></label><label class="data-check"><input type="checkbox"><span>세트별 득점</span><span class="data-val">25-22</span></label><label class="data-check"><input type="checkbox"><span>테니스 게임 스코어</span><span class="data-val">6-4, 6-3</span></label><label class="data-check"><input type="checkbox"><span>아이스하키 피리어드</span></label><label class="data-check"><input type="checkbox"><span>가상축구 결과</span></label><label class="data-check"><input type="checkbox"><span>파워볼 데이터</span></label><label class="data-check"><input type="checkbox"><span>실시간 경기 이벤트</span></label><label class="data-check"><input type="checkbox"><span>VAR·판정 기록</span><span class="data-val">2건</span></label><label class="data-check"><input type="checkbox"><span>코너킥·프리킥</span><span class="data-val">7 / 4</span></label><label class="data-check"><input type="checkbox"><span>경고·퇴장</span><span class="data-val">3 / 0</span></label>
+        </div>
+      </div>
+      <div class="data-cell">
+        <div class="data-cell-title">💬 팬 반응</div>
+        <div class="data-tags">
+          <label class="data-check"><input type="checkbox"><span>응원글</span><span class="data-val">5,320건</span></label><label class="data-check"><input type="checkbox"><span>댓글·리플</span><span class="data-val">12,480건</span></label><label class="data-check"><input type="checkbox"><span>게시판 글</span><span class="data-val">840건</span></label><label class="data-check"><input type="checkbox"><span>핫뉴스</span></label><label class="data-check"><input type="checkbox"><span>사진 공유</span><span class="data-val">1,240건</span></label><label class="data-check"><input type="checkbox"><span>카툰·만화</span></label><label class="data-check"><input type="checkbox"><span>유튜브 영상</span></label><label class="data-check"><input type="checkbox"><span>속보</span></label><label class="data-check"><input type="checkbox"><span>이모티콘 반응</span><span class="data-val">48,200회</span></label><label class="data-check"><input type="checkbox"><span>신고 로그</span></label><label class="data-check"><input type="checkbox"><span>응원 퍼센트</span><span class="data-val">71%</span></label><label class="data-check"><input type="checkbox"><span>경기별 응원 폭발량</span><span class="data-val">5,320건</span></label><label class="data-check"><input type="checkbox"><span>팬게임 참여</span><span class="data-val">8,420명</span></label><label class="data-check"><input type="checkbox"><span>그룹톡</span></label><label class="data-check"><input type="checkbox"><span>아프리카TV 연동</span></label><label class="data-check"><input type="checkbox"><span>태그별 반응</span></label><label class="data-check"><input type="checkbox"><span>쪽지·메모</span></label>
         </div>
       </div>
       <div class="data-cell">
         <div class="data-cell-title">👥 사용자 관심</div>
-        <div class="data-cell-num">4천 9백만+</div>
         <div class="data-tags">
-          <span class="data-tag">팀 관심</span><span class="data-tag">선수 관심</span><span class="data-tag">리그 관심</span><span class="data-tag">분석가 팔로우</span><span class="data-tag">태그 관심</span><span class="data-tag">접속 UV</span><span class="data-tag">경기별 비교</span>
+          <label class="data-check"><input type="checkbox"><span>팀 관심</span><span class="data-val">42,800명</span></label><label class="data-check"><input type="checkbox"><span>선수 관심</span><span class="data-val">18,400명</span></label><label class="data-check"><input type="checkbox"><span>리그 관심</span><span class="data-val">128,000명</span></label><label class="data-check"><input type="checkbox"><span>분석가 팔로우</span><span class="data-val">8,420명</span></label><label class="data-check"><input type="checkbox"><span>태그 관심</span></label><label class="data-check"><input type="checkbox"><span>접속 UV</span><span class="data-val">124,800</span></label><label class="data-check"><input type="checkbox"><span>경기별 비교</span></label><label class="data-check"><input type="checkbox"><span>관심 경기 알리미</span><span class="data-val">3,240건</span></label><label class="data-check"><input type="checkbox"><span>구독 사용자</span><span class="data-val">12,480명</span></label><label class="data-check"><input type="checkbox"><span>베팅 관심사 랭킹</span></label><label class="data-check"><input type="checkbox"><span>사용자 차단 관계</span></label><label class="data-check"><input type="checkbox"><span>UV·PV 통계</span><span class="data-val">124K / 840K</span></label><label class="data-check"><input type="checkbox"><span>GMT별 접속 분포</span></label><label class="data-check"><input type="checkbox"><span>국가별 유저</span><span class="data-val">42개국</span></label><label class="data-check"><input type="checkbox"><span>올킬 이벤트 참여</span><span class="data-val">8,420명</span></label>
         </div>
       </div>
       <div class="data-cell">
         <div class="data-cell-title">📸 선수 공식 사진</div>
-        <div class="data-cell-num" style="font-size:20px; margin-bottom:4px;">계약 제공</div>
         <div class="data-tags">
-          <span class="data-tag">오센(OSEN) · 국내</span><span class="data-tag">Getty Images · 해외</span><span class="data-tag">종목·리그·선수 검색</span>
+          <label class="data-check"><input type="checkbox"><span>오센(OSEN) · 국내</span></label><label class="data-check"><input type="checkbox"><span>Getty Images · 해외</span></label><label class="data-check"><input type="checkbox"><span>종목·리그·선수 검색</span></label><label class="data-check"><input type="checkbox"><span>경기 현장 사진</span></label><label class="data-check"><input type="checkbox"><span>훈련·인터뷰 컷</span></label><label class="data-check"><input type="checkbox"><span>팀 단체 사진</span></label><label class="data-check"><input type="checkbox"><span>CDN 실시간 제공</span></label>
         </div>
       </div>
-      <div class="data-cell" style="opacity:0.6;">
-        <div class="data-cell-title">🤖 AI·분석 <span style="font-size:11px; background:#E2E5EA; color:#888; padding:2px 8px; border-radius:100px; margin-left:6px;">순차 오픈</span></div>
-        <div class="data-cell-num" style="font-size:18px; color:var(--muted);">준비 중</div>
+      <div class="data-cell">
+        <div class="data-cell-title">🔔 알림·푸시</div>
         <div class="data-tags">
-          <span class="data-tag">픽 조합</span><span class="data-tag">분석가 승률</span><span class="data-tag">축구·야구·농구 예측</span>
+          <label class="data-check"><input type="checkbox"><span>스코어 알림</span><span class="data-val">1,240만</span></label><label class="data-check"><input type="checkbox"><span>베팅 알림</span><span class="data-val">840만</span></label><label class="data-check"><input type="checkbox"><span>분석픽 알림</span><span class="data-val">320만</span></label><label class="data-check"><input type="checkbox"><span>속보 푸시</span></label><label class="data-check"><input type="checkbox"><span>유니버설 푸시</span></label><label class="data-check"><input type="checkbox"><span>관심 경기 시작 알림</span><span class="data-val">1,240만</span></label><label class="data-check"><input type="checkbox"><span>관심 선수 득점 알림</span></label><label class="data-check"><input type="checkbox"><span>GCM·APNS 토큰</span></label><label class="data-check"><input type="checkbox"><span>알리미 등록 1천 3백만+</span></label><label class="data-check"><input type="checkbox"><span>SMS 인증</span></label>
         </div>
       </div>
+      <div class="data-cell">
+        <div class="data-cell-title">💰 결제·구독</div>
+        <div class="data-tags">
+          <label class="data-check"><input type="checkbox"><span>구글 인앱결제</span><span class="data-val">420건</span></label><label class="data-check"><input type="checkbox"><span>정기결제 로그</span><span class="data-val">1,240건</span></label><label class="data-check"><input type="checkbox"><span>구독 사용자</span><span class="data-val">12,480명</span></label><label class="data-check"><input type="checkbox"><span>보너스 포인트</span><span class="data-val">1,200P</span></label><label class="data-check"><input type="checkbox"><span>환불 요청</span><span class="data-val">24건</span></label><label class="data-check"><input type="checkbox"><span>LSBall 충전</span><span class="data-val">50,000</span></label><label class="data-check"><input type="checkbox"><span>분석픽 구매</span><span class="data-val">320건</span></label><label class="data-check"><input type="checkbox"><span>이모티콘 구매</span></label><label class="data-check"><input type="checkbox"><span>환전 요청</span><span class="data-val">42건</span></label><label class="data-check"><input type="checkbox"><span>비정상 결제 감지</span></label>
+        </div>
+      </div>
+      <div class="data-cell-add" onclick="alert('새 분류 추가: 크리에이터 또는 AI가 직접 항목을 정의합니다.')">
+        <div class="data-cell-add-icon">+</div>
+        <div class="data-cell-add-label">분류 추가</div>
+      </div>
+      <div style="background:#fff; grid-column: span 2;"></div>
     </div>
-    <div style="margin-top:12px; background:var(--text); border-radius:12px; padding:20px 28px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
-      <div style="font-size:28px; font-weight:900; color:#fff; letter-spacing:-1px;">13억+ <span style="font-size:16px; color:rgba(255,255,255,0.4); font-weight:500;">건</span></div>
-      <div style="font-size:13px; color:rgba(255,255,255,0.45);">Opta · BetsAPI · Betradar · Sports2i · 오센 · Getty Images · 자체 수집</div>
-    </div>
+    </div><!-- /catalog-body -->
   </div>
 </div>
 
 <!-- ── 모집 프로젝트 ── -->
-<div class="sec" style="background:var(--bg2); border-bottom:1px solid var(--border);">
+<div class="sec" style="background:var(--bg); border-bottom:1px solid #111;">
   <div class="wrap">
     <div class="label">현재 모집 중인 프로젝트</div>
-    <div style="border:1px solid var(--border); border-radius:14px; overflow:hidden; background:var(--bg);">
-      <table class="proj-table" style="width:100%; border-collapse:collapse;">
-        <thead>
-          <tr>
-            <th style="width:36%;">프로젝트</th>
-            <th style="width:18%;">수익</th>
-            <th style="width:46%;">조건</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>
-              <span class="proj-type type-always">상시 모집</span>
-              <div class="proj-name">🎙️ 실시간 스포츠 중계</div>
-              <div style="font-size:14px; color:var(--muted);">경기 중계 방송 · 후원 포인트 수익</div>
-            </td>
-            <td><span class="proj-earn">70 %</span></td>
-            <td style="font-size:14px; color:var(--sub); line-height:1.8;">
-              약관 동의 후 즉시 시작<br/>
-              누적 5만원 이상 시 익월 말일 정산<br/>
-              계약 기간 제한 없음
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <span class="proj-type type-always">상시 모집</span>
-              <div class="proj-name">📊 스포츠 분석글 판매</div>
-              <div style="font-size:14px; color:var(--muted);">유료 분석글 등록 · 판매 건당 수익</div>
-            </td>
-            <td><span class="proj-earn">70 %</span></td>
-            <td style="font-size:14px; color:var(--sub); line-height:1.8;">
-              약관 동의 후 즉시 업로드<br/>
-              누적 5만원 이상 시 익월 말일 정산<br/>
-              1건 등록 후 반복 수익 발생
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <span class="proj-type type-select">1팀 선정</span>
-              <div class="proj-name">💻 배당 탐색기 개발</div>
-              <div style="font-size:14px; color:var(--muted);">해외 배당률 실시간 연동 시스템</div>
-            </td>
-            <td><span class="proj-earn blue">100 %</span></td>
-            <td style="font-size:14px; color:var(--sub); line-height:1.8;">
-              RFP 제안서 제출 → 선정<br/>
-              착수 30% → 중도금 → 잔금<br/>
-              목표 달성 시 러닝 개런티 추가<br/>
-              익월 10일 정산
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <span class="proj-type type-always">상시 접수</span>
-              <div class="proj-name">📣 홍보마케팅 기획</div>
-              <div style="font-size:14px; color:var(--muted);">온·오프라인 마케팅 아이디어 제안</div>
-            </td>
-            <td><span class="proj-earn green">채택 시</span></td>
-            <td style="font-size:14px; color:var(--sub); line-height:1.8;">
-              제안서 제출 → 검토 → 채택 시 계약<br/>
-              소요 비용 전액 지급<br/>
-              성과에 따라 보너스 추가<br/>
-              익월 10일 정산
-            </td>
-          </tr>
+    <div style="border:1px solid #111;">
+
+      <!-- 중계 -->
+      <div class="proj-row" style="display:flex; border-bottom:1px solid #111;">
+        <div class="proj-mobile-title">
+          <div style="font-size:11px; font-weight:700; border:1px solid #fff; display:inline-block; padding:2px 8px; margin-bottom:8px; opacity:0.7;">상시 모집</div>
+          <div>🎙️ 실시간 스포츠 중계</div>
+          <div style="font-size:13px; font-weight:400; opacity:0.7; margin-top:4px;">경기 중계 방송 · 후원 포인트 수익</div>
+        </div>
+        <div class="proj-desktop-info" style="flex:2; padding:24px; border-right:1px solid #111;">
+          <div style="font-size:12px; font-weight:700; border:1px solid #111; display:inline-block; padding:3px 10px; margin-bottom:12px;">상시 모집</div>
+          <div style="font-size:18px; font-weight:800; margin-bottom:4px;">🎙️ 실시간 스포츠 중계</div>
+          <div style="font-size:14px; color:#555;">경기 중계 방송 · 후원 포인트 수익</div>
+        </div>
+        <div style="flex:1; padding:20px; border-right:1px solid #111; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;">
+          <div style="font-size:18px; font-weight:900;">수익 70 %</div>
+          <div style="font-size:11px; color:#555; margin-top:6px; line-height:1.6;">※ 구글·애플<br/>수수료 제외</div>
+        </div>
+        <div style="flex:2; padding:24px; font-size:14px; color:#444; line-height:2;">
+          약관 동의 후 즉시 시작<br/>
+          5만원 이상 시 익월 말일 정산<br/>
+          계약 기간 제한 없음
+        </div>
+      </div>
+
+      <!-- 분석글 -->
+      <div class="proj-row" style="display:flex; border-bottom:1px solid #111;">
+        <div class="proj-mobile-title">
+          <div style="font-size:11px; font-weight:700; border:1px solid #fff; display:inline-block; padding:2px 8px; margin-bottom:8px; opacity:0.7;">상시 모집</div>
+          <div>📊 스포츠 분석글 판매</div>
+          <div style="font-size:13px; font-weight:400; opacity:0.7; margin-top:4px;">유료 분석글 등록 · 판매 건당 수익</div>
+        </div>
+        <div class="proj-desktop-info" style="flex:2; padding:24px; border-right:1px solid #111;">
+          <div style="font-size:12px; font-weight:700; border:1px solid #111; display:inline-block; padding:3px 10px; margin-bottom:12px;">상시 모집</div>
+          <div style="font-size:18px; font-weight:800; margin-bottom:4px;">📊 스포츠 분석글 판매</div>
+          <div style="font-size:14px; color:#555;">유료 분석글 등록 · 판매 건당 수익</div>
+        </div>
+        <div style="flex:1; padding:20px; border-right:1px solid #111; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;">
+          <div style="font-size:18px; font-weight:900;">수익 70 %</div>
+          <div style="font-size:11px; color:#555; margin-top:6px; line-height:1.6;">※ 구글·애플<br/>수수료 제외</div>
+        </div>
+        <div style="flex:2; padding:24px; font-size:14px; color:#444; line-height:2;">
+          약관 동의 후 즉시 업로드<br/>
+          5만원 이상 시 익월 말일 정산<br/>
+          1건 등록 후 반복 수익 발생
+        </div>
+      </div>
+
+      <!-- 배당 탐색기 -->
+      <div class="proj-row" style="display:flex; border-bottom:1px solid #111;">
+        <div class="proj-mobile-title">
+          <div style="font-size:11px; font-weight:700; border:1px solid #fff; display:inline-block; padding:2px 8px; margin-bottom:8px; opacity:0.7;">1팀 선정</div>
+          <div>💻 배당 탐색기 개발</div>
+          <div style="font-size:13px; font-weight:400; opacity:0.7; margin-top:4px;">해외 배당률 실시간 연동 시스템</div>
+        </div>
+        <div class="proj-desktop-info" style="flex:2; padding:24px; border-right:1px solid #111;">
+          <div style="font-size:12px; font-weight:700; border:1px solid #111; display:inline-block; padding:3px 10px; margin-bottom:12px;">1팀 선정</div>
+          <div style="font-size:18px; font-weight:800; margin-bottom:4px;">💻 배당 탐색기 개발</div>
+          <div style="font-size:14px; color:#555;">해외 배당률 실시간 연동 시스템</div>
+        </div>
+        <div style="flex:1; padding:20px; border-right:1px solid #111; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;">
+          <div style="font-size:18px; font-weight:900;">비용 100 % + 성과금</div>
+        </div>
+        <div style="flex:2; padding:24px; font-size:14px; color:#444; line-height:2;">
+          RFP 제안서 제출 → 선정<br/>
+          착수 30% → 중도금 → 잔금<br/>
+          목표 달성 시 러닝 개런티<br/>
+          익월 10일 정산
+        </div>
+      </div>
+
+      <!-- 마케팅 -->
+      <div class="proj-row" style="display:flex;">
+        <div class="proj-mobile-title">
+          <div style="font-size:11px; font-weight:700; border:1px solid #fff; display:inline-block; padding:2px 8px; margin-bottom:8px; opacity:0.7;">상시 접수</div>
+          <div>📣 홍보마케팅 기획</div>
+          <div style="font-size:13px; font-weight:400; opacity:0.7; margin-top:4px;">온·오프라인 마케팅 아이디어 제안</div>
+        </div>
+        <div class="proj-desktop-info" style="flex:2; padding:24px; border-right:1px solid #111;">
+          <div style="font-size:12px; font-weight:700; border:1px solid #111; display:inline-block; padding:3px 10px; margin-bottom:12px;">상시 접수</div>
+          <div style="font-size:18px; font-weight:800; margin-bottom:4px;">📣 홍보마케팅 기획</div>
+          <div style="font-size:14px; color:#555;">온·오프라인 마케팅 아이디어 제안</div>
+        </div>
+        <div style="flex:1; padding:20px; border-right:1px solid #111; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;">
+          <div style="font-size:18px; font-weight:900;">수익 제안</div>
+        </div>
+        <div style="flex:2; padding:24px; font-size:14px; color:#444; line-height:2;">
+          제안서 제출 → 채택 시 계약<br/>
+          소요 비용 전액 지급<br/>
+          성과에 따라 보너스 추가<br/>
+          익월 10일 정산
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
         </tbody>
       </table>
     </div>
@@ -717,7 +1092,7 @@
 
 
 <!-- ── 수익 구조 ── -->
-<div class="sec" style="background:var(--bg2); border-bottom:1px solid var(--border);">
+<div class="sec" style="background:var(--bg); border-bottom:1px solid var(--border);">
   <div class="wrap">
     <div class="label">수익 구조</div>
     <div class="settle-grid">
@@ -737,11 +1112,11 @@
         <div class="settle-note">사업소득세<br/>연간 종합소득세 신고 필요</div>
       </div>
     </div>
-    <div style="border:1px solid var(--border); border-radius:12px; background:var(--bg); padding:20px 24px;">
+    <div style="border:1px solid var(--border); background:var(--bg); padding:20px 24px;">
       <ul style="list-style:none;">
-        <li style="font-size:15px; color:var(--sub); padding:5px 0; display:flex; gap:10px;"><span style="color:var(--blue);">·</span>크리에이터 콘텐츠 일부(제목·요약·썸네일)는 플랫폼 마케팅에 활용될 수 있습니다.</li>
-        <li style="font-size:15px; color:var(--sub); padding:5px 0; display:flex; gap:10px;"><span style="color:var(--blue);">·</span>개발·마케팅 결과물의 지식재산권은 회사에 귀속됩니다. 기여자는 약정 수익 배분권을 보장받습니다.</li>
-        <li style="font-size:15px; color:var(--sub); padding:5px 0; display:flex; gap:10px;"><span style="color:var(--blue);">·</span>정산율·운영 정책 변경 시 30일 전 공지합니다.</li>
+        <li style="font-size:15px; color:var(--sub); padding:5px 0; display:flex; gap:10px;"><span style="color:#111;">·</span>크리에이터 콘텐츠 일부(제목·요약·썸네일)는 플랫폼 마케팅에 활용될 수 있습니다.</li>
+        <li style="font-size:15px; color:var(--sub); padding:5px 0; display:flex; gap:10px;"><span style="color:#111;">·</span>개발·마케팅 결과물의 지식재산권은 회사에 귀속됩니다. 기여자는 약정 수익 배분권을 보장받습니다.</li>
+        <li style="font-size:15px; color:var(--sub); padding:5px 0; display:flex; gap:10px;"><span style="color:#111;">·</span>정산율·운영 정책 변경 시 30일 전 공지합니다.</li>
       </ul>
     </div>
   </div>
@@ -777,13 +1152,14 @@
 </div>
 
 <!-- ── 산출물 프로토콜 ── -->
-<div class="sec" style="background:var(--bg2); border-bottom:1px solid var(--border);">
+<div class="sec" style="background:var(--bg); border-bottom:1px solid var(--border);">
   <div class="wrap">
-    <div class="label">산출물 제출 프로토콜 — 개발·마케팅 참여자</div>
-    <div style="background:var(--bg); border:1px solid var(--border); border-radius:14px; overflow:hidden;">
+    <div class="label">활동 기록 프로토콜 — 전체 참여자</div>
+    <div style="background:var(--bg); border:1px solid var(--border);  overflow:hidden;">
       <div style="padding:20px 24px; border-bottom:1px solid var(--border); font-size:15px; color:var(--sub); line-height:1.8;">
-        산출물(코드·디자인·영상 등)의 형태는 무관합니다.<br/>
-        <strong style="color:var(--text);">진행 과정·방식·의사결정 내용은 MD 파일로 정리하여 함께 제출해야 합니다.</strong>
+        참여 유형에 관계없이 모든 활동의 진행 과정·방식·의사결정 내용을<br/>
+        <strong style="color:var(--text);">MD 파일로 정리하여 제출해야 합니다.</strong><br/>
+        산출물(코드·분석글·영상·디자인 등)의 형태는 무관합니다.
       </div>
       <div class="md-box" style="border-radius:0; border:none; border-top:1px solid var(--border);">
         <div class="md-bar">
@@ -797,7 +1173,7 @@
           <span class="md-line"><span class="mk">프로젝트명</span>: <span class="mv">배당 탐색기</span></span>
           <span class="md-line"><span class="mk">담당자</span>:    <span class="mv">홍길동</span></span>
           <span class="md-line"><span class="mk">날짜</span>:      <span class="mv">2026-05-13</span></span>
-          <span class="md-line"><span class="mk">유형</span>:      <span class="mv">개발</span>  <span class="mc"># 개발 / 마케팅 / 기획</span></span>
+          <span class="md-line"><span class="mk">유형</span>:      <span class="mv">중계</span>  <span class="mc"># 중계 / 분석 / 개발 / 마케팅 / 기획</span></span>
           <span class="md-line"><span class="mk">상태</span>:      <span class="mv">최종</span>  <span class="mc"># 작업중 / 최종</span></span>
           <span class="md-line"><span class="md-sep">---</span></span>
           <span class="md-line" style="margin-top:4px;"><span class="mh">## 작업 목적</span></span>
@@ -814,7 +1190,7 @@
 <div class="sec" style="border-bottom:1px solid var(--border);">
   <div class="wrap">
     <div class="label">참여 조건</div>
-    <div style="background:var(--bg); border:1px solid var(--border); border-radius:14px; padding:4px 24px;">
+    <div style="background:var(--bg); border:1px solid var(--border);  padding:4px 24px;">
       <ul class="cond-list">
         <li class="cond-item">
           <span class="cond-icon">🏅</span>
@@ -870,5 +1246,136 @@
   <p>본 공고는 예고 없이 변경되거나 조기 마감될 수 있습니다 · © 2026 PSYNET Inc.</p>
 </footer>
 
+<script>
+(function () {
+  var input    = document.getElementById('dataSearchInput');
+  var clearBtn = document.getElementById('dataSearchClear');
+  var results  = document.getElementById('dataResults');
+  var grid     = document.getElementById('dataResultsGrid');
+  var countEl  = document.getElementById('dataSearchCount');
+  var noResult = document.getElementById('dataNoResult');
+  var body     = document.getElementById('catalogBody');
+  var toggle   = document.getElementById('catalogToggle');
+  var togText  = document.getElementById('catalogToggleText');
+  var chipsLabel = document.getElementById('chipsLabel');
+  var chips    = document.getElementById('dataChips');
+  var combo    = document.querySelector('.sample-combo-wrap');
+  if (!input) return;
+
+  var cells = Array.prototype.slice.call(document.querySelectorAll('.data-grid .data-cell'));
+  var totalItems = 0;
+  var groups = [];
+  var groupIndex = {};
+
+  cells.forEach(function (cell) {
+    var titleEl = cell.querySelector('.data-cell-title');
+    var title = titleEl ? titleEl.textContent.trim() : '';
+    var checks = Array.prototype.slice.call(cell.querySelectorAll('.data-check'));
+    checks.forEach(function (chk) {
+      var nameSpan = chk.querySelector('span');
+      if (!nameSpan) return;
+      var label = nameSpan.textContent.trim();
+      if (!(title in groupIndex)) { groupIndex[title] = groups.length; groups.push({ title: title, rows: [] }); }
+      groups[groupIndex[title]].rows.push({ check: chk, name: label });
+      totalItems++;
+    });
+  });
+
+  function esc(s){ return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
+
+  function setOpen(open){
+    body.classList.toggle('collapsed', !open);
+    toggle.classList.toggle('open', open);
+    togText.textContent = open ? '접기' : '전체 데이터 둘러보기 (' + totalItems + '개 항목)';
+  }
+  setOpen(false);
+
+  function browseMode(on){
+    var d = on ? '' : 'none';
+    chipsLabel.style.display = d;
+    chips.style.display = on ? 'flex' : 'none';
+    if (combo) combo.style.display = d;
+    toggle.style.display = d;
+    if (!on) { body.classList.add('collapsed'); }
+    body.style.display = on ? '' : 'none';
+  }
+
+  function run(q){
+    q = (q || '').trim();
+    var ql = q.toLowerCase();
+    clearBtn.classList.toggle('show', q.length > 0);
+
+    if (!q){
+      results.classList.remove('show');
+      grid.innerHTML = '';
+      countEl.classList.remove('show');
+      noResult.classList.remove('show');
+      browseMode(true);
+      setOpen(false);
+      return;
+    }
+
+    browseMode(false);
+    results.classList.add('show');
+    grid.innerHTML = '';
+
+    var re = new RegExp('(' + esc(q) + ')', 'ig');
+    var matched = 0;
+
+    groups.forEach(function(g){
+      var inTitle = g.title.toLowerCase().indexOf(ql) !== -1;
+      var hits = g.rows.filter(function(r){ return inTitle || r.name.toLowerCase().indexOf(ql) !== -1; });
+      if (!hits.length) return;
+
+      var cell = document.createElement('div');
+      cell.className = 'data-result-cell';
+      var t = document.createElement('div');
+      t.className = 'rc-title';
+      t.textContent = g.title;
+      cell.appendChild(t);
+      var tags = document.createElement('div');
+      tags.className = 'data-tags';
+
+      hits.forEach(function(r){
+        var clone = r.check.cloneNode(true);
+        var span = clone.querySelector('span');
+        if (span){
+          span.innerHTML = (r.name.toLowerCase().indexOf(ql) !== -1)
+            ? r.name.replace(re, '<mark>$1</mark>')
+            : r.name;
+        }
+        tags.appendChild(clone);
+        matched++;
+      });
+      cell.appendChild(tags);
+      grid.appendChild(cell);
+    });
+
+    // 2열 그리드에서 마지막 빈 칸이 검정으로 비치지 않게 흰색 셀로 채움
+    if (matched > 0 && grid.children.length % 2 === 1){
+      var filler = document.createElement('div');
+      filler.className = 'data-result-cell rc-empty';
+      grid.appendChild(filler);
+    }
+
+    if (matched === 0){
+      noResult.classList.add('show');
+      noResult.textContent = '\u2018' + q + '\u2019 에 맞는 데이터가 없어요. 다른 검색어로 찾아보세요.';
+      countEl.classList.remove('show');
+    } else {
+      noResult.classList.remove('show');
+      countEl.classList.add('show');
+      countEl.innerHTML = '\u2018' + q + '\u2019 검색 결과 \u00B7 <b>' + matched + '개</b> 항목';
+    }
+  }
+
+  input.addEventListener('input', function(){ run(input.value); });
+  clearBtn.addEventListener('click', function(){ input.value=''; run(''); input.focus(); });
+
+  toggle.addEventListener('click', function(){
+    setOpen(body.classList.contains('collapsed'));
+  });
+})();
+</script>
 </body>
 </html>
