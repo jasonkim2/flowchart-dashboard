@@ -94,9 +94,11 @@
   /* the landscape rectangle every slide renders inside */
   .slide-frame {
     position: relative;
-    width: min(1320px, 97vw, 172vh);
+    width: min(1320px, 97vw, 164vh);
     aspect-ratio: 16 / 9;
     max-height: 94vh;
+    container-type: size;
+    container-name: frame;
     background: var(--surface-raised);
     border: 1px solid var(--border);
     border-radius: 22px;
@@ -628,6 +630,7 @@
   .factcheck-slide table.intent th { font-size: 12px; }
   .factcheck-slide table.intent td:first-child { font-weight: 800; color: var(--text-primary); width: 165px; }
   .factcheck-slide table.intent td strong { color: var(--series-2); }
+
   /* ---------- Cost comparison (외주 견적 vs 내부 완성) ---------- */
   .cost-compare {
     display: flex;
@@ -758,6 +761,23 @@
   .closing-quote { margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--gridline); }
   .closing-quote .q { font-size: clamp(15px,1.9vw,20px); font-weight: 800; letter-spacing: -0.01em; margin-bottom: 6px; }
   .closing-quote .fine { font-size: 10px; color: var(--muted); margin-top: 10px; }
+
+  /* ---------- 카드 내부는 항상 1320 x 742.5 기준으로 배치하고,
+       카드 크기에 맞춰 통째로 축소 — 창 크기와 무관하게 잘림 없이 동일하게 보임 ---------- */
+  @media (min-width: 761px) {
+    @supports (transform: scale(tan(atan2(100cqw, 1320px)))) {
+      .slide-frame > .frame-pad,
+      .slide-frame > .frame-split {
+        width: 1320px;
+        height: 742.5px;
+        flex: none;
+        transform-origin: top left;
+        transform: scale(tan(atan2(100cqw, 1320px)));
+      }
+      /* 카드가 고정 크기이므로 여백도 vh 대신 고정 비율로 */
+      .frame-pad { overflow: hidden; padding: 3.8% 5.68%; }
+    }
+  }
 
   @media (max-width: 760px) {
     .slide-frame { aspect-ratio: auto; height: 92vh; width: 96vw; }
